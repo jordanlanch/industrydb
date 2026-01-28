@@ -1,0 +1,53 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - main [ref=e3]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - heading "Sign in" [level=3] [ref=e7]
+        - paragraph [ref=e8]: Enter your credentials to access your account
+      - generic [ref=e9]:
+        - generic [ref=e10]:
+          - generic [ref=e11]:
+            - img [ref=e12]
+            - generic [ref=e14]: Invalid email or password
+          - generic [ref=e15]:
+            - text: Email Address
+            - textbox "Email Address" [ref=e16]:
+              - /placeholder: you@example.com
+              - text: test@example.com
+          - generic [ref=e17]:
+            - generic [ref=e18]:
+              - generic [ref=e19]: Password
+              - link "Forgot password?" [ref=e20] [cursor=pointer]:
+                - /url: /forgot-password
+            - textbox "Password" [ref=e21]:
+              - /placeholder: ••••••••
+              - text: password123
+        - generic [ref=e22]:
+          - button "Sign in" [ref=e23] [cursor=pointer]
+          - generic [ref=e28]: Or continue with
+          - generic [ref=e29]:
+            - button "Google" [ref=e30] [cursor=pointer]:
+              - img [ref=e31]
+              - text: Google
+            - button "GitHub" [ref=e36] [cursor=pointer]:
+              - img [ref=e37]
+              - text: GitHub
+          - paragraph [ref=e39]:
+            - text: Don't have an account?
+            - link "Sign up" [ref=e40] [cursor=pointer]:
+              - /url: /register
+  - generic [ref=e41]:
+    - generic [ref=e42]:
+      - text: We use cookies to enhance your browsing experience, serve personalized content, and analyze our traffic. By clicking "Accept All Cookies", you consent to our use of cookies.
+      - link "Learn more in our Privacy Policy" [ref=e43] [cursor=pointer]:
+        - /url: /privacy
+    - generic [ref=e44]:
+      - button "Decline cookies" [ref=e45] [cursor=pointer]: Decline
+      - button "Accept cookies" [ref=e46] [cursor=pointer]: Accept All Cookies
+  - alert [ref=e48]
+```

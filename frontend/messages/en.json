@@ -1,0 +1,278 @@
+{
+  "common": {
+    "appName": "IndustryDB",
+    "tagline": "Industry-specific business data. Verified. Affordable.",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "search": "Search",
+    "filter": "Filter",
+    "export": "Export",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "continue": "Continue",
+    "getStarted": "Get Started",
+    "learnMore": "Learn More",
+    "viewAll": "View All",
+    "seeMore": "See More",
+    "close": "Close"
+  },
+  "nav": {
+    "home": "Home",
+    "pricing": "Pricing",
+    "features": "Features",
+    "docs": "Documentation",
+    "dashboard": "Dashboard",
+    "leads": "Leads",
+    "exports": "Exports",
+    "analytics": "Analytics",
+    "settings": "Settings",
+    "admin": "Admin",
+    "logout": "Logout",
+    "login": "Login",
+    "register": "Sign Up"
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "Sign in to your account to continue",
+      "email": "Email Address",
+      "emailPlaceholder": "you@example.com",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "forgotPassword": "Forgot password?",
+      "submit": "Sign In",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up",
+      "success": "Login successful!",
+      "error": "Invalid credentials"
+    },
+    "register": {
+      "title": "Create your account",
+      "subtitle": "Start finding quality leads today",
+      "name": "Full Name",
+      "namePlaceholder": "John Doe",
+      "email": "Email Address",
+      "emailPlaceholder": "you@example.com",
+      "password": "Password",
+      "passwordPlaceholder": "At least 8 characters",
+      "confirmPassword": "Confirm Password",
+      "acceptTerms": "I agree to the {terms} and {privacy}",
+      "terms": "Terms of Service",
+      "privacy": "Privacy Policy",
+      "submit": "Create Account",
+      "hasAccount": "Already have an account?",
+      "signIn": "Sign in",
+      "success": "Account created successfully!",
+      "error": "Registration failed"
+    },
+    "forgotPassword": {
+      "title": "Reset your password",
+      "subtitle": "We'll send you a reset link",
+      "email": "Email Address",
+      "submit": "Send Reset Link",
+      "backToLogin": "Back to login",
+      "success": "Reset link sent! Check your email.",
+      "error": "Failed to send reset link"
+    },
+    "resetPassword": {
+      "title": "Create new password",
+      "subtitle": "Enter your new password below",
+      "password": "New Password",
+      "confirmPassword": "Confirm New Password",
+      "submit": "Reset Password",
+      "success": "Password reset successfully!",
+      "error": "Failed to reset password"
+    }
+  },
+  "landing": {
+    "hero": {
+      "title": "Industry-Specific Business Data",
+      "subtitle": "Access verified leads for tattoo studios, beauty salons, gyms, and more",
+      "cta": "Start Free Trial",
+      "secondary": "View Pricing"
+    },
+    "features": {
+      "title": "Everything you need to find quality leads",
+      "verified": {
+        "title": "Verified Data",
+        "description": "All business information is verified and regularly updated"
+      },
+      "affordable": {
+        "title": "Affordable Pricing",
+        "description": "Plans starting at just $49/month with flexible options"
+      },
+      "easy": {
+        "title": "Easy to Use",
+        "description": "Search, filter, and export leads in minutes"
+      }
+    },
+    "pricing": {
+      "title": "Simple, transparent pricing",
+      "subtitle": "Choose the plan that fits your needs",
+      "free": {
+        "name": "Free",
+        "price": "$0",
+        "description": "Perfect for trying out IndustryDB",
+        "features": [
+          "50 leads per month",
+          "Basic search filters",
+          "CSV export"
+        ]
+      },
+      "starter": {
+        "name": "Starter",
+        "price": "$49",
+        "description": "For small teams and individuals",
+        "features": [
+          "500 leads per month",
+          "Advanced filters",
+          "Phone numbers",
+          "Email support"
+        ]
+      },
+      "pro": {
+        "name": "Pro",
+        "price": "$149",
+        "description": "For growing businesses",
+        "features": [
+          "2,000 leads per month",
+          "Email addresses",
+          "Social media links",
+          "Priority support"
+        ]
+      },
+      "business": {
+        "name": "Business",
+        "price": "$349",
+        "description": "For large teams and agencies",
+        "features": [
+          "10,000 leads per month",
+          "API access",
+          "Dedicated support",
+          "Custom integrations"
+        ]
+      }
+    },
+    "cta": {
+      "title": "Ready to find your next customers?",
+      "subtitle": "Join thousands of businesses using IndustryDB",
+      "button": "Get Started Free"
+    }
+  },
+  "dashboard": {
+    "welcome": "Welcome back, {name}",
+    "usage": {
+      "title": "Usage This Month",
+      "used": "Used",
+      "of": "of",
+      "remaining": "remaining",
+      "resetDate": "Resets on {date}"
+    },
+    "quickActions": {
+      "title": "Quick Actions",
+      "searchLeads": "Search Leads",
+      "viewExports": "View Exports",
+      "upgrade": "Upgrade Plan"
+    }
+  },
+  "leads": {
+    "title": "Search Leads",
+    "subtitle": "Find verified business data by industry and location",
+    "filters": {
+      "industry": "Industry",
+      "country": "Country",
+      "city": "City",
+      "hasEmail": "Has Email",
+      "hasPhone": "Has Phone",
+      "hasWebsite": "Has Website",
+      "apply": "Apply Filters",
+      "clear": "Clear All"
+    },
+    "industries": {
+      "tattoo": "Tattoo Studios",
+      "beauty": "Beauty Salons",
+      "barber": "Barber Shops",
+      "gym": "Gyms & Fitness",
+      "restaurant": "Restaurants"
+    },
+    "results": {
+      "showing": "Showing {count} results",
+      "noResults": "No leads found",
+      "tryDifferent": "Try different filters"
+    },
+    "actions": {
+      "export": "Export Results",
+      "viewDetails": "View Details"
+    }
+  },
+  "exports": {
+    "title": "Export History",
+    "subtitle": "Download and manage your data exports",
+    "create": "Create Export",
+    "status": {
+      "pending": "Pending",
+      "processing": "Processing",
+      "completed": "Completed",
+      "failed": "Failed",
+      "expired": "Expired"
+    },
+    "format": {
+      "csv": "CSV",
+      "excel": "Excel"
+    },
+    "download": "Download",
+    "expiresIn": "Expires in {days} days",
+    "expired": "Expired"
+  },
+  "settings": {
+    "title": "Settings",
+    "profile": {
+      "title": "Profile",
+      "name": "Name",
+      "email": "Email",
+      "save": "Save Changes",
+      "success": "Profile updated successfully"
+    },
+    "subscription": {
+      "title": "Subscription",
+      "currentPlan": "Current Plan",
+      "usage": "Usage",
+      "upgrade": "Upgrade Plan",
+      "manageBilling": "Manage Billing"
+    },
+    "privacy": {
+      "title": "Privacy & Data",
+      "downloadData": "Download My Data (GDPR)",
+      "deleteAccount": "Delete Account",
+      "deleteWarning": "This action cannot be undone"
+    }
+  },
+  "admin": {
+    "title": "Admin Dashboard",
+    "stats": {
+      "totalUsers": "Total Users",
+      "activeSubscriptions": "Active Subscriptions",
+      "totalExports": "Total Exports",
+      "revenue": "Monthly Revenue"
+    },
+    "users": {
+      "title": "User Management",
+      "viewAll": "View All Users",
+      "edit": "Edit User",
+      "suspend": "Suspend User"
+    }
+  },
+  "errors": {
+    "generic": "Something went wrong",
+    "notFound": "Page not found",
+    "unauthorized": "Unauthorized access",
+    "network": "Network error",
+    "tryAgain": "Please try again"
+  }
+}

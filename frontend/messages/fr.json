@@ -1,0 +1,278 @@
+{
+  "common": {
+    "appName": "IndustryDB",
+    "tagline": "Données commerciales par secteur. Vérifiées. Abordables.",
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "export": "Exporter",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "continue": "Continuer",
+    "getStarted": "Commencer",
+    "learnMore": "En savoir plus",
+    "viewAll": "Voir tout",
+    "seeMore": "Voir plus",
+    "close": "Fermer"
+  },
+  "nav": {
+    "home": "Accueil",
+    "pricing": "Tarifs",
+    "features": "Fonctionnalités",
+    "docs": "Documentation",
+    "dashboard": "Tableau de bord",
+    "leads": "Prospects",
+    "exports": "Exportations",
+    "analytics": "Analytiques",
+    "settings": "Paramètres",
+    "admin": "Administrateur",
+    "logout": "Se déconnecter",
+    "login": "Se connecter",
+    "register": "S'inscrire"
+  },
+  "auth": {
+    "login": {
+      "title": "Bon retour",
+      "subtitle": "Connectez-vous à votre compte pour continuer",
+      "email": "Adresse e-mail",
+      "emailPlaceholder": "vous@exemple.com",
+      "password": "Mot de passe",
+      "passwordPlaceholder": "Entrez votre mot de passe",
+      "forgotPassword": "Mot de passe oublié?",
+      "submit": "Se connecter",
+      "noAccount": "Vous n'avez pas de compte?",
+      "signUp": "S'inscrire",
+      "success": "Connexion réussie!",
+      "error": "Identifiants invalides"
+    },
+    "register": {
+      "title": "Créez votre compte",
+      "subtitle": "Commencez à trouver des prospects de qualité aujourd'hui",
+      "name": "Nom complet",
+      "namePlaceholder": "Jean Dupont",
+      "email": "Adresse e-mail",
+      "emailPlaceholder": "vous@exemple.com",
+      "password": "Mot de passe",
+      "passwordPlaceholder": "Au moins 8 caractères",
+      "confirmPassword": "Confirmer le mot de passe",
+      "acceptTerms": "J'accepte les {terms} et la {privacy}",
+      "terms": "Conditions d'utilisation",
+      "privacy": "Politique de confidentialité",
+      "submit": "Créer un compte",
+      "hasAccount": "Vous avez déjà un compte?",
+      "signIn": "Se connecter",
+      "success": "Compte créé avec succès!",
+      "error": "Échec de l'inscription"
+    },
+    "forgotPassword": {
+      "title": "Réinitialisez votre mot de passe",
+      "subtitle": "Nous vous enverrons un lien de réinitialisation",
+      "email": "Adresse e-mail",
+      "submit": "Envoyer le lien",
+      "backToLogin": "Retour à la connexion",
+      "success": "Lien envoyé! Vérifiez vos e-mails.",
+      "error": "Échec de l'envoi du lien"
+    },
+    "resetPassword": {
+      "title": "Créer un nouveau mot de passe",
+      "subtitle": "Entrez votre nouveau mot de passe ci-dessous",
+      "password": "Nouveau mot de passe",
+      "confirmPassword": "Confirmer le nouveau mot de passe",
+      "submit": "Réinitialiser le mot de passe",
+      "success": "Mot de passe réinitialisé avec succès!",
+      "error": "Échec de la réinitialisation du mot de passe"
+    }
+  },
+  "landing": {
+    "hero": {
+      "title": "Données commerciales par secteur",
+      "subtitle": "Accédez à des prospects vérifiés pour les studios de tatouage, salons de beauté, salles de sport et plus",
+      "cta": "Commencer l'essai gratuit",
+      "secondary": "Voir les tarifs"
+    },
+    "features": {
+      "title": "Tout ce dont vous avez besoin pour trouver des prospects de qualité",
+      "verified": {
+        "title": "Données vérifiées",
+        "description": "Toutes les informations commerciales sont vérifiées et régulièrement mises à jour"
+      },
+      "affordable": {
+        "title": "Prix abordables",
+        "description": "Plans à partir de seulement 49 $/mois avec des options flexibles"
+      },
+      "easy": {
+        "title": "Facile à utiliser",
+        "description": "Recherchez, filtrez et exportez des prospects en quelques minutes"
+      }
+    },
+    "pricing": {
+      "title": "Tarifs simples et transparents",
+      "subtitle": "Choisissez le plan qui correspond à vos besoins",
+      "free": {
+        "name": "Gratuit",
+        "price": "0 $",
+        "description": "Parfait pour essayer IndustryDB",
+        "features": [
+          "50 prospects par mois",
+          "Filtres de base",
+          "Export CSV"
+        ]
+      },
+      "starter": {
+        "name": "Débutant",
+        "price": "49 $",
+        "description": "Pour les petites équipes et les particuliers",
+        "features": [
+          "500 prospects par mois",
+          "Filtres avancés",
+          "Numéros de téléphone",
+          "Support par e-mail"
+        ]
+      },
+      "pro": {
+        "name": "Pro",
+        "price": "149 $",
+        "description": "Pour les entreprises en croissance",
+        "features": [
+          "2 000 prospects par mois",
+          "Adresses e-mail",
+          "Liens de réseaux sociaux",
+          "Support prioritaire"
+        ]
+      },
+      "business": {
+        "name": "Entreprise",
+        "price": "349 $",
+        "description": "Pour les grandes équipes et agences",
+        "features": [
+          "10 000 prospects par mois",
+          "Accès API",
+          "Support dédié",
+          "Intégrations personnalisées"
+        ]
+      }
+    },
+    "cta": {
+      "title": "Prêt à trouver vos prochains clients?",
+      "subtitle": "Rejoignez des milliers d'entreprises utilisant IndustryDB",
+      "button": "Commencer gratuitement"
+    }
+  },
+  "dashboard": {
+    "welcome": "Bon retour, {name}",
+    "usage": {
+      "title": "Utilisation ce mois",
+      "used": "Utilisé",
+      "of": "sur",
+      "remaining": "restants",
+      "resetDate": "Réinitialisation le {date}"
+    },
+    "quickActions": {
+      "title": "Actions rapides",
+      "searchLeads": "Rechercher des prospects",
+      "viewExports": "Voir les exportations",
+      "upgrade": "Améliorer le plan"
+    }
+  },
+  "leads": {
+    "title": "Rechercher des prospects",
+    "subtitle": "Trouvez des données commerciales vérifiées par secteur et emplacement",
+    "filters": {
+      "industry": "Secteur",
+      "country": "Pays",
+      "city": "Ville",
+      "hasEmail": "A un e-mail",
+      "hasPhone": "A un téléphone",
+      "hasWebsite": "A un site web",
+      "apply": "Appliquer les filtres",
+      "clear": "Tout effacer"
+    },
+    "industries": {
+      "tattoo": "Studios de tatouage",
+      "beauty": "Salons de beauté",
+      "barber": "Salons de coiffure",
+      "gym": "Salles de sport et fitness",
+      "restaurant": "Restaurants"
+    },
+    "results": {
+      "showing": "Affichage de {count} résultats",
+      "noResults": "Aucun prospect trouvé",
+      "tryDifferent": "Essayez avec des filtres différents"
+    },
+    "actions": {
+      "export": "Exporter les résultats",
+      "viewDetails": "Voir les détails"
+    }
+  },
+  "exports": {
+    "title": "Historique des exportations",
+    "subtitle": "Téléchargez et gérez vos exportations de données",
+    "create": "Créer une exportation",
+    "status": {
+      "pending": "En attente",
+      "processing": "Traitement",
+      "completed": "Terminé",
+      "failed": "Échoué",
+      "expired": "Expiré"
+    },
+    "format": {
+      "csv": "CSV",
+      "excel": "Excel"
+    },
+    "download": "Télécharger",
+    "expiresIn": "Expire dans {days} jours",
+    "expired": "Expiré"
+  },
+  "settings": {
+    "title": "Paramètres",
+    "profile": {
+      "title": "Profil",
+      "name": "Nom",
+      "email": "E-mail",
+      "save": "Enregistrer les modifications",
+      "success": "Profil mis à jour avec succès"
+    },
+    "subscription": {
+      "title": "Abonnement",
+      "currentPlan": "Plan actuel",
+      "usage": "Utilisation",
+      "upgrade": "Améliorer le plan",
+      "manageBilling": "Gérer la facturation"
+    },
+    "privacy": {
+      "title": "Confidentialité et données",
+      "downloadData": "Télécharger mes données (RGPD)",
+      "deleteAccount": "Supprimer le compte",
+      "deleteWarning": "Cette action ne peut pas être annulée"
+    }
+  },
+  "admin": {
+    "title": "Tableau de bord administrateur",
+    "stats": {
+      "totalUsers": "Total des utilisateurs",
+      "activeSubscriptions": "Abonnements actifs",
+      "totalExports": "Total des exportations",
+      "revenue": "Revenu mensuel"
+    },
+    "users": {
+      "title": "Gestion des utilisateurs",
+      "viewAll": "Voir tous les utilisateurs",
+      "edit": "Modifier l'utilisateur",
+      "suspend": "Suspendre l'utilisateur"
+    }
+  },
+  "errors": {
+    "generic": "Quelque chose s'est mal passé",
+    "notFound": "Page non trouvée",
+    "unauthorized": "Accès non autorisé",
+    "network": "Erreur réseau",
+    "tryAgain": "Veuillez réessayer"
+  }
+}

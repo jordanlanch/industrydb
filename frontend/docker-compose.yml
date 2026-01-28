@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  # ================================
+  # Frontend (Next.js with Hot Reload)
+  # ================================
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: industrydb-frontend
+    environment:
+      - NEXT_PUBLIC_API_URL=http://backend:8080
+      - NODE_ENV=development
+      - WATCHPACK_POLLING=true  # Enable polling for Docker
+    ports:
+      - "3001:3000"  # Map host 3001 to container 3000
+    volumes:
+      - .:/app
+      - /app/node_modules  # Anonymous volume for node_modules
+      - /app/.next  # Anonymous volume for .next cache
+    networks:
+      - industrydb-shared
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    command: npm run dev
+
+# ================================
+# Networks
+# ================================
+networks:
+  # Shared network to communicate with backend
+  industrydb-shared:
+    external: true

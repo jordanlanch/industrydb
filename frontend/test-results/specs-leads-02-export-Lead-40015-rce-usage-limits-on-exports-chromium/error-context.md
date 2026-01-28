@@ -1,0 +1,71 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - main [ref=e3]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - heading "Create an account" [level=3] [ref=e7]
+        - paragraph [ref=e8]: Start with 50 free leads per month
+      - generic [ref=e9]:
+        - generic [ref=e10]:
+          - generic [ref=e11]:
+            - img [ref=e12]
+            - generic [ref=e14]: Registration failed. Please try again.
+          - generic [ref=e15]:
+            - text: Full Name
+            - textbox "Full Name" [ref=e16]:
+              - /placeholder: John Doe
+              - text: Test User
+          - generic [ref=e17]:
+            - text: Email Address
+            - textbox "Email Address" [ref=e18]:
+              - /placeholder: you@example.com
+              - text: test1769534547539166@example.com
+          - generic [ref=e19]:
+            - text: Password
+            - textbox "Password" [ref=e20]:
+              - /placeholder: ••••••••
+              - text: TestPassword123!
+            - generic [ref=e21]:
+              - paragraph [ref=e22]: "Password must contain:"
+              - generic [ref=e23]:
+                - generic [ref=e24]:
+                  - img [ref=e25]
+                  - generic [ref=e28]: At least 8 characters
+                - generic [ref=e29]:
+                  - img [ref=e30]
+                  - generic [ref=e33]: One uppercase letter
+                - generic [ref=e34]:
+                  - img [ref=e35]
+                  - generic [ref=e38]: One lowercase letter
+                - generic [ref=e39]:
+                  - img [ref=e40]
+                  - generic [ref=e43]: One number
+          - generic [ref=e44]:
+            - checkbox "I agree to the Terms of Service and Privacy Policy" [checked] [ref=e45]
+            - generic [ref=e47]:
+              - text: I agree to the
+              - link "Terms of Service" [ref=e48] [cursor=pointer]:
+                - /url: /terms
+              - text: and
+              - link "Privacy Policy" [ref=e49] [cursor=pointer]:
+                - /url: /privacy
+        - generic [ref=e50]:
+          - button "Create account" [ref=e51] [cursor=pointer]
+          - paragraph [ref=e52]:
+            - text: Already have an account?
+            - link "Sign in" [ref=e53] [cursor=pointer]:
+              - /url: /login
+  - generic [ref=e54]:
+    - generic [ref=e55]:
+      - text: We use cookies to enhance your browsing experience, serve personalized content, and analyze our traffic. By clicking "Accept All Cookies", you consent to our use of cookies.
+      - link "Learn more in our Privacy Policy" [ref=e56] [cursor=pointer]:
+        - /url: /privacy
+    - generic [ref=e57]:
+      - button "Decline cookies" [ref=e58] [cursor=pointer]: Decline
+      - button "Accept cookies" [ref=e59] [cursor=pointer]: Accept All Cookies
+  - alert [ref=e61]
+```
