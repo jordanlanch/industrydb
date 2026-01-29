@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Lock, Eye, EyeOff, CheckCircle, XCircle } from 'lucide-react';
 import axios from 'axios';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8081/api/v1';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:7890/api/v1';
 
 export default function ResetPasswordPage({ params }: { params: { token: string } }) {
   const [password, setPassword] = useState('');

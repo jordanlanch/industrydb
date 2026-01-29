@@ -20,7 +20,7 @@ export const exportsService = {
   },
 
   getDownloadUrl(id: number): string {
-    const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8081'
+    const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:7890'
     const token = typeof window !== 'undefined' ? localStorage.getItem('auth_token') : null
     return `${baseURL}/api/v1/exports/${id}/download?token=${token}`
   },

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import type { IndustriesResponse, Industry, SubNicheResponse } from '@/types'
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8081'
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:7890'
 
 class IndustriesService {
   /**

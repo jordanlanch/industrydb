@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { AlertCircle, X } from 'lucide-react';
 import axios from 'axios';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8081/api/v1';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:7890/api/v1';
 
 interface EmailVerificationBannerProps {
   email: string;

@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { CheckCircle, XCircle, Loader2 } from 'lucide-react';
 import axios from 'axios';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8081/api/v1';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:7890/api/v1';
 
 export default function VerifyEmailPage({ params }: { params: { token: string } }) {
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');

@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8081'
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:7890'
 
 interface CountriesResponse {
   countries: string[]
