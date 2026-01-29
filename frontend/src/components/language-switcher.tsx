@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useLocale } from 'next-intl';
+import { useRouter, usePathname } from 'next/navigation';
 import {
   Select,
   SelectContent,
@@ -9,53 +10,37 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Globe } from 'lucide-react';
-
-const locales = ['en', 'es', 'fr'] as const;
-type Locale = (typeof locales)[number];
-
-const localeNames: Record<Locale, string> = {
-  en: 'English',
-  es: 'Español',
-  fr: 'Français',
-};
-
-const localeFlags: Record<Locale, string> = {
-  en: '🇺🇸',
-  es: '🇪🇸',
-  fr: '🇫🇷',
-};
+import { locales, localeNames, localeFlags } from '@/i18n';
 
 export function LanguageSwitcher() {
-  const [currentLocale, setCurrentLocale] = useState<Locale>('en');
-
-  useEffect(() => {
-    // Get locale from localStorage or browser
-    const savedLocale = localStorage.getItem('locale') as Locale;
-    if (savedLocale && locales.includes(savedLocale)) {
-      setCurrentLocale(savedLocale);
-    }
-  }, []);
+  const locale = useLocale();
+  const router = useRouter();
+  const pathname = usePathname();
 
   const handleLocaleChange = (newLocale: string) => {
-    const locale = newLocale as Locale;
-    setCurrentLocale(locale);
-    localStorage.setItem('locale', locale);
-    // TODO: Implement actual i18n switching when full i18n is set up
-    console.log('Language changed to:', locale);
+    // Remove current locale from pathname
+    const pathWithoutLocale = pathname.replace(/^\/(en|es|fr)/, '');
+
+    // Navigate to new locale
+    // If path is empty, default to root
+    const newPath = `/${newLocale}${pathWithoutLocale || ''}`;
+    router.push(newPath);
   };
 
   return (
-    <Select value={currentLocale} onValueChange={handleLocaleChange}>
+    <Select value={locale} onValueChange={handleLocaleChange}>
       <SelectTrigger className="w-[140px]">
         <Globe className="h-4 w-4 mr-2" />
-        <SelectValue />
+        <SelectValue>
+          {localeFlags[locale as keyof typeof localeFlags]} {localeNames[locale as keyof typeof localeNames]}
+        </SelectValue>
       </SelectTrigger>
       <SelectContent>
-        {locales.map((locale) => (
-          <SelectItem key={locale} value={locale}>
+        {locales.map((loc) => (
+          <SelectItem key={loc} value={loc}>
             <div className="flex items-center gap-2">
-              <span>{localeFlags[locale]}</span>
-              <span>{localeNames[locale]}</span>
+              <span>{localeFlags[loc]}</span>
+              <span>{localeNames[loc]}</span>
             </div>
           </SelectItem>
         ))}
