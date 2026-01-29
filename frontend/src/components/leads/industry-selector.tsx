@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
-import type { IndustryCategory } from '@/types'
+import type { IndustryCategory, IndustryWithCount } from '@/types'
 import { industriesService } from '@/services/industries.service'
 import { ChevronDown, ChevronUp, Loader2, AlertCircle } from 'lucide-react'
 
@@ -32,11 +32,44 @@ export function IndustrySelector({
   const loadIndustries = async () => {
     try {
       setError(null)
-      const response = await industriesService.getAllIndustries()
-      setCategories(response.categories)
+      // Fetch only industries with leads (with counts)
+      const response = await industriesService.getIndustriesWithLeads()
+
+      // Group industries by category
+      const categoryMap = new Map<string, {
+        id: string
+        name: string
+        icon: string
+        description: string
+        industries: (IndustryWithCount & { osm_primary_tag: string, osm_additional_tags: string[], active: boolean, sort_order: number })[]
+      }>()
+
+      response.industries.forEach((industry) => {
+        if (!categoryMap.has(industry.category)) {
+          categoryMap.set(industry.category, {
+            id: industry.category,
+            name: industry.category.charAt(0).toUpperCase() + industry.category.slice(1),
+            icon: '📂',
+            description: `${industry.category} industries`,
+            industries: []
+          })
+        }
+
+        categoryMap.get(industry.category)!.industries.push({
+          ...industry,
+          osm_primary_tag: '',
+          osm_additional_tags: [],
+          active: true,
+          sort_order: 0
+        })
+      })
+
+      const groupedCategories = Array.from(categoryMap.values())
+      setCategories(groupedCategories)
+
       // Expand first category by default
-      if (response.categories.length > 0) {
-        setExpandedCategories(new Set([response.categories[0].id]))
+      if (groupedCategories.length > 0) {
+        setExpandedCategories(new Set([groupedCategories[0].id]))
       }
     } catch (error: any) {
       console.error('Failed to load industries:', error)
@@ -230,8 +263,10 @@ export function IndustrySelector({
                       </div>
                     )}
                     <div className="space-y-2">
-                      {category.industries.map((industry) => {
+                      {category.industries.map((industry: any) => {
                         const isSelected = selectedIndustries.includes(industry.id)
+                        const leadCount = industry.lead_count || 0
+                        const countries = industry.countries || []
 
                         return (
                           <div
@@ -249,14 +284,24 @@ export function IndustrySelector({
                               htmlFor={`industry-${industry.id}`}
                               className="flex-1 cursor-pointer"
                             >
-                              <div className="flex items-center gap-2">
-                                <span>{industry.icon}</span>
-                                <div>
-                                  <div className="font-medium text-sm">{industry.name}</div>
-                                  <div className="text-xs text-muted-foreground">
-                                    {industry.description}
+                              <div className="flex items-center justify-between gap-2">
+                                <div className="flex items-center gap-2">
+                                  <span>{industry.icon}</span>
+                                  <div>
+                                    <div className="font-medium text-sm">{industry.name}</div>
+                                    <div className="text-xs text-muted-foreground">
+                                      {industry.description}
+                                    </div>
+                                    {countries.length > 0 && (
+                                      <div className="text-xs text-muted-foreground mt-0.5">
+                                        📍 {countries.join(', ')}
+                                      </div>
+                                    )}
                                   </div>
                                 </div>
+                                <Badge variant="secondary" className="text-xs">
+                                  {leadCount} leads
+                                </Badge>
                               </div>
                             </Label>
                           </div>

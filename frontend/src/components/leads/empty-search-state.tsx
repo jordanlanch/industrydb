@@ -108,9 +108,9 @@ export function EmptySearchState({ usage, onQuickSearch }: EmptySearchStateProps
       {usage && (
         <div className="w-full p-4 rounded-lg bg-gray-50 border mb-6">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium">Your Monthly Allowance</span>
-            <Badge variant={usage.remaining <= 10 ? 'destructive' : 'secondary'}>
-              {usage.remaining} / {usage.usage_limit} searches
+            <span className="text-sm font-medium">Searches Remaining</span>
+            <Badge variant={usage.remaining <= 10 ? 'destructive' : usage.remaining <= 20 ? 'default' : 'secondary'}>
+              {usage.remaining} of {usage.usage_limit} left
             </Badge>
           </div>
           <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
@@ -118,18 +118,32 @@ export function EmptySearchState({ usage, onQuickSearch }: EmptySearchStateProps
               className={`h-full rounded-full transition-all ${
                 usage.remaining === 0
                   ? 'bg-red-500'
-                  : usage.remaining <= 5
+                  : usage.remaining <= 10
+                  ? 'bg-orange-500'
+                  : usage.remaining <= 20
                   ? 'bg-yellow-500'
-                  : 'bg-primary'
+                  : 'bg-green-500'
               }`}
-              style={{ width: `${((usage.usage_limit - usage.remaining) / usage.usage_limit) * 100}%` }}
+              style={{ width: `${(usage.remaining / usage.usage_limit) * 100}%` }}
+              title={`${usage.remaining} searches remaining`}
             />
           </div>
-          {usage.reset_at && (
-            <p className="text-xs text-muted-foreground mt-2">
-              Resets on {new Date(usage.reset_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+          <div className="flex items-center justify-between mt-2">
+            <p className="text-xs text-muted-foreground">
+              {usage.remaining === 0 ? (
+                'No searches left this month'
+              ) : usage.remaining <= 10 ? (
+                `⚠️ Running low - ${usage.remaining} searches left`
+              ) : (
+                `${usage.remaining} searches available`
+              )}
             </p>
-          )}
+            {usage.reset_at && (
+              <p className="text-xs text-muted-foreground">
+                Resets {new Date(usage.reset_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+              </p>
+            )}
+          </div>
         </div>
       )}
 

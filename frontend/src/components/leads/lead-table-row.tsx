@@ -1,3 +1,4 @@
+import React from 'react'
 import type { Lead } from '@/types'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -10,7 +11,7 @@ interface LeadTableRowProps {
   onCopyPhone?: (phone: string) => void
 }
 
-export function LeadTableRow({ lead, onCopyEmail, onCopyPhone }: LeadTableRowProps) {
+export const LeadTableRow = React.memo(function LeadTableRow({ lead, onCopyEmail, onCopyPhone }: LeadTableRowProps) {
   return (
     <tr className="border-b hover:bg-gray-50 transition-colors">
       <td className="p-4">
@@ -102,4 +103,12 @@ export function LeadTableRow({ lead, onCopyEmail, onCopyPhone }: LeadTableRowPro
       </td>
     </tr>
   )
-}
+}, (prevProps, nextProps) => {
+  // Only re-render if lead data changed
+  return (
+    prevProps.lead.id === nextProps.lead.id &&
+    prevProps.lead.quality_score === nextProps.lead.quality_score &&
+    prevProps.lead.email === nextProps.lead.email &&
+    prevProps.lead.phone === nextProps.lead.phone
+  )
+})

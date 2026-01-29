@@ -73,6 +73,17 @@ export interface LeadListResponse {
   filters: Record<string, any>
 }
 
+export interface LeadPreviewResponse {
+  estimated_count: number
+  with_email_count: number
+  with_email_pct: number
+  with_phone_count: number
+  with_phone_pct: number
+  verified_count: number
+  verified_pct: number
+  quality_score_avg: number
+}
+
 // Export types
 export interface ExportRequest {
   format: 'csv' | 'excel'
@@ -144,6 +155,21 @@ export interface Industry {
   description: string
   active: boolean
   sort_order: number
+}
+
+export interface IndustryWithCount {
+  id: string
+  name: string
+  category: string
+  icon: string
+  description: string
+  lead_count: number
+  countries: string[]
+}
+
+export interface IndustriesWithLeadsResponse {
+  industries: IndustryWithCount[]
+  total: number
 }
 
 export interface IndustryCategory {
