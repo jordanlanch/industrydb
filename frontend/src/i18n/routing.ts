@@ -8,7 +8,8 @@ export const routing = defineRouting({
   // Used when no locale matches
   defaultLocale: 'en',
 
-  // The prefix for the default locale
+  // Show locale prefix only for non-default locales
+  // This allows /login to work (treated as /en/login)
   localePrefix: 'as-needed'
 });
 
