@@ -206,91 +206,202 @@
     }
   },
   "dashboard": {
-    "welcome": "Bienvenido de nuevo, {name}",
-    "usage": {
-      "title": "Uso este mes",
-      "used": "Usado",
-      "of": "de",
-      "remaining": "restantes",
-      "resetDate": "Se reinicia el {date}"
+    "greeting": {
+      "morning": "Buenos días",
+      "afternoon": "Buenas tardes",
+      "evening": "Buenas noches"
+    },
+    "welcome": "Bienvenido a tu panel de IndustryDB",
+    "monthlyUsage": "Uso mensual",
+    "remaining": "restantes",
+    "leadsAccessed": "Prospectos accedidos este mes",
+    "searchLeads": "Buscar prospectos",
+    "exports": "Exportaciones",
+    "upgrade": "Mejorar",
+    "planBadge": "PLAN {tier}",
+    "stats": {
+      "totalLeads": "Total de prospectos",
+      "acrossIndustries": "En todas las industrias",
+      "newThisWeek": "Nuevos esta semana",
+      "freshData": "Datos frescos verificados",
+      "countries": "Países",
+      "countriesList": "US, GB, DE, ES, FR, CA, AU"
     },
     "quickActions": {
       "title": "Acciones rápidas",
       "searchLeads": "Buscar prospectos",
+      "searchLeadsDesc": "Encuentra datos empresariales verificados",
+      "savedSearches": "Búsquedas guardadas",
+      "savedSearchesDesc": "Accede a tus filtros guardados",
       "viewExports": "Ver exportaciones",
-      "upgrade": "Mejorar plan"
+      "viewExportsDesc": "Descarga tus exportaciones de datos",
+      "upgradePlan": "Mejorar plan",
+      "upgradePlanDesc": "Obtén más prospectos y funciones"
     }
   },
   "leads": {
-    "title": "Buscar prospectos",
-    "subtitle": "Encuentra datos empresariales verificados por industria y ubicación",
+    "title": "Resultados de búsqueda",
+    "searching": "Buscando...",
+    "found": "Encontrados {count} {count, plural, one {prospecto} other {prospectos}}",
+    "noLeadsFound": "No se encontraron prospectos. Intenta ajustar tus filtros.",
+    "showFilters": "Mostrar filtros",
+    "hideFilters": "Ocultar filtros",
+    "filtersActive": "{count} activos",
     "filters": {
+      "title": "Filtros",
+      "refineSearch": "Refina tu búsqueda",
       "industry": "Industria",
+      "location": "Ubicación",
       "country": "País",
       "city": "Ciudad",
+      "allCountries": "Todos los países",
+      "allCities": "Todas las ciudades",
+      "selectCountry": "Selecciona un país",
+      "selectCity": "Selecciona una ciudad",
+      "selectCountryFirst": "Selecciona primero el país",
+      "loadingCities": "Cargando ciudades...",
+      "dataQuality": "Calidad de datos",
       "hasEmail": "Tiene correo",
       "hasPhone": "Tiene teléfono",
-      "hasWebsite": "Tiene sitio web",
-      "apply": "Aplicar filtros",
-      "clear": "Limpiar todo"
+      "verifiedOnly": "Solo verificados",
+      "clearAll": "Limpiar todos los filtros"
     },
-    "industries": {
-      "tattoo": "Estudios de tatuajes",
-      "beauty": "Salones de belleza",
-      "barber": "Barberías",
-      "gym": "Gimnasios y fitness",
-      "restaurant": "Restaurantes"
+    "preview": {
+      "estimatedResults": "Estimados {count} resultados",
+      "selectFilters": "Selecciona filtros para previsualizar resultados"
     },
-    "results": {
-      "showing": "Mostrando {count} resultados",
-      "noResults": "No se encontraron prospectos",
-      "tryDifferent": "Prueba con filtros diferentes"
+    "viewMode": {
+      "card": "Vista de tarjeta",
+      "table": "Vista de tabla"
     },
-    "actions": {
-      "export": "Exportar resultados",
-      "viewDetails": "Ver detalles"
+    "export": {
+      "csv": "CSV",
+      "excel": "Excel",
+      "noResults": "Exportar a {format} (sin resultados para exportar)",
+      "exportLeads": "Exportar {count} prospectos a {format}",
+      "searchFirst": "Busca prospectos para exportar"
+    },
+    "stats": {
+      "email": "Correo",
+      "phone": "Teléfono",
+      "verified": "Verificado"
+    },
+    "emptyState": {
+      "title": "No se encontraron prospectos",
+      "description": "Intenta ajustar tus filtros o criterios de búsqueda para encontrar más resultados.",
+      "clearButton": "Limpiar filtros y empezar de nuevo"
+    },
+    "pagination": {
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "page": "Página {current} de {total}",
+      "goToPrevious": "Ir a la página anterior (página {page})",
+      "goToNext": "Ir a la siguiente página (página {page})"
+    },
+    "table": {
+      "business": "Negocio",
+      "industry": "Industria",
+      "email": "Correo",
+      "phone": "Teléfono",
+      "website": "Sitio web",
+      "quality": "Calidad"
     }
   },
   "exports": {
-    "title": "Historial de exportaciones",
-    "subtitle": "Descarga y gestiona tus exportaciones de datos",
-    "create": "Crear exportación",
+    "title": "Exportaciones",
+    "subtitle": "Gestiona tus exportaciones de datos",
+    "refresh": "Actualizar",
+    "loading": "Cargando exportaciones...",
+    "noExports": "Aún no hay exportaciones",
+    "createFirst": "Ve a la página de Prospectos para crear tu primera exportación",
+    "exportNumber": "Exportación #{id} - {format}",
     "status": {
-      "pending": "Pendiente",
+      "ready": "Listo",
       "processing": "Procesando",
-      "completed": "Completado",
-      "failed": "Fallido",
-      "expired": "Expirado"
+      "pending": "Pendiente",
+      "failed": "Fallido"
     },
-    "format": {
-      "csv": "CSV",
-      "excel": "Excel"
+    "details": {
+      "leads": "Prospectos",
+      "created": "Creado",
+      "expires": "Expira",
+      "status": "Estado"
     },
     "download": "Descargar",
-    "expiresIn": "Expira en {days} días",
-    "expired": "Expirado"
+    "processingMsg": "Tu exportación está siendo procesada. Esto generalmente toma 1-2 minutos.",
+    "pendingMsg": "Tu exportación está en cola y será procesada en breve."
   },
   "settings": {
     "title": "Configuración",
+    "subtitle": "Gestiona tu cuenta y suscripción",
     "profile": {
       "title": "Perfil",
+      "description": "Tu información de cuenta",
       "name": "Nombre",
       "email": "Correo electrónico",
-      "save": "Guardar cambios",
-      "success": "Perfil actualizado exitosamente"
+      "currentPlan": "Plan actual:",
+      "usageThisMonth": "Uso este mes",
+      "remainingLeads": "Prospectos restantes"
     },
-    "subscription": {
-      "title": "Suscripción",
-      "currentPlan": "Plan actual",
-      "usage": "Uso",
-      "upgrade": "Mejorar plan",
-      "manageBilling": "Gestionar facturación"
+    "billing": {
+      "title": "Facturación y suscripción",
+      "description": "Gestiona tu suscripción y métodos de pago",
+      "currentPlan": "Actualmente estás en el plan {tier}.",
+      "manageBilling": "Gestionar facturación",
+      "loading": "Cargando...",
+      "manageBillingDesc": "Actualiza el método de pago, ve facturas o cancela la suscripción",
+      "freePlanMsg": "Estás en el plan Gratis. Mejora abajo para acceder a más funciones."
     },
     "privacy": {
       "title": "Privacidad y datos",
-      "downloadData": "Descargar mis datos (GDPR)",
-      "deleteAccount": "Eliminar cuenta",
-      "deleteWarning": "Esta acción no se puede deshacer"
+      "description": "Gestiona tus datos personales y configuración de privacidad",
+      "export": {
+        "title": "Exportación de datos GDPR",
+        "description": "Descarga todos tus datos personales en formato JSON. Esto incluye tu perfil, historial de uso, detalles de suscripción e historial de exportaciones.",
+        "button": "Descargar mis datos (GDPR)",
+        "downloading": "Descargando..."
+      },
+      "delete": {
+        "title": "Eliminar cuenta",
+        "description": "Elimina permanentemente tu cuenta y todos los datos asociados. Esta acción no se puede deshacer.",
+        "button": "Eliminar cuenta"
+      }
+    },
+    "plans": {
+      "title": "Planes disponibles",
+      "current": "Actual",
+      "perMonth": "/mes",
+      "upgrade": "Mejorar",
+      "redirecting": "Redirigiendo...",
+      "managePlan": "Gestionar plan"
+    },
+    "deleteDialog": {
+      "title": "Eliminar cuenta",
+      "description": "Esta acción no se puede deshacer. Esto eliminará permanentemente tu cuenta, cancelará tu suscripción y eliminará todos tus datos de nuestros servidores.",
+      "passwordLabel": "Ingresa tu contraseña para confirmar",
+      "passwordPlaceholder": "Tu contraseña",
+      "whatDeleted": "Lo que se eliminará:",
+      "items": {
+        "profile": "Tu perfil e información de cuenta",
+        "usage": "Todo el historial de uso y estadísticas",
+        "subscription": "Registros de suscripción y facturación",
+        "exports": "Todas las exportaciones de datos"
+      },
+      "cancel": "Cancelar",
+      "deleting": "Eliminando...",
+      "deleteButton": "Eliminar mi cuenta"
+    },
+    "toast": {
+      "upgradeFailed": "Mejora fallida",
+      "billingError": "Error del portal de facturación",
+      "exportSuccess": "¡Datos exportados!",
+      "exportSuccessDesc": "Tus datos personales se han descargado correctamente",
+      "exportFailed": "Exportación fallida",
+      "deletionSuccess": "Cuenta eliminada",
+      "deletionSuccessDesc": "Tu cuenta ha sido eliminada correctamente",
+      "deletionFailed": "Eliminación fallida",
+      "passwordRequired": "Contraseña requerida",
+      "passwordRequiredDesc": "Por favor ingresa tu contraseña para confirmar la eliminación de cuenta"
     }
   },
   "admin": {

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useMemo, useRef } from 'react'
+import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -25,6 +26,8 @@ import { CreditConfirmationDialog } from '@/components/leads/credit-confirmation
 import { useVirtualization } from '@/hooks/useVirtualization'
 
 export default function LeadsPage() {
+  const t = useTranslations('leads')
+  const tCommon = useTranslations('common')
   const { toast } = useToast()
   const [leads, setLeads] = useState<Lead[]>([])
   const [usage, setUsage] = useState<UsageInfo | null>(null)
@@ -411,12 +414,12 @@ export default function LeadsPage() {
           onClick={() => setShowMobileFilters(!showMobileFilters)}
           aria-expanded={showMobileFilters}
           aria-controls="filter-sidebar"
-          aria-label={`${showMobileFilters ? 'Hide' : 'Show'} filters${activeFiltersCount > 0 ? ` (${activeFiltersCount} active)` : ''}`}
+          aria-label={`${showMobileFilters ? t('hideFilters') : t('showFilters')}${activeFiltersCount > 0 ? ` (${t('filtersActive', { count: activeFiltersCount })})` : ''}`}
         >
           <Filter className="h-4 w-4 mr-2" aria-hidden="true" />
-          {showMobileFilters ? 'Hide Filters' : 'Show Filters'}
+          {showMobileFilters ? t('hideFilters') : t('showFilters')}
           {activeFiltersCount > 0 && (
-            <Badge variant="secondary" className="ml-2">{activeFiltersCount}</Badge>
+            <Badge variant="secondary" className="ml-2">{t('filtersActive', { count: activeFiltersCount })}</Badge>
           )}
         </Button>
       </div>
@@ -436,22 +439,22 @@ export default function LeadsPage() {
           <div className="flex items-center justify-between mb-1">
             <h2 className="text-lg font-semibold flex items-center gap-2">
               <Filter className="h-5 w-5" />
-              Filters
+              {t('filters.title')}
             </h2>
             {activeFiltersCount > 0 && (
-              <Badge variant="secondary">{activeFiltersCount} active</Badge>
+              <Badge variant="secondary">{t('filtersActive', { count: activeFiltersCount })}</Badge>
             )}
           </div>
-          <p className="text-sm text-muted-foreground">Refine your search</p>
+          <p className="text-sm text-muted-foreground">{t('filters.refineSearch')}</p>
         </div>
 
         {/* Filters Content */}
         <div className="flex-1 overflow-y-auto p-6 space-y-6">
-          {/* Industry Filter - PRIMERO (flujo natural: ¿QUÉ busco?) */}
+          {/* Industry Filter */}
           <div>
             <Label className="text-sm font-semibold mb-3 flex items-center gap-2">
               <Building2 className="h-4 w-4" />
-              Industry
+              {t('filters.industry')}
             </Label>
             <IndustrySelector
               selectedIndustries={selectedIndustries}
@@ -462,15 +465,15 @@ export default function LeadsPage() {
 
           <Separator />
 
-          {/* Location Filters - SEGUNDO (refinamiento: ¿DÓNDE?) */}
+          {/* Location Filters */}
           <div className="space-y-4">
             <Label className="text-sm font-semibold flex items-center gap-2">
               <MapPin className="h-4 w-4" />
-              Location
+              {t('filters.location')}
             </Label>
 
             <div className="space-y-2">
-              <Label className="text-xs text-muted-foreground">Country</Label>
+              <Label className="text-xs text-muted-foreground">{t('filters.country')}</Label>
               <Select
                 value={filters.country || ''}
                 onValueChange={(value) => {
@@ -478,10 +481,10 @@ export default function LeadsPage() {
                 }}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Select a country" />
+                  <SelectValue placeholder={t('filters.selectCountry')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">🌍 All Countries</SelectItem>
+                  <SelectItem value="">🌍 {t('filters.allCountries')}</SelectItem>
                   {availableCountries.map((country) => (
                     <SelectItem key={country} value={country}>
                       {getCountryFlag(country)} {getCountryName(country)}
@@ -492,7 +495,7 @@ export default function LeadsPage() {
             </div>
 
             <div className="space-y-2">
-              <Label className="text-xs text-muted-foreground">City</Label>
+              <Label className="text-xs text-muted-foreground">{t('filters.city')}</Label>
               <Select
                 value={filters.city || ''}
                 onValueChange={(value) => {
@@ -501,20 +504,20 @@ export default function LeadsPage() {
               >
                 <SelectTrigger disabled={!filters.country || loadingCities}>
                   <SelectValue placeholder={
-                    loadingCities ? "Loading cities..." :
-                    filters.country ? "Select a city" :
-                    "Select country first"
+                    loadingCities ? t('filters.loadingCities') :
+                    filters.country ? t('filters.selectCity') :
+                    t('filters.selectCountryFirst')
                   } />
                 </SelectTrigger>
                 <SelectContent>
                   {loadingCities ? (
                     <div className="flex items-center justify-center py-6 text-sm text-muted-foreground">
                       <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                      Loading cities...
+                      {t('filters.loadingCities')}
                     </div>
                   ) : (
                     <>
-                      <SelectItem value="">🗺️ All Cities</SelectItem>
+                      <SelectItem value="">🗺️ {t('filters.allCities')}</SelectItem>
                       {availableCities.map((city) => (
                         <SelectItem key={city} value={city}>
                           🏙️ {city}
@@ -533,7 +536,7 @@ export default function LeadsPage() {
           <div className="space-y-3">
             <Label className="text-sm font-semibold flex items-center gap-2">
               <Shield className="h-4 w-4" />
-              Data Quality
+              {t('filters.dataQuality')}
             </Label>
 
             <div className="space-y-2">
@@ -545,7 +548,7 @@ export default function LeadsPage() {
                   className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
                 />
                 <Mail className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                <span className="text-sm">Has Email</span>
+                <span className="text-sm">{t('filters.hasEmail')}</span>
               </label>
 
               <label className="flex items-center gap-2 cursor-pointer group">
@@ -556,7 +559,7 @@ export default function LeadsPage() {
                   className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
                 />
                 <Phone className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                <span className="text-sm">Has Phone</span>
+                <span className="text-sm">{t('filters.hasPhone')}</span>
               </label>
 
               <label className="flex items-center gap-2 cursor-pointer group">
@@ -567,7 +570,7 @@ export default function LeadsPage() {
                   className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
                 />
                 <CheckCircle2 className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                <span className="text-sm">Verified Only</span>
+                <span className="text-sm">{t('filters.verifiedOnly')}</span>
               </label>
             </div>
           </div>
@@ -597,11 +600,11 @@ export default function LeadsPage() {
               variant="outline"
               className="w-full"
               onClick={handleClearAllFilters}
-              aria-label={`Clear all ${activeFiltersCount} active filters`}
-              title={`Remove all ${activeFiltersCount} active filters`}
+              aria-label={`${t('filters.clearAll')} (${activeFiltersCount})`}
+              title={`${t('filters.clearAll')} (${activeFiltersCount})`}
             >
               <X className="mr-2 h-4 w-4" aria-hidden="true" />
-              Clear All Filters
+              {t('filters.clearAll')}
             </Button>
           )}
         </div>
@@ -613,44 +616,44 @@ export default function LeadsPage() {
         <header className="p-6 border-b bg-white">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-2xl font-bold">Search Results</h1>
+              <h1 className="text-2xl font-bold">{t('title')}</h1>
               <p className="text-sm text-muted-foreground mt-1">
                 {loading ? (
-                  'Searching...'
+                  t('searching')
                 ) : pagination.total > 0 ? (
-                  <>Found {pagination.total.toLocaleString()} {pagination.total === 1 ? 'lead' : 'leads'}</>
+                  t('found', { count: pagination.total })
                 ) : (
-                  'No leads found. Try adjusting your filters.'
+                  t('noLeadsFound')
                 )}
               </p>
             </div>
 
             <div className="flex items-center gap-2">
               {/* View Toggle */}
-              <div className="flex items-center border rounded-lg p-1" role="group" aria-label="View mode">
+              <div className="flex items-center border rounded-lg p-1" role="group" aria-label={t('viewMode.card')}>
                 <Button
                   variant={viewMode === 'card' ? 'default' : 'ghost'}
                   size="sm"
                   onClick={() => setViewMode('card')}
                   className="px-3"
-                  aria-label="Card view"
+                  aria-label={t('viewMode.card')}
                   aria-pressed={viewMode === 'card'}
-                  title="Switch to card view"
+                  title={t('viewMode.card')}
                 >
                   <LayoutGrid className="h-4 w-4" aria-hidden="true" />
-                  <span className="sr-only">Card view</span>
+                  <span className="sr-only">{t('viewMode.card')}</span>
                 </Button>
                 <Button
                   variant={viewMode === 'table' ? 'default' : 'ghost'}
                   size="sm"
                   onClick={() => setViewMode('table')}
                   className="px-3"
-                  aria-label="Table view"
+                  aria-label={t('viewMode.table')}
                   aria-pressed={viewMode === 'table'}
-                  title="Switch to table view"
+                  title={t('viewMode.table')}
                 >
                   <List className="h-4 w-4" aria-hidden="true" />
-                  <span className="sr-only">Table view</span>
+                  <span className="sr-only">{t('viewMode.table')}</span>
                 </Button>
               </div>
 
@@ -660,29 +663,29 @@ export default function LeadsPage() {
                 onClick={() => handleExport('csv')}
                 disabled={exportLoading || leads.length === 0 || loading}
                 className="gap-2"
-                aria-label={exportLoading ? 'Exporting CSV' : leads.length === 0 ? 'Export to CSV (no results to export)' : `Export ${leads.length} leads to CSV`}
-                title={leads.length === 0 ? 'Search for leads to export' : `Export ${leads.length} leads to CSV format`}
+                aria-label={exportLoading ? t('export.csv') : leads.length === 0 ? t('export.noResults', { format: 'CSV' }) : t('export.exportLeads', { count: leads.length, format: 'CSV' })}
+                title={leads.length === 0 ? t('export.searchFirst') : t('export.exportLeads', { count: leads.length, format: 'CSV' })}
               >
                 {exportLoading ? (
                   <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
                 ) : (
                   <FileSpreadsheet className="h-4 w-4" aria-hidden="true" />
                 )}
-                CSV
+                {t('export.csv')}
               </Button>
               <Button
                 onClick={() => handleExport('excel')}
                 disabled={exportLoading || leads.length === 0 || loading}
                 className="gap-2"
-                aria-label={exportLoading ? 'Exporting Excel' : leads.length === 0 ? 'Export to Excel (no results to export)' : `Export ${leads.length} leads to Excel`}
-                title={leads.length === 0 ? 'Search for leads to export' : `Export ${leads.length} leads to Excel format`}
+                aria-label={exportLoading ? t('export.excel') : leads.length === 0 ? t('export.noResults', { format: 'Excel' }) : t('export.exportLeads', { count: leads.length, format: 'Excel' })}
+                title={leads.length === 0 ? t('export.searchFirst') : t('export.exportLeads', { count: leads.length, format: 'Excel' })}
               >
                 {exportLoading ? (
                   <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
                 ) : (
                   <Download className="h-4 w-4" aria-hidden="true" />
                 )}
-                Excel
+                {t('export.excel')}
               </Button>
             </div>
           </div>
@@ -692,19 +695,19 @@ export default function LeadsPage() {
             <div className="flex items-center gap-4 text-sm">
               <div className="flex items-center gap-1.5">
                 <Mail className="h-4 w-4 text-muted-foreground" />
-                <span className="text-muted-foreground">Email:</span>
+                <span className="text-muted-foreground">{t('stats.email')}:</span>
                 <span className="font-medium">{stats.withEmail}</span>
                 <span className="text-muted-foreground">({Math.round((stats.withEmail / leads.length) * 100)}%)</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <Phone className="h-4 w-4 text-muted-foreground" />
-                <span className="text-muted-foreground">Phone:</span>
+                <span className="text-muted-foreground">{t('stats.phone')}:</span>
                 <span className="font-medium">{stats.withPhone}</span>
                 <span className="text-muted-foreground">({Math.round((stats.withPhone / leads.length) * 100)}%)</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <CheckCircle2 className="h-4 w-4 text-muted-foreground" />
-                <span className="text-muted-foreground">Verified:</span>
+                <span className="text-muted-foreground">{t('stats.verified')}:</span>
                 <span className="font-medium">{stats.verified}</span>
                 <span className="text-muted-foreground">({Math.round((stats.verified / leads.length) * 100)}%)</span>
               </div>
@@ -723,13 +726,13 @@ export default function LeadsPage() {
               <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mb-4">
                 <Search className="h-8 w-8 text-muted-foreground" />
               </div>
-              <h3 className="text-lg font-semibold mb-2">No leads found</h3>
+              <h3 className="text-lg font-semibold mb-2">{t('emptyState.title')}</h3>
               <p className="text-muted-foreground mb-4 max-w-md">
-                Try adjusting your filters or search criteria to find more results.
+                {t('emptyState.description')}
               </p>
               <Button variant="outline" onClick={handleClearAllFilters}>
                 <X className="mr-2 h-4 w-4" />
-                Clear Filters and Start Over
+                {t('emptyState.clearButton')}
               </Button>
             </div>
           ) : viewMode === 'card' ? (
@@ -768,12 +771,12 @@ export default function LeadsPage() {
                   <table className="w-full">
                     <thead className="sticky top-0 z-10 bg-white">
                       <tr className="border-b bg-gray-50">
-                        <th className="p-4 text-left text-sm font-semibold">Business</th>
-                        <th className="p-4 text-left text-sm font-semibold">Industry</th>
-                        <th className="p-4 text-left text-sm font-semibold">Email</th>
-                        <th className="p-4 text-left text-sm font-semibold">Phone</th>
-                        <th className="p-4 text-left text-sm font-semibold">Website</th>
-                        <th className="p-4 text-center text-sm font-semibold">Quality</th>
+                        <th className="p-4 text-left text-sm font-semibold">{t('table.business')}</th>
+                        <th className="p-4 text-left text-sm font-semibold">{t('table.industry')}</th>
+                        <th className="p-4 text-left text-sm font-semibold">{t('table.email')}</th>
+                        <th className="p-4 text-left text-sm font-semibold">{t('table.phone')}</th>
+                        <th className="p-4 text-left text-sm font-semibold">{t('table.website')}</th>
+                        <th className="p-4 text-center text-sm font-semibold">{t('table.quality')}</th>
                       </tr>
                     </thead>
                     <tbody style={{ transform: `translateY(${offsetY}px)` }}>
@@ -800,14 +803,14 @@ export default function LeadsPage() {
                 size="sm"
                 onClick={() => setFilters({ ...filters, page: (filters.page || 1) - 1 })}
                 disabled={!pagination.has_prev || loading}
-                aria-label={`Go to previous page (page ${(filters.page || 1) - 1})`}
+                aria-label={t('pagination.goToPrevious', { page: (filters.page || 1) - 1 })}
               >
                 <ChevronLeft className="h-4 w-4 mr-1" aria-hidden="true" />
-                Previous
+                {t('pagination.previous')}
               </Button>
               <div className="flex items-center gap-2 px-4" role="status" aria-live="polite">
                 <span className="text-sm font-medium">
-                  Page {filters.page} of {pagination.total_pages}
+                  {t('pagination.page', { current: filters.page, total: pagination.total_pages })}
                 </span>
               </div>
               <Button
@@ -815,9 +818,9 @@ export default function LeadsPage() {
                 size="sm"
                 onClick={() => setFilters({ ...filters, page: (filters.page || 1) + 1 })}
                 disabled={!pagination.has_next || loading}
-                aria-label={`Go to next page (page ${(filters.page || 1) + 1})`}
+                aria-label={t('pagination.goToNext', { page: (filters.page || 1) + 1 })}
               >
-                Next
+                {t('pagination.next')}
                 <ChevronRight className="h-4 w-4 ml-1" aria-hidden="true" />
               </Button>
             </nav>

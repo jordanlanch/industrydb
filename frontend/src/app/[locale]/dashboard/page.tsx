@@ -6,6 +6,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -28,6 +29,7 @@ import type { UsageInfo } from '@/types'
 
 export default function DashboardPage() {
   const router = useRouter()
+  const t = useTranslations('dashboard')
   const { user } = useAuthStore()
   const [usage, setUsage] = useState<UsageInfo | null>(null)
   const [stats, setStats] = useState({
@@ -54,9 +56,9 @@ export default function DashboardPage() {
 
   const getGreeting = () => {
     const hour = new Date().getHours()
-    if (hour < 12) return 'Good morning'
-    if (hour < 18) return 'Good afternoon'
-    return 'Good evening'
+    if (hour < 12) return t('greeting.morning')
+    if (hour < 18) return t('greeting.afternoon')
+    return t('greeting.evening')
   }
 
   const getTierBadgeVariant = (tier: string) => {
@@ -82,18 +84,18 @@ export default function DashboardPage() {
               {getGreeting()}, {user?.name || 'there'}!
             </h1>
             <p className="text-muted-foreground">
-              Welcome to your IndustryDB dashboard
+              {t('welcome')}
             </p>
           </div>
           <div className="flex items-center gap-3">
             <Badge variant={getTierBadgeVariant(user?.subscription_tier || 'free')} className="text-sm">
-              {user?.subscription_tier?.toUpperCase() || 'FREE'} PLAN
+              {t('planBadge', { tier: (user?.subscription_tier || 'FREE').toUpperCase() })}
             </Badge>
             {user?.subscription_tier === 'free' && (
               <Link href="/dashboard/settings/billing">
                 <Button size="sm">
                   <Sparkles className="mr-2 h-4 w-4" />
-                  Upgrade
+                  {t('upgrade')}
                 </Button>
               </Link>
             )}
@@ -108,16 +110,16 @@ export default function DashboardPage() {
             <div className="flex items-center justify-between flex-wrap gap-4">
               <div>
                 <div className="flex items-center gap-2 mb-2">
-                  <h3 className="text-lg font-semibold">Monthly Usage</h3>
+                  <h3 className="text-lg font-semibold">{t('monthlyUsage')}</h3>
                   <Badge variant={usage.remaining > 10 ? 'default' : 'destructive'}>
-                    {usage.remaining} remaining
+                    {usage.remaining} {t('remaining')}
                   </Badge>
                 </div>
                 <p className="text-3xl font-bold text-primary">
                   {usage.usage_count} / {usage.usage_limit}
                 </p>
                 <p className="text-sm text-muted-foreground mt-1">
-                  Leads accessed this month
+                  {t('leadsAccessed')}
                 </p>
               </div>
 
@@ -125,13 +127,13 @@ export default function DashboardPage() {
                 <Link href="/dashboard/leads">
                   <Button>
                     <Search className="mr-2 h-4 w-4" />
-                    Search Leads
+                    {t('searchLeads')}
                   </Button>
                 </Link>
                 <Link href="/dashboard/exports">
                   <Button variant="outline">
                     <Download className="mr-2 h-4 w-4" />
-                    Exports
+                    {t('exports')}
                   </Button>
                 </Link>
               </div>
@@ -158,7 +160,7 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Leads</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('stats.totalLeads')}</CardTitle>
             <Database className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -166,14 +168,14 @@ export default function DashboardPage() {
               {stats.totalLeads.toLocaleString()}
             </div>
             <p className="text-xs text-muted-foreground">
-              Across all industries
+              {t('stats.acrossIndustries')}
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">New This Week</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('stats.newThisWeek')}</CardTitle>
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -181,20 +183,20 @@ export default function DashboardPage() {
               +{stats.newThisWeek.toLocaleString()}
             </div>
             <p className="text-xs text-muted-foreground">
-              Fresh verified data
+              {t('stats.freshData')}
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Countries</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('stats.countries')}</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.countries}</div>
             <p className="text-xs text-muted-foreground">
-              US, GB, DE, ES, FR, CA, AU
+              {t('stats.countriesList')}
             </p>
           </CardContent>
         </Card>
@@ -202,15 +204,15 @@ export default function DashboardPage() {
 
       {/* Quick Actions */}
       <div className="mb-6">
-        <h2 className="text-xl font-semibold mb-4">Quick Actions</h2>
+        <h2 className="text-xl font-semibold mb-4">{t('quickActions.title')}</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <Link href="/dashboard/leads">
             <Card className="hover:shadow-md transition-shadow cursor-pointer">
               <CardContent className="pt-6">
                 <Search className="h-8 w-8 text-primary mb-3" />
-                <h3 className="font-semibold mb-1">Search Leads</h3>
+                <h3 className="font-semibold mb-1">{t('quickActions.searchLeads')}</h3>
                 <p className="text-sm text-muted-foreground mb-3">
-                  Find verified business data
+                  {t('quickActions.searchLeadsDesc')}
                 </p>
                 <ArrowRight className="h-4 w-4 text-muted-foreground" />
               </CardContent>
@@ -221,9 +223,9 @@ export default function DashboardPage() {
             <Card className="hover:shadow-md transition-shadow cursor-pointer">
               <CardContent className="pt-6">
                 <Database className="h-8 w-8 text-blue-500 mb-3" />
-                <h3 className="font-semibold mb-1">Saved Searches</h3>
+                <h3 className="font-semibold mb-1">{t('quickActions.savedSearches')}</h3>
                 <p className="text-sm text-muted-foreground mb-3">
-                  Access your saved filters
+                  {t('quickActions.savedSearchesDesc')}
                 </p>
                 <ArrowRight className="h-4 w-4 text-muted-foreground" />
               </CardContent>
@@ -234,9 +236,9 @@ export default function DashboardPage() {
             <Card className="hover:shadow-md transition-shadow cursor-pointer">
               <CardContent className="pt-6">
                 <Download className="h-8 w-8 text-green-500 mb-3" />
-                <h3 className="font-semibold mb-1">View Exports</h3>
+                <h3 className="font-semibold mb-1">{t('quickActions.viewExports')}</h3>
                 <p className="text-sm text-muted-foreground mb-3">
-                  Download your data exports
+                  {t('quickActions.viewExportsDesc')}
                 </p>
                 <ArrowRight className="h-4 w-4 text-muted-foreground" />
               </CardContent>
@@ -247,9 +249,9 @@ export default function DashboardPage() {
             <Card className="hover:shadow-md transition-shadow cursor-pointer">
               <CardContent className="pt-6">
                 <TrendingUp className="h-8 w-8 text-purple-500 mb-3" />
-                <h3 className="font-semibold mb-1">Upgrade Plan</h3>
+                <h3 className="font-semibold mb-1">{t('quickActions.upgradePlan')}</h3>
                 <p className="text-sm text-muted-foreground mb-3">
-                  Get more leads and features
+                  {t('quickActions.upgradePlanDesc')}
                 </p>
                 <ArrowRight className="h-4 w-4 text-muted-foreground" />
               </CardContent>

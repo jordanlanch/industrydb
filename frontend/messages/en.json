@@ -206,91 +206,202 @@
     }
   },
   "dashboard": {
-    "welcome": "Welcome back, {name}",
-    "usage": {
-      "title": "Usage This Month",
-      "used": "Used",
-      "of": "of",
-      "remaining": "remaining",
-      "resetDate": "Resets on {date}"
+    "greeting": {
+      "morning": "Good morning",
+      "afternoon": "Good afternoon",
+      "evening": "Good evening"
+    },
+    "welcome": "Welcome to your IndustryDB dashboard",
+    "monthlyUsage": "Monthly Usage",
+    "remaining": "remaining",
+    "leadsAccessed": "Leads accessed this month",
+    "searchLeads": "Search Leads",
+    "exports": "Exports",
+    "upgrade": "Upgrade",
+    "planBadge": "{tier} PLAN",
+    "stats": {
+      "totalLeads": "Total Leads",
+      "acrossIndustries": "Across all industries",
+      "newThisWeek": "New This Week",
+      "freshData": "Fresh verified data",
+      "countries": "Countries",
+      "countriesList": "US, GB, DE, ES, FR, CA, AU"
     },
     "quickActions": {
       "title": "Quick Actions",
       "searchLeads": "Search Leads",
+      "searchLeadsDesc": "Find verified business data",
+      "savedSearches": "Saved Searches",
+      "savedSearchesDesc": "Access your saved filters",
       "viewExports": "View Exports",
-      "upgrade": "Upgrade Plan"
+      "viewExportsDesc": "Download your data exports",
+      "upgradePlan": "Upgrade Plan",
+      "upgradePlanDesc": "Get more leads and features"
     }
   },
   "leads": {
-    "title": "Search Leads",
-    "subtitle": "Find verified business data by industry and location",
+    "title": "Search Results",
+    "searching": "Searching...",
+    "found": "Found {count} {count, plural, one {lead} other {leads}}",
+    "noLeadsFound": "No leads found. Try adjusting your filters.",
+    "showFilters": "Show Filters",
+    "hideFilters": "Hide Filters",
+    "filtersActive": "{count} active",
     "filters": {
+      "title": "Filters",
+      "refineSearch": "Refine your search",
       "industry": "Industry",
+      "location": "Location",
       "country": "Country",
       "city": "City",
+      "allCountries": "All Countries",
+      "allCities": "All Cities",
+      "selectCountry": "Select a country",
+      "selectCity": "Select a city",
+      "selectCountryFirst": "Select country first",
+      "loadingCities": "Loading cities...",
+      "dataQuality": "Data Quality",
       "hasEmail": "Has Email",
       "hasPhone": "Has Phone",
-      "hasWebsite": "Has Website",
-      "apply": "Apply Filters",
-      "clear": "Clear All"
+      "verifiedOnly": "Verified Only",
+      "clearAll": "Clear All Filters"
     },
-    "industries": {
-      "tattoo": "Tattoo Studios",
-      "beauty": "Beauty Salons",
-      "barber": "Barber Shops",
-      "gym": "Gyms & Fitness",
-      "restaurant": "Restaurants"
+    "preview": {
+      "estimatedResults": "Estimated {count} results",
+      "selectFilters": "Select filters to preview results"
     },
-    "results": {
-      "showing": "Showing {count} results",
-      "noResults": "No leads found",
-      "tryDifferent": "Try different filters"
+    "viewMode": {
+      "card": "Card view",
+      "table": "Table view"
     },
-    "actions": {
-      "export": "Export Results",
-      "viewDetails": "View Details"
+    "export": {
+      "csv": "CSV",
+      "excel": "Excel",
+      "noResults": "Export to {format} (no results to export)",
+      "exportLeads": "Export {count} leads to {format}",
+      "searchFirst": "Search for leads to export"
+    },
+    "stats": {
+      "email": "Email",
+      "phone": "Phone",
+      "verified": "Verified"
+    },
+    "emptyState": {
+      "title": "No leads found",
+      "description": "Try adjusting your filters or search criteria to find more results.",
+      "clearButton": "Clear Filters and Start Over"
+    },
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page {current} of {total}",
+      "goToPrevious": "Go to previous page (page {page})",
+      "goToNext": "Go to next page (page {page})"
+    },
+    "table": {
+      "business": "Business",
+      "industry": "Industry",
+      "email": "Email",
+      "phone": "Phone",
+      "website": "Website",
+      "quality": "Quality"
     }
   },
   "exports": {
-    "title": "Export History",
-    "subtitle": "Download and manage your data exports",
-    "create": "Create Export",
+    "title": "Exports",
+    "subtitle": "Manage your data exports",
+    "refresh": "Refresh",
+    "loading": "Loading exports...",
+    "noExports": "No exports yet",
+    "createFirst": "Go to Leads page to create your first export",
+    "exportNumber": "Export #{id} - {format}",
     "status": {
-      "pending": "Pending",
+      "ready": "Ready",
       "processing": "Processing",
-      "completed": "Completed",
-      "failed": "Failed",
-      "expired": "Expired"
+      "pending": "Pending",
+      "failed": "Failed"
     },
-    "format": {
-      "csv": "CSV",
-      "excel": "Excel"
+    "details": {
+      "leads": "Leads",
+      "created": "Created",
+      "expires": "Expires",
+      "status": "Status"
     },
     "download": "Download",
-    "expiresIn": "Expires in {days} days",
-    "expired": "Expired"
+    "processingMsg": "Your export is being processed. This usually takes 1-2 minutes.",
+    "pendingMsg": "Your export is queued and will be processed shortly."
   },
   "settings": {
     "title": "Settings",
+    "subtitle": "Manage your account and subscription",
     "profile": {
       "title": "Profile",
+      "description": "Your account information",
       "name": "Name",
       "email": "Email",
-      "save": "Save Changes",
-      "success": "Profile updated successfully"
+      "currentPlan": "Current Plan:",
+      "usageThisMonth": "Usage This Month",
+      "remainingLeads": "Remaining Leads"
     },
-    "subscription": {
-      "title": "Subscription",
-      "currentPlan": "Current Plan",
-      "usage": "Usage",
-      "upgrade": "Upgrade Plan",
-      "manageBilling": "Manage Billing"
+    "billing": {
+      "title": "Billing & Subscription",
+      "description": "Manage your subscription and payment methods",
+      "currentPlan": "You are currently on the {tier} plan.",
+      "manageBilling": "Manage Billing",
+      "loading": "Loading...",
+      "manageBillingDesc": "Update payment method, view invoices, or cancel subscription",
+      "freePlanMsg": "You are on the Free plan. Upgrade below to access more features."
     },
     "privacy": {
       "title": "Privacy & Data",
-      "downloadData": "Download My Data (GDPR)",
-      "deleteAccount": "Delete Account",
-      "deleteWarning": "This action cannot be undone"
+      "description": "Manage your personal data and privacy settings",
+      "export": {
+        "title": "GDPR Data Export",
+        "description": "Download all your personal data in JSON format. This includes your profile, usage history, subscription details, and export history.",
+        "button": "Download My Data (GDPR)",
+        "downloading": "Downloading..."
+      },
+      "delete": {
+        "title": "Delete Account",
+        "description": "Permanently delete your account and all associated data. This action cannot be undone.",
+        "button": "Delete Account"
+      }
+    },
+    "plans": {
+      "title": "Available Plans",
+      "current": "Current",
+      "perMonth": "/month",
+      "upgrade": "Upgrade",
+      "redirecting": "Redirecting...",
+      "managePlan": "Manage Plan"
+    },
+    "deleteDialog": {
+      "title": "Delete Account",
+      "description": "This action cannot be undone. This will permanently delete your account, cancel your subscription, and remove all your data from our servers.",
+      "passwordLabel": "Enter your password to confirm",
+      "passwordPlaceholder": "Your password",
+      "whatDeleted": "What will be deleted:",
+      "items": {
+        "profile": "Your profile and account information",
+        "usage": "All usage history and statistics",
+        "subscription": "Subscription and billing records",
+        "exports": "All data exports"
+      },
+      "cancel": "Cancel",
+      "deleting": "Deleting...",
+      "deleteButton": "Delete My Account"
+    },
+    "toast": {
+      "upgradeFailed": "Upgrade Failed",
+      "billingError": "Billing Portal Error",
+      "exportSuccess": "Data Exported!",
+      "exportSuccessDesc": "Your personal data has been downloaded successfully",
+      "exportFailed": "Export Failed",
+      "deletionSuccess": "Account Deleted",
+      "deletionSuccessDesc": "Your account has been deleted successfully",
+      "deletionFailed": "Deletion Failed",
+      "passwordRequired": "Password Required",
+      "passwordRequiredDesc": "Please enter your password to confirm account deletion"
     }
   },
   "admin": {

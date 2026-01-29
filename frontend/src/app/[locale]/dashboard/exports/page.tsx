@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -9,6 +10,7 @@ import type { Export } from '@/types'
 import { Download, FileText, Clock, CheckCircle, XCircle, RefreshCw } from 'lucide-react'
 
 export default function ExportsPage() {
+  const t = useTranslations('exports')
   const [exports, setExports] = useState<Export[]>([])
   const [loading, setLoading] = useState(false)
 
@@ -31,13 +33,13 @@ export default function ExportsPage() {
   const getStatusBadge = (status: Export['status']) => {
     switch (status) {
       case 'ready':
-        return <Badge variant="default"><CheckCircle className="h-3 w-3 mr-1" />Ready</Badge>
+        return <Badge variant="default"><CheckCircle className="h-3 w-3 mr-1" />{t('status.ready')}</Badge>
       case 'processing':
-        return <Badge variant="secondary"><RefreshCw className="h-3 w-3 mr-1 animate-spin" />Processing</Badge>
+        return <Badge variant="secondary"><RefreshCw className="h-3 w-3 mr-1 animate-spin" />{t('status.processing')}</Badge>
       case 'pending':
-        return <Badge variant="secondary"><Clock className="h-3 w-3 mr-1" />Pending</Badge>
+        return <Badge variant="secondary"><Clock className="h-3 w-3 mr-1" />{t('status.pending')}</Badge>
       case 'failed':
-        return <Badge variant="destructive"><XCircle className="h-3 w-3 mr-1" />Failed</Badge>
+        return <Badge variant="destructive"><XCircle className="h-3 w-3 mr-1" />{t('status.failed')}</Badge>
     }
   }
 
@@ -54,14 +56,14 @@ export default function ExportsPage() {
     <div className="p-8">
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold mb-2">Exports</h1>
+          <h1 className="text-3xl font-bold mb-2">{t('title')}</h1>
           <p className="text-muted-foreground">
-            Manage your data exports
+            {t('subtitle')}
           </p>
         </div>
         <Button onClick={loadExports} variant="outline">
           <RefreshCw className="h-4 w-4 mr-2" />
-          Refresh
+          {t('refresh')}
         </Button>
       </div>
 
@@ -70,7 +72,7 @@ export default function ExportsPage() {
           <CardContent className="py-8">
             <div className="text-center">
               <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent"></div>
-              <p className="mt-2 text-sm text-muted-foreground">Loading exports...</p>
+              <p className="mt-2 text-sm text-muted-foreground">{t('loading')}</p>
             </div>
           </CardContent>
         </Card>
@@ -79,8 +81,8 @@ export default function ExportsPage() {
           <CardContent className="py-8">
             <div className="text-center text-muted-foreground">
               <FileText className="h-12 w-12 mx-auto mb-2 opacity-50" />
-              <p>No exports yet</p>
-              <p className="text-sm">Go to Leads page to create your first export</p>
+              <p>{t('noExports')}</p>
+              <p className="text-sm">{t('createFirst')}</p>
             </div>
           </CardContent>
         </Card>
@@ -91,7 +93,7 @@ export default function ExportsPage() {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-lg">
-                    Export #{exp.id} - {exp.format.toUpperCase()}
+                    {t('exportNumber', { id: exp.id, format: exp.format.toUpperCase() })}
                   </CardTitle>
                   {getStatusBadge(exp.status)}
                 </div>
@@ -99,21 +101,21 @@ export default function ExportsPage() {
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4 text-sm">
                   <div>
-                    <p className="text-muted-foreground">Leads</p>
+                    <p className="text-muted-foreground">{t('details.leads')}</p>
                     <p className="font-medium">{exp.lead_count}</p>
                   </div>
                   <div>
-                    <p className="text-muted-foreground">Created</p>
+                    <p className="text-muted-foreground">{t('details.created')}</p>
                     <p className="font-medium">{formatDate(exp.created_at)}</p>
                   </div>
                   {exp.expires_at && (
                     <div>
-                      <p className="text-muted-foreground">Expires</p>
+                      <p className="text-muted-foreground">{t('details.expires')}</p>
                       <p className="font-medium">{formatDate(exp.expires_at)}</p>
                     </div>
                   )}
                   <div>
-                    <p className="text-muted-foreground">Status</p>
+                    <p className="text-muted-foreground">{t('details.status')}</p>
                     <p className="font-medium capitalize">{exp.status}</p>
                   </div>
                 </div>
@@ -127,19 +129,19 @@ export default function ExportsPage() {
                 {exp.status === 'ready' && exp.file_url && (
                   <Button onClick={() => handleDownload(exp.id)}>
                     <Download className="h-4 w-4 mr-2" />
-                    Download
+                    {t('download')}
                   </Button>
                 )}
 
                 {exp.status === 'processing' && (
                   <p className="text-sm text-muted-foreground">
-                    Your export is being processed. This usually takes 1-2 minutes.
+                    {t('processingMsg')}
                   </p>
                 )}
 
                 {exp.status === 'pending' && (
                   <p className="text-sm text-muted-foreground">
-                    Your export is queued and will be processed shortly.
+                    {t('pendingMsg')}
                   </p>
                 )}
               </CardContent>

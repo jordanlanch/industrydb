@@ -206,91 +206,202 @@
     }
   },
   "dashboard": {
-    "welcome": "Bon retour, {name}",
-    "usage": {
-      "title": "Utilisation ce mois",
-      "used": "Utilisé",
-      "of": "sur",
-      "remaining": "restants",
-      "resetDate": "Réinitialisation le {date}"
+    "greeting": {
+      "morning": "Bonjour",
+      "afternoon": "Bon après-midi",
+      "evening": "Bonsoir"
+    },
+    "welcome": "Bienvenue sur votre tableau de bord IndustryDB",
+    "monthlyUsage": "Utilisation mensuelle",
+    "remaining": "restants",
+    "leadsAccessed": "Prospects consultés ce mois",
+    "searchLeads": "Rechercher des prospects",
+    "exports": "Exportations",
+    "upgrade": "Améliorer",
+    "planBadge": "PLAN {tier}",
+    "stats": {
+      "totalLeads": "Total de prospects",
+      "acrossIndustries": "Dans toutes les industries",
+      "newThisWeek": "Nouveaux cette semaine",
+      "freshData": "Données fraîches vérifiées",
+      "countries": "Pays",
+      "countriesList": "US, GB, DE, ES, FR, CA, AU"
     },
     "quickActions": {
       "title": "Actions rapides",
       "searchLeads": "Rechercher des prospects",
+      "searchLeadsDesc": "Trouvez des données commerciales vérifiées",
+      "savedSearches": "Recherches sauvegardées",
+      "savedSearchesDesc": "Accédez à vos filtres sauvegardés",
       "viewExports": "Voir les exportations",
-      "upgrade": "Améliorer le plan"
+      "viewExportsDesc": "Téléchargez vos exportations de données",
+      "upgradePlan": "Améliorer le plan",
+      "upgradePlanDesc": "Obtenez plus de prospects et de fonctionnalités"
     }
   },
   "leads": {
-    "title": "Rechercher des prospects",
-    "subtitle": "Trouvez des données commerciales vérifiées par secteur et emplacement",
+    "title": "Résultats de recherche",
+    "searching": "Recherche en cours...",
+    "found": "Trouvé {count} {count, plural, one {prospect} other {prospects}}",
+    "noLeadsFound": "Aucun prospect trouvé. Essayez d'ajuster vos filtres.",
+    "showFilters": "Afficher les filtres",
+    "hideFilters": "Masquer les filtres",
+    "filtersActive": "{count} actifs",
     "filters": {
+      "title": "Filtres",
+      "refineSearch": "Affinez votre recherche",
       "industry": "Secteur",
+      "location": "Emplacement",
       "country": "Pays",
       "city": "Ville",
+      "allCountries": "Tous les pays",
+      "allCities": "Toutes les villes",
+      "selectCountry": "Sélectionnez un pays",
+      "selectCity": "Sélectionnez une ville",
+      "selectCountryFirst": "Sélectionnez d'abord le pays",
+      "loadingCities": "Chargement des villes...",
+      "dataQuality": "Qualité des données",
       "hasEmail": "A un e-mail",
       "hasPhone": "A un téléphone",
-      "hasWebsite": "A un site web",
-      "apply": "Appliquer les filtres",
-      "clear": "Tout effacer"
+      "verifiedOnly": "Uniquement vérifiés",
+      "clearAll": "Effacer tous les filtres"
     },
-    "industries": {
-      "tattoo": "Studios de tatouage",
-      "beauty": "Salons de beauté",
-      "barber": "Salons de coiffure",
-      "gym": "Salles de sport et fitness",
-      "restaurant": "Restaurants"
+    "preview": {
+      "estimatedResults": "Environ {count} résultats",
+      "selectFilters": "Sélectionnez des filtres pour prévisualiser les résultats"
     },
-    "results": {
-      "showing": "Affichage de {count} résultats",
-      "noResults": "Aucun prospect trouvé",
-      "tryDifferent": "Essayez avec des filtres différents"
+    "viewMode": {
+      "card": "Vue carte",
+      "table": "Vue tableau"
     },
-    "actions": {
-      "export": "Exporter les résultats",
-      "viewDetails": "Voir les détails"
+    "export": {
+      "csv": "CSV",
+      "excel": "Excel",
+      "noResults": "Exporter en {format} (aucun résultat à exporter)",
+      "exportLeads": "Exporter {count} prospects en {format}",
+      "searchFirst": "Recherchez des prospects pour exporter"
+    },
+    "stats": {
+      "email": "E-mail",
+      "phone": "Téléphone",
+      "verified": "Vérifié"
+    },
+    "emptyState": {
+      "title": "Aucun prospect trouvé",
+      "description": "Essayez d'ajuster vos filtres ou vos critères de recherche pour trouver plus de résultats.",
+      "clearButton": "Effacer les filtres et recommencer"
+    },
+    "pagination": {
+      "previous": "Précédent",
+      "next": "Suivant",
+      "page": "Page {current} sur {total}",
+      "goToPrevious": "Aller à la page précédente (page {page})",
+      "goToNext": "Aller à la page suivante (page {page})"
+    },
+    "table": {
+      "business": "Entreprise",
+      "industry": "Secteur",
+      "email": "E-mail",
+      "phone": "Téléphone",
+      "website": "Site web",
+      "quality": "Qualité"
     }
   },
   "exports": {
-    "title": "Historique des exportations",
-    "subtitle": "Téléchargez et gérez vos exportations de données",
-    "create": "Créer une exportation",
+    "title": "Exportations",
+    "subtitle": "Gérez vos exportations de données",
+    "refresh": "Actualiser",
+    "loading": "Chargement des exportations...",
+    "noExports": "Aucune exportation pour le moment",
+    "createFirst": "Allez sur la page Prospects pour créer votre première exportation",
+    "exportNumber": "Exportation #{id} - {format}",
     "status": {
-      "pending": "En attente",
+      "ready": "Prêt",
       "processing": "Traitement",
-      "completed": "Terminé",
-      "failed": "Échoué",
-      "expired": "Expiré"
+      "pending": "En attente",
+      "failed": "Échoué"
     },
-    "format": {
-      "csv": "CSV",
-      "excel": "Excel"
+    "details": {
+      "leads": "Prospects",
+      "created": "Créé",
+      "expires": "Expire",
+      "status": "Statut"
     },
     "download": "Télécharger",
-    "expiresIn": "Expire dans {days} jours",
-    "expired": "Expiré"
+    "processingMsg": "Votre exportation est en cours de traitement. Cela prend généralement 1-2 minutes.",
+    "pendingMsg": "Votre exportation est en file d'attente et sera traitée sous peu."
   },
   "settings": {
     "title": "Paramètres",
+    "subtitle": "Gérez votre compte et votre abonnement",
     "profile": {
       "title": "Profil",
+      "description": "Vos informations de compte",
       "name": "Nom",
       "email": "E-mail",
-      "save": "Enregistrer les modifications",
-      "success": "Profil mis à jour avec succès"
+      "currentPlan": "Plan actuel:",
+      "usageThisMonth": "Utilisation ce mois",
+      "remainingLeads": "Prospects restants"
     },
-    "subscription": {
-      "title": "Abonnement",
-      "currentPlan": "Plan actuel",
-      "usage": "Utilisation",
-      "upgrade": "Améliorer le plan",
-      "manageBilling": "Gérer la facturation"
+    "billing": {
+      "title": "Facturation et abonnement",
+      "description": "Gérez votre abonnement et vos méthodes de paiement",
+      "currentPlan": "Vous êtes actuellement sur le plan {tier}.",
+      "manageBilling": "Gérer la facturation",
+      "loading": "Chargement...",
+      "manageBillingDesc": "Mettre à jour le mode de paiement, voir les factures ou annuler l'abonnement",
+      "freePlanMsg": "Vous êtes sur le plan Gratuit. Améliorez ci-dessous pour accéder à plus de fonctionnalités."
     },
     "privacy": {
       "title": "Confidentialité et données",
-      "downloadData": "Télécharger mes données (RGPD)",
-      "deleteAccount": "Supprimer le compte",
-      "deleteWarning": "Cette action ne peut pas être annulée"
+      "description": "Gérez vos données personnelles et vos paramètres de confidentialité",
+      "export": {
+        "title": "Exportation de données RGPD",
+        "description": "Téléchargez toutes vos données personnelles au format JSON. Cela inclut votre profil, l'historique d'utilisation, les détails d'abonnement et l'historique des exportations.",
+        "button": "Télécharger mes données (RGPD)",
+        "downloading": "Téléchargement..."
+      },
+      "delete": {
+        "title": "Supprimer le compte",
+        "description": "Supprimez définitivement votre compte et toutes les données associées. Cette action ne peut pas être annulée.",
+        "button": "Supprimer le compte"
+      }
+    },
+    "plans": {
+      "title": "Plans disponibles",
+      "current": "Actuel",
+      "perMonth": "/mois",
+      "upgrade": "Améliorer",
+      "redirecting": "Redirection...",
+      "managePlan": "Gérer le plan"
+    },
+    "deleteDialog": {
+      "title": "Supprimer le compte",
+      "description": "Cette action ne peut pas être annulée. Cela supprimera définitivement votre compte, annulera votre abonnement et supprimera toutes vos données de nos serveurs.",
+      "passwordLabel": "Entrez votre mot de passe pour confirmer",
+      "passwordPlaceholder": "Votre mot de passe",
+      "whatDeleted": "Ce qui sera supprimé:",
+      "items": {
+        "profile": "Votre profil et les informations de compte",
+        "usage": "Tout l'historique d'utilisation et les statistiques",
+        "subscription": "Enregistrements d'abonnement et de facturation",
+        "exports": "Toutes les exportations de données"
+      },
+      "cancel": "Annuler",
+      "deleting": "Suppression...",
+      "deleteButton": "Supprimer mon compte"
+    },
+    "toast": {
+      "upgradeFailed": "Échec de l'amélioration",
+      "billingError": "Erreur du portail de facturation",
+      "exportSuccess": "Données exportées!",
+      "exportSuccessDesc": "Vos données personnelles ont été téléchargées avec succès",
+      "exportFailed": "Échec de l'exportation",
+      "deletionSuccess": "Compte supprimé",
+      "deletionSuccessDesc": "Votre compte a été supprimé avec succès",
+      "deletionFailed": "Échec de la suppression",
+      "passwordRequired": "Mot de passe requis",
+      "passwordRequiredDesc": "Veuillez entrer votre mot de passe pour confirmer la suppression du compte"
     }
   },
   "admin": {
