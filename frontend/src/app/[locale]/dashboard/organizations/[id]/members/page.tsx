@@ -69,7 +69,7 @@ export default function OrganizationMembersPage() {
     try {
       setLoading(true);
       const data = await organizationService.listMembers(organizationId);
-      setMembers(data.members);
+      setMembers(data.members || []);
     } catch (error: any) {
       toast({
         title: 'Error',

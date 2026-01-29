@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useRef } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -11,7 +11,7 @@ import { leadsService } from '@/services/leads.service'
 import { exportsService } from '@/services/exports.service'
 import { filtersService } from '@/services/filters.service'
 import { getCountryName, getCountryFlag } from '@/lib/countries'
-import type { Lead, LeadSearchRequest, UsageInfo } from '@/types'
+import type { Lead, LeadSearchRequest, UsageInfo, LeadPreviewResponse } from '@/types'
 import { Search, Download, FileSpreadsheet, X, Filter, ChevronLeft, ChevronRight, LayoutGrid, List, Building2, MapPin, Mail, Phone, Shield, Loader2, TrendingUp, CheckCircle2, AlertCircle } from 'lucide-react'
 import { useToast } from '@/components/toast-provider'
 import { LeadCard } from '@/components/leads/lead-card'
@@ -19,8 +19,10 @@ import { LeadTableRow } from '@/components/leads/lead-table-row'
 import { LeadCardSkeletonList } from '@/components/leads/lead-card-skeleton'
 import { IndustrySelector } from '@/components/leads/industry-selector'
 import { SearchButton } from '@/components/leads/search-button'
+import { SearchPreview } from '@/components/leads/search-preview'
 import { EmptySearchState } from '@/components/leads/empty-search-state'
 import { CreditConfirmationDialog } from '@/components/leads/credit-confirmation-dialog'
+import { useVirtualization } from '@/hooks/useVirtualization'
 
 export default function LeadsPage() {
   const { toast } = useToast()
@@ -33,6 +35,16 @@ export default function LeadsPage() {
   const [selectedIndustries, setSelectedIndustries] = useState<string[]>([])
   const [searchTriggered, setSearchTriggered] = useState(false)
   const [showConfirmDialog, setShowConfirmDialog] = useState(false)
+
+  // AbortController for canceling previous requests
+  const abortControllerRef = useRef<AbortController | null>(null)
+
+  // Virtual scrolling for better performance with large lists
+  const { containerRef, visibleItems, totalHeight, offsetY } = useVirtualization({
+    items: leads,
+    itemHeight: viewMode === 'card' ? 200 : 60, // Adjust based on view mode
+    bufferSize: 3
+  })
   const [filters, setFilters] = useState<LeadSearchRequest>({
     page: 1,
     limit: 20,
@@ -45,6 +57,12 @@ export default function LeadsPage() {
   })
   const [availableCountries, setAvailableCountries] = useState<string[]>([])
   const [availableCities, setAvailableCities] = useState<string[]>([])
+  const [loadingCities, setLoadingCities] = useState(false)
+
+  // Preview state
+  const [preview, setPreview] = useState<LeadPreviewResponse | null>(null)
+  const [previewLoading, setPreviewLoading] = useState(false)
+  const [previewError, setPreviewError] = useState<string | null>(null)
 
   // Calculate active filters count
   const activeFiltersCount = useMemo(() => {
@@ -109,7 +127,7 @@ export default function LeadsPage() {
 
   // Handle pagination changes - only search if already triggered
   useEffect(() => {
-    if (filters.page > 1 && searchTriggered) {
+    if (filters.page && filters.page > 1 && searchTriggered) {
       loadLeads()
     }
   }, [filters.page])
@@ -123,21 +141,35 @@ export default function LeadsPage() {
     }
   }, [filters.country])
 
+  // Fetch preview when filters change (debounced)
+  useEffect(() => {
+    // Debounce the preview fetch to avoid too many API calls
+    const timeoutId = setTimeout(() => {
+      fetchPreview()
+    }, 500) // Wait 500ms after last filter change
+
+    return () => clearTimeout(timeoutId)
+  }, [filters.industry, filters.country, filters.city, filters.has_email, filters.has_phone, filters.verified])
+
   const loadFilterOptions = async () => {
     try {
       const countries = await filtersService.getCountries()
-      setAvailableCountries(countries)
+      setAvailableCountries(countries || [])
     } catch (error) {
       console.error('Failed to load filter options:', error)
     }
   }
 
   const loadCitiesForCountry = async (country: string) => {
+    setLoadingCities(true)
     try {
       const cities = await filtersService.getCities(country)
-      setAvailableCities(cities)
+      setAvailableCities(cities || [])
     } catch (error) {
       console.error('Failed to load cities:', error)
+      setAvailableCities([])
+    } finally {
+      setLoadingCities(false)
     }
   }
 
@@ -173,16 +205,59 @@ export default function LeadsPage() {
     }, 100)
   }
 
+  const fetchPreview = async () => {
+    // Only fetch preview if at least one filter is selected
+    if (!filters.industry && !filters.country && !filters.has_email && !filters.has_phone && !filters.verified) {
+      setPreview(null)
+      return
+    }
+
+    setPreviewLoading(true)
+    setPreviewError(null)
+
+    try {
+      const previewData = await leadsService.preview(filters)
+      setPreview(previewData)
+    } catch (error: any) {
+      console.error('Failed to fetch preview:', error)
+      setPreviewError(error.message || 'Failed to load preview')
+    } finally {
+      setPreviewLoading(false)
+    }
+  }
+
   const loadLeads = async () => {
     // Prevent concurrent calls
     if (loading) return
 
+    // Cancel previous request if exists
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort()
+      console.log('🚫 Cancelled previous search request')
+    }
+
+    // Create new abort controller for this request
+    abortControllerRef.current = new AbortController()
+
     setLoading(true)
     try {
       const response = await leadsService.search(filters)
-      setLeads(response.data)
+
+      // Check if request was aborted
+      if (abortControllerRef.current?.signal.aborted) {
+        console.log('⏭️  Request was aborted, ignoring response')
+        return
+      }
+
+      setLeads(response.data || [])
       setPagination(response.pagination)
     } catch (error: any) {
+      // Ignore abort errors (user cancelled the request)
+      if (error.name === 'AbortError' || error.message?.includes('abort')) {
+        console.log('🔕 Search request cancelled by user')
+        return
+      }
+
       console.error('Failed to load leads:', error)
 
       // Handle rate limiting
@@ -372,7 +447,22 @@ export default function LeadsPage() {
 
         {/* Filters Content */}
         <div className="flex-1 overflow-y-auto p-6 space-y-6">
-          {/* Location Filters - PRIMERO */}
+          {/* Industry Filter - PRIMERO (flujo natural: ¿QUÉ busco?) */}
+          <div>
+            <Label className="text-sm font-semibold mb-3 flex items-center gap-2">
+              <Building2 className="h-4 w-4" />
+              Industry
+            </Label>
+            <IndustrySelector
+              selectedIndustries={selectedIndustries}
+              onChange={handleIndustryChange}
+              multiSelect={false}
+            />
+          </div>
+
+          <Separator />
+
+          {/* Location Filters - SEGUNDO (refinamiento: ¿DÓNDE?) */}
           <div className="space-y-4">
             <Label className="text-sm font-semibold flex items-center gap-2">
               <MapPin className="h-4 w-4" />
@@ -408,36 +498,33 @@ export default function LeadsPage() {
                 onValueChange={(value) => {
                   setFilters({ ...filters, city: value || undefined, page: 1 })
                 }}
-                disabled={!filters.country}
               >
-                <SelectTrigger>
-                  <SelectValue placeholder={filters.country ? "Select a city" : "Select country first"} />
+                <SelectTrigger disabled={!filters.country || loadingCities}>
+                  <SelectValue placeholder={
+                    loadingCities ? "Loading cities..." :
+                    filters.country ? "Select a city" :
+                    "Select country first"
+                  } />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">🗺️ All Cities</SelectItem>
-                  {availableCities.map((city) => (
-                    <SelectItem key={city} value={city}>
-                      🏙️ {city}
-                    </SelectItem>
-                  ))}
+                  {loadingCities ? (
+                    <div className="flex items-center justify-center py-6 text-sm text-muted-foreground">
+                      <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                      Loading cities...
+                    </div>
+                  ) : (
+                    <>
+                      <SelectItem value="">🗺️ All Cities</SelectItem>
+                      {availableCities.map((city) => (
+                        <SelectItem key={city} value={city}>
+                          🏙️ {city}
+                        </SelectItem>
+                      ))}
+                    </>
+                  )}
                 </SelectContent>
               </Select>
             </div>
-          </div>
-
-          <Separator />
-
-          {/* Industry Filter - SEGUNDO */}
-          <div>
-            <Label className="text-sm font-semibold mb-3 flex items-center gap-2">
-              <Building2 className="h-4 w-4" />
-              Industry
-            </Label>
-            <IndustrySelector
-              selectedIndustries={selectedIndustries}
-              onChange={handleIndustryChange}
-              multiSelect={false}
-            />
           </div>
 
           <Separator />
@@ -488,6 +575,14 @@ export default function LeadsPage() {
 
         {/* Sidebar Footer */}
         <div className="p-6 border-t bg-white space-y-3">
+          {/* Preview Statistics */}
+          <SearchPreview
+            preview={preview}
+            loading={previewLoading}
+            error={previewError}
+            hasFilters={activeFiltersCount > 0}
+          />
+
           {/* Search Button */}
           <SearchButton
             onClick={handleSearchClick}
@@ -638,40 +733,61 @@ export default function LeadsPage() {
               </Button>
             </div>
           ) : viewMode === 'card' ? (
-            <div className="space-y-4">
-              {leads.map((lead) => (
-                <LeadCard
-                  key={lead.id}
-                  lead={lead}
-                  onCopyText={handleCopyText}
-                />
-              ))}
+            <div
+              ref={containerRef}
+              className="overflow-y-auto"
+              style={{ height: 'calc(100vh - 300px)' }}
+            >
+              <div style={{ height: totalHeight, position: 'relative' }}>
+                <div
+                  style={{
+                    transform: `translateY(${offsetY}px)`,
+                    position: 'absolute',
+                    width: '100%'
+                  }}
+                  className="space-y-4"
+                >
+                  {visibleItems.map((lead) => (
+                    <LeadCard
+                      key={lead.id}
+                      lead={lead}
+                      onCopyText={handleCopyText}
+                    />
+                  ))}
+                </div>
+              </div>
             </div>
           ) : (
             <Card>
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b bg-gray-50">
-                      <th className="p-4 text-left text-sm font-semibold">Business</th>
-                      <th className="p-4 text-left text-sm font-semibold">Industry</th>
-                      <th className="p-4 text-left text-sm font-semibold">Email</th>
-                      <th className="p-4 text-left text-sm font-semibold">Phone</th>
-                      <th className="p-4 text-left text-sm font-semibold">Website</th>
-                      <th className="p-4 text-center text-sm font-semibold">Quality</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {leads.map((lead) => (
-                      <LeadTableRow
-                        key={lead.id}
-                        lead={lead}
-                        onCopyEmail={(email) => handleCopyText(email, 'Email')}
-                        onCopyPhone={(phone) => handleCopyText(phone, 'Phone')}
-                      />
-                    ))}
-                  </tbody>
-                </table>
+              <div
+                ref={containerRef}
+                className="overflow-auto"
+                style={{ height: 'calc(100vh - 300px)' }}
+              >
+                <div style={{ height: totalHeight, position: 'relative' }}>
+                  <table className="w-full">
+                    <thead className="sticky top-0 z-10 bg-white">
+                      <tr className="border-b bg-gray-50">
+                        <th className="p-4 text-left text-sm font-semibold">Business</th>
+                        <th className="p-4 text-left text-sm font-semibold">Industry</th>
+                        <th className="p-4 text-left text-sm font-semibold">Email</th>
+                        <th className="p-4 text-left text-sm font-semibold">Phone</th>
+                        <th className="p-4 text-left text-sm font-semibold">Website</th>
+                        <th className="p-4 text-center text-sm font-semibold">Quality</th>
+                      </tr>
+                    </thead>
+                    <tbody style={{ transform: `translateY(${offsetY}px)` }}>
+                      {visibleItems.map((lead) => (
+                        <LeadTableRow
+                          key={lead.id}
+                          lead={lead}
+                          onCopyEmail={(email) => handleCopyText(email, 'Email')}
+                          onCopyPhone={(phone) => handleCopyText(phone, 'Phone')}
+                        />
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </Card>
           )}

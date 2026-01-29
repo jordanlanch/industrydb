@@ -1,7 +1,6 @@
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
-// import { Footer } from "@/components/footer" // Temporarily disabled
 import { CookieBanner } from "@/components/cookie-consent"
 import { ToastProvider } from "@/components/toast-provider"
 import { Toaster } from "@/components/toaster"
@@ -69,7 +68,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html suppressHydrationWarning>
       <body className={`${inter.className} flex flex-col min-h-screen`}>
         <SkipLink />
         <ErrorBoundary>
@@ -77,7 +76,6 @@ export default function RootLayout({
             <main id="main-content" className="flex-1" tabIndex={-1}>
               {children}
             </main>
-            {/* <Footer /> */}
             <CookieBanner />
             <Toaster />
           </ToastProvider>

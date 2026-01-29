@@ -39,7 +39,7 @@ export default function OrganizationsPage() {
     try {
       setLoading(true);
       const data = await organizationService.listOrganizations();
-      setOrganizations(data.organizations);
+      setOrganizations(data.organizations || []);
     } catch (error: any) {
       toast({
         title: 'Error',

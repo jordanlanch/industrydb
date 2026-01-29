@@ -45,7 +45,7 @@ export default function SavedSearchesPage() {
     setLoading(true)
     try {
       const response = await savedSearchesService.getAll()
-      setSearches(response.searches)
+      setSearches(response.searches || [])
     } catch (error) {
       console.error('Failed to load saved searches:', error)
       toast({

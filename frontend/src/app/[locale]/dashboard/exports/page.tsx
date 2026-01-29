@@ -20,7 +20,7 @@ export default function ExportsPage() {
     setLoading(true)
     try {
       const response = await exportsService.list(1, 50)
-      setExports(response.data)
+      setExports(response.data || [])
     } catch (error) {
       console.error('Failed to load exports:', error)
     } finally {

@@ -54,7 +54,7 @@ export default function APIKeysPage() {
         apiKeyService.list(),
         apiKeyService.getStats(),
       ]);
-      setApiKeys(keysData);
+      setApiKeys(keysData || []);
       setStats(statsData);
     } catch (error: any) {
       toast({

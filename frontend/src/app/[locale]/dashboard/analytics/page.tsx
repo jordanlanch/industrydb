@@ -58,9 +58,9 @@ export default function AnalyticsPage() {
         analyticsService.getActionBreakdown(days),
       ]);
 
-      setDailyUsage(dailyData.daily_usage);
+      setDailyUsage(dailyData.daily_usage || []);
       setSummary(summaryData);
-      setBreakdown(breakdownData.breakdown);
+      setBreakdown(breakdownData.breakdown || []);
     } catch (err: any) {
       setError(err.response?.data?.message || 'Failed to load analytics');
       console.error('Analytics error:', err);
