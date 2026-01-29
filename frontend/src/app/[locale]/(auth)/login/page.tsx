@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -12,6 +13,7 @@ import { useAuthStore } from '@/store/auth.store'
 import { AlertCircle } from 'lucide-react'
 
 export default function LoginPage() {
+  const t = useTranslations('auth.login')
   const router = useRouter()
   const login = useAuthStore((state) => state.login)
   const [email, setEmail] = useState('')
@@ -35,7 +37,7 @@ export default function LoginPage() {
     } catch (err: any) {
       const errorMessage = err.response?.data?.message ||
                           err.message ||
-                          'Invalid email or password'
+                          t('error')
       setApiError(errorMessage)
     } finally {
       setLoading(false)
@@ -48,9 +50,9 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold">Sign in</CardTitle>
+          <CardTitle className="text-2xl font-bold">{t('title')}</CardTitle>
           <CardDescription>
-            Enter your credentials to access your account
+            {t('subtitle')}
           </CardDescription>
         </CardHeader>
 
@@ -66,11 +68,11 @@ export default function LoginPage() {
 
             {/* Email Field */}
             <div className="space-y-2">
-              <Label htmlFor="email">Email Address</Label>
+              <Label htmlFor="email">{t('email')}</Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="you@example.com"
+                placeholder={t('emailPlaceholder')}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={loading}
@@ -81,19 +83,19 @@ export default function LoginPage() {
             {/* Password Field */}
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">{t('password')}</Label>
                 <Link
                   href="/forgot-password"
                   className="text-sm text-primary hover:underline"
                   tabIndex={loading ? -1 : 0}
                 >
-                  Forgot password?
+                  {t('forgotPassword')}
                 </Link>
               </div>
               <Input
                 id="password"
                 type="password"
-                placeholder="••••••••"
+                placeholder={t('passwordPlaceholder')}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={loading}
@@ -108,7 +110,7 @@ export default function LoginPage() {
               className="w-full"
               disabled={loading || !isFormValid}
             >
-              {loading ? 'Signing in...' : 'Sign in'}
+              {loading ? t('submitting') : t('submit')}
             </Button>
 
             <div className="relative">
@@ -117,7 +119,7 @@ export default function LoginPage() {
               </div>
               <div className="relative flex justify-center text-xs uppercase">
                 <span className="bg-background px-2 text-muted-foreground">
-                  Or continue with
+                  {t('orContinueWith')}
                 </span>
               </div>
             </div>
@@ -151,7 +153,7 @@ export default function LoginPage() {
                     d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
                   />
                 </svg>
-                Google
+                {t('google')}
               </Button>
               <Button
                 type="button"
@@ -170,14 +172,14 @@ export default function LoginPage() {
                     clipRule="evenodd"
                   />
                 </svg>
-                GitHub
+                {t('github')}
               </Button>
             </div>
 
             <p className="text-sm text-muted-foreground text-center">
-              Don't have an account?{' '}
+              {t('noAccount')}{' '}
               <Link href="/register" className="text-primary hover:underline font-medium">
-                Sign up
+                {t('signUp')}
               </Link>
             </p>
           </CardFooter>

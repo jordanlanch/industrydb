@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -12,6 +13,7 @@ import axios from 'axios';
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:7890/api/v1';
 
 export default function ForgotPasswordPage() {
+  const t = useTranslations('auth.forgotPassword');
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
@@ -32,7 +34,7 @@ export default function ForgotPasswordPage() {
     } catch (err: any) {
       setError(
         err.response?.data?.message ||
-        'Failed to send reset email. Please try again.'
+        t('error')
       );
     } finally {
       setLoading(false);
@@ -47,28 +49,27 @@ export default function ForgotPasswordPage() {
             <div className="flex justify-center mb-4">
               <CheckCircle className="h-12 w-12 text-green-500" />
             </div>
-            <CardTitle className="text-green-700">Check Your Email</CardTitle>
+            <CardTitle className="text-green-700">{t('success')}</CardTitle>
             <CardDescription>
-              We sent a password reset link to <strong>{email}</strong>
+              {t('successMessage')} <strong>{email}</strong>
             </CardDescription>
           </CardHeader>
 
           <CardContent className="space-y-4">
             <p className="text-sm text-muted-foreground text-center">
-              Please check your email and click the link to reset your password.
-              The link will expire in 1 hour.
+              {t('successDescription')}
             </p>
 
             <div className="space-y-2">
               <Button onClick={() => router.push('/login')} className="w-full">
-                Back to Login
+                {t('successButton')}
               </Button>
               <Button
                 onClick={() => setSent(false)}
                 variant="outline"
                 className="w-full"
               >
-                Send Another Email
+                {t('resendButton')}
               </Button>
             </div>
           </CardContent>
@@ -84,9 +85,9 @@ export default function ForgotPasswordPage() {
           <div className="flex justify-center mb-4">
             <Mail className="h-12 w-12 text-primary" />
           </div>
-          <CardTitle>Forgot Password?</CardTitle>
+          <CardTitle>{t('title')}</CardTitle>
           <CardDescription>
-            Enter your email address and we'll send you a link to reset your password
+            {t('subtitle')}
           </CardDescription>
         </CardHeader>
 
@@ -94,14 +95,14 @@ export default function ForgotPasswordPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <label htmlFor="email" className="text-sm font-medium">
-                Email Address
+                {t('email')}
               </label>
               <Input
                 id="email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
+                placeholder={t('emailPlaceholder')}
                 required
                 disabled={loading}
               />
@@ -114,7 +115,7 @@ export default function ForgotPasswordPage() {
             )}
 
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? 'Sending...' : 'Send Reset Link'}
+              {loading ? t('sending') : t('submit')}
             </Button>
 
             <div className="text-center">
@@ -123,7 +124,7 @@ export default function ForgotPasswordPage() {
                 className="text-sm text-primary hover:underline inline-flex items-center gap-1"
               >
                 <ArrowLeft className="h-4 w-4" />
-                Back to Login
+                {t('backToLogin')}
               </Link>
             </div>
           </form>

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -11,6 +12,7 @@ import axios from 'axios';
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:7890/api/v1';
 
 export default function ResetPasswordPage({ params }: { params: { token: string } }) {
+  const t = useTranslations('auth.resetPassword');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -27,7 +29,7 @@ export default function ResetPasswordPage({ params }: { params: { token: string 
 
     // Validate passwords match
     if (password !== confirmPassword) {
-      setMessage("Passwords don't match");
+      setMessage(t('passwordMismatch'));
       setStatus('error');
       setLoading(false);
       return;
@@ -35,7 +37,7 @@ export default function ResetPasswordPage({ params }: { params: { token: string 
 
     // Validate password length
     if (password.length < 8) {
-      setMessage('Password must be at least 8 characters');
+      setMessage(t('passwordTooShort'));
       setStatus('error');
       setLoading(false);
       return;
@@ -48,7 +50,7 @@ export default function ResetPasswordPage({ params }: { params: { token: string 
       });
 
       setStatus('success');
-      setMessage('Password reset successfully!');
+      setMessage(t('successMessage'));
 
       // Redirect to login after 3 seconds
       setTimeout(() => {
@@ -58,7 +60,7 @@ export default function ResetPasswordPage({ params }: { params: { token: string 
       setStatus('error');
       setMessage(
         err.response?.data?.message ||
-        'Failed to reset password. The link may be invalid or expired.'
+        t('error')
       );
     } finally {
       setLoading(false);
@@ -73,16 +75,16 @@ export default function ResetPasswordPage({ params }: { params: { token: string 
             <div className="flex justify-center mb-4">
               <CheckCircle className="h-12 w-12 text-green-500" />
             </div>
-            <CardTitle className="text-green-700">Password Reset!</CardTitle>
+            <CardTitle className="text-green-700">{t('success')}</CardTitle>
             <CardDescription>{message}</CardDescription>
           </CardHeader>
 
           <CardContent className="space-y-4">
             <p className="text-sm text-muted-foreground text-center">
-              Redirecting to login in 3 seconds...
+              {t('redirecting')}
             </p>
             <Button onClick={() => router.push('/login')} className="w-full">
-              Go to Login Now
+              {t('goToLogin')}
             </Button>
           </CardContent>
         </Card>
@@ -97,9 +99,9 @@ export default function ResetPasswordPage({ params }: { params: { token: string 
           <div className="flex justify-center mb-4">
             <Lock className="h-12 w-12 text-primary" />
           </div>
-          <CardTitle>Reset Your Password</CardTitle>
+          <CardTitle>{t('title')}</CardTitle>
           <CardDescription>
-            Enter your new password below
+            {t('subtitle')}
           </CardDescription>
         </CardHeader>
 
@@ -107,7 +109,7 @@ export default function ResetPasswordPage({ params }: { params: { token: string 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <label htmlFor="password" className="text-sm font-medium">
-                New Password
+                {t('password')}
               </label>
               <div className="relative">
                 <Input
@@ -115,7 +117,7 @@ export default function ResetPasswordPage({ params }: { params: { token: string 
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="At least 8 characters"
+                  placeholder={t('passwordPlaceholder')}
                   required
                   disabled={loading}
                 />
@@ -135,7 +137,7 @@ export default function ResetPasswordPage({ params }: { params: { token: string 
 
             <div className="space-y-2">
               <label htmlFor="confirmPassword" className="text-sm font-medium">
-                Confirm New Password
+                {t('confirmPassword')}
               </label>
               <div className="relative">
                 <Input
@@ -143,7 +145,7 @@ export default function ResetPasswordPage({ params }: { params: { token: string 
                   type={showConfirmPassword ? 'text' : 'password'}
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  placeholder="Re-enter your password"
+                  placeholder={t('confirmPasswordPlaceholder')}
                   required
                   disabled={loading}
                 />
@@ -182,20 +184,20 @@ export default function ResetPasswordPage({ params }: { params: { token: string 
 
             <div className="space-y-2">
               <p className="text-xs text-muted-foreground">
-                Password requirements:
+                {t('requirements')}
               </p>
               <ul className="text-xs text-muted-foreground list-disc list-inside space-y-1">
                 <li className={password.length >= 8 ? 'text-green-600' : ''}>
-                  At least 8 characters
+                  {t('requirementLength')}
                 </li>
                 <li className={password === confirmPassword && password ? 'text-green-600' : ''}>
-                  Passwords match
+                  {t('requirementMatch')}
                 </li>
               </ul>
             </div>
 
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? 'Resetting...' : 'Reset Password'}
+              {loading ? t('submitting') : t('submit')}
             </Button>
 
             <div className="text-center">
@@ -205,7 +207,7 @@ export default function ResetPasswordPage({ params }: { params: { token: string 
                 onClick={() => router.push('/login')}
                 disabled={loading}
               >
-                Cancel
+                {t('cancel')}
               </Button>
             </div>
           </form>

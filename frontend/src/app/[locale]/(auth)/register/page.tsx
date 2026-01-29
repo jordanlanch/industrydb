@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -41,6 +42,7 @@ const registerSchema = z.object({
 type RegisterForm = z.infer<typeof registerSchema>
 
 export default function RegisterPage() {
+  const t = useTranslations('auth.register')
   const router = useRouter()
   const login = useAuthStore((state) => state.login)
   const [apiError, setApiError] = useState('')
@@ -89,7 +91,7 @@ export default function RegisterPage() {
       // Redirect new users to onboarding wizard
       router.push('/onboarding')
     } catch (err: any) {
-      setApiError(err.response?.data?.message || 'Registration failed. Please try again.')
+      setApiError(err.response?.data?.message || t('error'))
     } finally {
       setLoading(false)
     }
@@ -107,9 +109,9 @@ export default function RegisterPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-8">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold">Create an account</CardTitle>
+          <CardTitle className="text-2xl font-bold">{t('title')}</CardTitle>
           <CardDescription>
-            Start with 50 free leads per month
+            {t('subtitle')}
           </CardDescription>
         </CardHeader>
 
@@ -125,11 +127,11 @@ export default function RegisterPage() {
 
             {/* Name Field */}
             <div className="space-y-2">
-              <Label htmlFor="name">Full Name</Label>
+              <Label htmlFor="name">{t('name')}</Label>
               <Input
                 id="name"
                 type="text"
-                placeholder="John Doe"
+                placeholder={t('namePlaceholder')}
                 disabled={loading}
                 {...register('name')}
                 aria-invalid={!!errors.name}
@@ -145,11 +147,11 @@ export default function RegisterPage() {
 
             {/* Email Field */}
             <div className="space-y-2">
-              <Label htmlFor="email">Email Address</Label>
+              <Label htmlFor="email">{t('email')}</Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="you@example.com"
+                placeholder={t('emailPlaceholder')}
                 disabled={loading}
                 {...register('email')}
                 aria-invalid={!!errors.email}
@@ -165,11 +167,11 @@ export default function RegisterPage() {
 
             {/* Password Field */}
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">{t('password')}</Label>
               <Input
                 id="password"
                 type="password"
-                placeholder="••••••••"
+                placeholder={t('passwordPlaceholder')}
                 disabled={loading}
                 {...register('password')}
                 aria-invalid={!!errors.password}
@@ -178,7 +180,7 @@ export default function RegisterPage() {
 
               {/* Password Requirements */}
               <div id="password-requirements" className="space-y-1 text-xs">
-                <p className="text-muted-foreground mb-1">Password must contain:</p>
+                <p className="text-muted-foreground mb-1">{t('passwordRequirements')}</p>
                 <div className="space-y-1 pl-2">
                   <div className={`flex items-center gap-1.5 ${passwordChecks.length ? 'text-green-600' : 'text-muted-foreground'}`}>
                     {passwordChecks.length ? (
@@ -186,7 +188,7 @@ export default function RegisterPage() {
                     ) : (
                       <div className="h-3 w-3 rounded-full border border-current" />
                     )}
-                    <span>At least 8 characters</span>
+                    <span>{t('requirementLength')}</span>
                   </div>
                   <div className={`flex items-center gap-1.5 ${passwordChecks.uppercase ? 'text-green-600' : 'text-muted-foreground'}`}>
                     {passwordChecks.uppercase ? (
@@ -194,7 +196,7 @@ export default function RegisterPage() {
                     ) : (
                       <div className="h-3 w-3 rounded-full border border-current" />
                     )}
-                    <span>One uppercase letter</span>
+                    <span>{t('requirementUppercase')}</span>
                   </div>
                   <div className={`flex items-center gap-1.5 ${passwordChecks.lowercase ? 'text-green-600' : 'text-muted-foreground'}`}>
                     {passwordChecks.lowercase ? (
@@ -202,7 +204,7 @@ export default function RegisterPage() {
                     ) : (
                       <div className="h-3 w-3 rounded-full border border-current" />
                     )}
-                    <span>One lowercase letter</span>
+                    <span>{t('requirementLowercase')}</span>
                   </div>
                   <div className={`flex items-center gap-1.5 ${passwordChecks.number ? 'text-green-600' : 'text-muted-foreground'}`}>
                     {passwordChecks.number ? (
@@ -210,7 +212,7 @@ export default function RegisterPage() {
                     ) : (
                       <div className="h-3 w-3 rounded-full border border-current" />
                     )}
-                    <span>One number</span>
+                    <span>{t('requirementNumber')}</span>
                   </div>
                 </div>
               </div>
@@ -237,7 +239,7 @@ export default function RegisterPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Terms of Service
+                    {t('terms')}
                   </Link>{' '}
                   and{' '}
                   <Link
@@ -246,7 +248,7 @@ export default function RegisterPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Privacy Policy
+                    {t('privacy')}
                   </Link>
                 </label>
                 {errors.acceptedTerms && (
@@ -265,13 +267,13 @@ export default function RegisterPage() {
               className="w-full"
               disabled={loading || !isFormFilled}
             >
-              {loading ? 'Creating account...' : 'Create account'}
+              {loading ? t('submitting') : t('submit')}
             </Button>
 
             <p className="text-sm text-muted-foreground text-center">
-              Already have an account?{' '}
+              {t('hasAccount')}{' '}
               <Link href="/login" className="text-primary hover:underline font-medium">
-                Sign in
+                {t('signIn')}
               </Link>
             </p>
           </CardFooter>

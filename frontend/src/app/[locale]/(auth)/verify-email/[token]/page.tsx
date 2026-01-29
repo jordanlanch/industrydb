@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { CheckCircle, XCircle, Loader2 } from 'lucide-react';
@@ -10,6 +11,7 @@ import axios from 'axios';
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:7890/api/v1';
 
 export default function VerifyEmailPage({ params }: { params: { token: string } }) {
+  const t = useTranslations('auth.verifyEmail');
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
   const [message, setMessage] = useState('');
   const router = useRouter();
@@ -22,7 +24,7 @@ export default function VerifyEmailPage({ params }: { params: { token: string } 
     try {
       const response = await axios.get(`${API_URL}/auth/verify-email/${params.token}`);
       setStatus('success');
-      setMessage(response.data.message || 'Email verified successfully!');
+      setMessage(response.data.message || t('successMessage'));
 
       // Redirect to dashboard after 3 seconds
       setTimeout(() => {
@@ -33,7 +35,7 @@ export default function VerifyEmailPage({ params }: { params: { token: string } 
       setMessage(
         error.response?.data?.message ||
         error.response?.data?.error ||
-        'Failed to verify email. The link may be invalid or expired.'
+        t('errorMessage')
       );
     }
   };
@@ -47,8 +49,8 @@ export default function VerifyEmailPage({ params }: { params: { token: string } 
               <div className="flex justify-center mb-4">
                 <Loader2 className="h-12 w-12 text-primary animate-spin" />
               </div>
-              <CardTitle>Verifying Email...</CardTitle>
-              <CardDescription>Please wait while we verify your email address</CardDescription>
+              <CardTitle>{t('verifying')}</CardTitle>
+              <CardDescription>{t('verifyingDescription')}</CardDescription>
             </>
           )}
 
@@ -57,7 +59,7 @@ export default function VerifyEmailPage({ params }: { params: { token: string } 
               <div className="flex justify-center mb-4">
                 <CheckCircle className="h-12 w-12 text-green-500" />
               </div>
-              <CardTitle className="text-green-700">Email Verified!</CardTitle>
+              <CardTitle className="text-green-700">{t('success')}</CardTitle>
               <CardDescription>{message}</CardDescription>
             </>
           )}
@@ -67,7 +69,7 @@ export default function VerifyEmailPage({ params }: { params: { token: string } 
               <div className="flex justify-center mb-4">
                 <XCircle className="h-12 w-12 text-red-500" />
               </div>
-              <CardTitle className="text-red-700">Verification Failed</CardTitle>
+              <CardTitle className="text-red-700">{t('error')}</CardTitle>
               <CardDescription className="text-red-600">{message}</CardDescription>
             </>
           )}
@@ -77,10 +79,10 @@ export default function VerifyEmailPage({ params }: { params: { token: string } 
           {status === 'success' && (
             <div className="text-center">
               <p className="text-sm text-muted-foreground mb-4">
-                Redirecting to dashboard in 3 seconds...
+                {t('redirecting')}
               </p>
               <Button onClick={() => router.push('/dashboard')} className="w-full">
-                Go to Dashboard Now
+                {t('goToDashboard')}
               </Button>
             </div>
           )}
@@ -88,14 +90,14 @@ export default function VerifyEmailPage({ params }: { params: { token: string } 
           {status === 'error' && (
             <div className="space-y-2">
               <Button onClick={() => router.push('/login')} className="w-full">
-                Go to Login
+                {t('goToLogin')}
               </Button>
               <Button
                 onClick={() => router.push('/')}
                 variant="outline"
                 className="w-full"
               >
-                Back to Home
+                {t('goToHome')}
               </Button>
             </div>
           )}
