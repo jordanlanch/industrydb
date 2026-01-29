@@ -419,6 +419,168 @@
       "suspend": "Suspend User"
     }
   },
+  "analytics": {
+    "title": "Usage Analytics",
+    "subtitle": "Track your platform usage and activity",
+    "loading": "Loading analytics...",
+    "error": "Error",
+    "timeRange": {
+      "label": "Time Range",
+      "placeholder": "Select time range",
+      "last7Days": "Last 7 days",
+      "last30Days": "Last 30 days",
+      "last60Days": "Last 60 days",
+      "last90Days": "Last 90 days",
+      "last6Months": "Last 6 months",
+      "lastYear": "Last year"
+    },
+    "stats": {
+      "totalSearches": "Total Searches",
+      "totalExports": "Total Exports",
+      "totalLeads": "Total Leads Accessed",
+      "peakDay": "Peak Day",
+      "avgPerDay": "Avg {value}/day",
+      "noActivity": "No activity yet",
+      "days": "{count} days"
+    },
+    "charts": {
+      "dailyUsage": "Daily Usage",
+      "dailyUsageDesc": "Searches and exports over the last {days} days",
+      "actionBreakdown": "Action Breakdown",
+      "actionBreakdownDesc": "Distribution by action type",
+      "searches": "Searches",
+      "exports": "Exports",
+      "actions": "Actions"
+    },
+    "table": {
+      "title": "Detailed Daily Breakdown",
+      "description": "Day-by-day usage statistics",
+      "date": "Date",
+      "searches": "Searches",
+      "exports": "Exports",
+      "total": "Total",
+      "showing": "Showing 10 most recent days of {total} total"
+    },
+    "actionSummary": "Action Summary:",
+    "noData": {
+      "title": "No Usage Data",
+      "description": "Start searching and exporting leads to see your analytics here."
+    }
+  },
+  "apiKeys": {
+    "title": "API Keys",
+    "subtitle": "Manage your API keys for programmatic access to IndustryDB",
+    "createButton": "Create API Key",
+    "loading": "Loading...",
+    "upgrade": {
+      "title": "API Keys",
+      "description": "API keys are available exclusively on the Business tier",
+      "upgradeTitle": "Upgrade to Business Tier",
+      "upgradeDescription": "Get programmatic access to IndustryDB with API keys on our Business plan",
+      "upgradeButton": "Upgrade Now"
+    },
+    "stats": {
+      "totalKeys": "Total Keys",
+      "activeKeys": "Active Keys",
+      "totalUsage": "Total Usage",
+      "lastUsed": "Last Used"
+    },
+    "list": {
+      "empty": "No API keys yet",
+      "emptyDescription": "Create your first API key to start accessing IndustryDB programmatically",
+      "createFirst": "Create API Key",
+      "active": "Active",
+      "revoked": "Revoked",
+      "expired": "Expired",
+      "created": "Created",
+      "lastUsed": "Last Used",
+      "usageCount": "Usage Count",
+      "expires": "Expires",
+      "never": "Never"
+    },
+    "create": {
+      "title": "Create API Key",
+      "description": "Create a new API key for programmatic access to IndustryDB",
+      "nameLabel": "Name",
+      "namePlaceholder": "e.g., Production Server",
+      "expiryLabel": "Expires At (Optional)",
+      "warning": "Important",
+      "warningMessage": "The API key will only be shown once. Make sure to copy and store it securely.",
+      "cancel": "Cancel",
+      "creating": "Creating...",
+      "createButton": "Create API Key"
+    },
+    "created": {
+      "title": "API Key Created Successfully",
+      "description": "Copy your API key now. This is the only time it will be displayed.",
+      "label": "API Key",
+      "warning": "Warning",
+      "warningMessage": "Store this API key securely. You won't be able to see it again.",
+      "confirmButton": "I've saved my API key"
+    },
+    "revoke": {
+      "title": "Revoke API Key?",
+      "description": "This will immediately invalidate the API key \"{name}\". Any applications using this key will lose access. This action cannot be undone.",
+      "cancel": "Cancel",
+      "confirm": "Revoke API Key"
+    },
+    "delete": {
+      "title": "Delete API Key?",
+      "description": "This will permanently delete the API key \"{name}\" and all its usage history. This action cannot be undone.",
+      "cancel": "Cancel",
+      "confirm": "Delete Permanently"
+    },
+    "toast": {
+      "loadError": "Error loading API keys",
+      "nameRequired": "Name required",
+      "nameRequiredDesc": "Please enter a name for the API key",
+      "createError": "Error creating API key",
+      "copied": "Copied!",
+      "copiedDesc": "API key copied to clipboard",
+      "revoked": "API key revoked",
+      "revokedDesc": "{name} has been revoked",
+      "revokeError": "Error revoking API key",
+      "deleted": "API key deleted",
+      "deletedDesc": "{name} has been permanently deleted",
+      "deleteError": "Error deleting API key"
+    }
+  },
+  "savedSearches": {
+    "title": "My Saved Searches",
+    "subtitle": "Quickly access and re-run your frequently used searches",
+    "loading": "Loading saved searches...",
+    "empty": {
+      "title": "No Saved Searches",
+      "description": "Save your searches for quick access later",
+      "createButton": "Search Leads"
+    },
+    "card": {
+      "saved": "Saved {date}",
+      "runButton": "Run Search"
+    },
+    "filters": {
+      "noFilters": "No filters",
+      "specialties": "{count} specialties",
+      "qualityRange": "Quality: {min}-{max}"
+    },
+    "delete": {
+      "title": "Delete Saved Search?",
+      "description": "This action cannot be undone. This will permanently delete your saved search.",
+      "cancel": "Cancel",
+      "deleting": "Deleting...",
+      "confirm": "Delete"
+    },
+    "toast": {
+      "loadFailed": "Load Failed",
+      "loadFailedDesc": "Failed to load saved searches",
+      "applied": "Search Applied",
+      "appliedDesc": "Running \"{name}\" search",
+      "deleted": "Search Deleted",
+      "deletedDesc": "Saved search has been removed",
+      "deleteFailed": "Delete Failed",
+      "deleteFailedDesc": "Failed to delete saved search"
+    }
+  },
   "errors": {
     "generic": "Something went wrong",
     "notFound": "Page not found",

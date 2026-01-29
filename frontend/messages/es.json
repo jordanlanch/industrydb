@@ -419,6 +419,168 @@
       "suspend": "Suspender usuario"
     }
   },
+  "analytics": {
+    "title": "Analíticas de uso",
+    "subtitle": "Rastrea tu uso y actividad en la plataforma",
+    "loading": "Cargando analíticas...",
+    "error": "Error",
+    "timeRange": {
+      "label": "Rango de tiempo",
+      "placeholder": "Selecciona el rango de tiempo",
+      "last7Days": "Últimos 7 días",
+      "last30Days": "Últimos 30 días",
+      "last60Days": "Últimos 60 días",
+      "last90Days": "Últimos 90 días",
+      "last6Months": "Últimos 6 meses",
+      "lastYear": "Último año"
+    },
+    "stats": {
+      "totalSearches": "Búsquedas totales",
+      "totalExports": "Exportaciones totales",
+      "totalLeads": "Prospectos totales accedidos",
+      "peakDay": "Día pico",
+      "avgPerDay": "Promedio {value}/día",
+      "noActivity": "Sin actividad aún",
+      "days": "{count} días"
+    },
+    "charts": {
+      "dailyUsage": "Uso diario",
+      "dailyUsageDesc": "Búsquedas y exportaciones durante los últimos {days} días",
+      "actionBreakdown": "Desglose de acciones",
+      "actionBreakdownDesc": "Distribución por tipo de acción",
+      "searches": "Búsquedas",
+      "exports": "Exportaciones",
+      "actions": "Acciones"
+    },
+    "table": {
+      "title": "Desglose diario detallado",
+      "description": "Estadísticas de uso día por día",
+      "date": "Fecha",
+      "searches": "Búsquedas",
+      "exports": "Exportaciones",
+      "total": "Total",
+      "showing": "Mostrando 10 días más recientes de {total} totales"
+    },
+    "actionSummary": "Resumen de acciones:",
+    "noData": {
+      "title": "Sin datos de uso",
+      "description": "Comienza a buscar y exportar prospectos para ver tus analíticas aquí."
+    }
+  },
+  "apiKeys": {
+    "title": "Claves API",
+    "subtitle": "Gestiona tus claves API para acceso programático a IndustryDB",
+    "createButton": "Crear clave API",
+    "loading": "Cargando...",
+    "upgrade": {
+      "title": "Claves API",
+      "description": "Las claves API están disponibles exclusivamente en el nivel Empresarial",
+      "upgradeTitle": "Actualizar a nivel Empresarial",
+      "upgradeDescription": "Obtén acceso programático a IndustryDB con claves API en nuestro plan Empresarial",
+      "upgradeButton": "Actualizar ahora"
+    },
+    "stats": {
+      "totalKeys": "Claves totales",
+      "activeKeys": "Claves activas",
+      "totalUsage": "Uso total",
+      "lastUsed": "Último uso"
+    },
+    "list": {
+      "empty": "Aún no hay claves API",
+      "emptyDescription": "Crea tu primera clave API para comenzar a acceder a IndustryDB programáticamente",
+      "createFirst": "Crear clave API",
+      "active": "Activa",
+      "revoked": "Revocada",
+      "expired": "Expirada",
+      "created": "Creada",
+      "lastUsed": "Último uso",
+      "usageCount": "Conteo de uso",
+      "expires": "Expira",
+      "never": "Nunca"
+    },
+    "create": {
+      "title": "Crear clave API",
+      "description": "Crea una nueva clave API para acceso programático a IndustryDB",
+      "nameLabel": "Nombre",
+      "namePlaceholder": "ej., Servidor de producción",
+      "expiryLabel": "Expira en (Opcional)",
+      "warning": "Importante",
+      "warningMessage": "La clave API solo se mostrará una vez. Asegúrate de copiarla y almacenarla de forma segura.",
+      "cancel": "Cancelar",
+      "creating": "Creando...",
+      "createButton": "Crear clave API"
+    },
+    "created": {
+      "title": "Clave API creada exitosamente",
+      "description": "Copia tu clave API ahora. Esta es la única vez que se mostrará.",
+      "label": "Clave API",
+      "warning": "Advertencia",
+      "warningMessage": "Almacena esta clave API de forma segura. No podrás verla de nuevo.",
+      "confirmButton": "He guardado mi clave API"
+    },
+    "revoke": {
+      "title": "¿Revocar clave API?",
+      "description": "Esto invalidará inmediatamente la clave API \"{name}\". Cualquier aplicación que use esta clave perderá acceso. Esta acción no se puede deshacer.",
+      "cancel": "Cancelar",
+      "confirm": "Revocar clave API"
+    },
+    "delete": {
+      "title": "¿Eliminar clave API?",
+      "description": "Esto eliminará permanentemente la clave API \"{name}\" y todo su historial de uso. Esta acción no se puede deshacer.",
+      "cancel": "Cancelar",
+      "confirm": "Eliminar permanentemente"
+    },
+    "toast": {
+      "loadError": "Error al cargar claves API",
+      "nameRequired": "Nombre requerido",
+      "nameRequiredDesc": "Por favor ingresa un nombre para la clave API",
+      "createError": "Error al crear clave API",
+      "copied": "¡Copiado!",
+      "copiedDesc": "Clave API copiada al portapapeles",
+      "revoked": "Clave API revocada",
+      "revokedDesc": "{name} ha sido revocada",
+      "revokeError": "Error al revocar clave API",
+      "deleted": "Clave API eliminada",
+      "deletedDesc": "{name} ha sido eliminada permanentemente",
+      "deleteError": "Error al eliminar clave API"
+    }
+  },
+  "savedSearches": {
+    "title": "Mis búsquedas guardadas",
+    "subtitle": "Accede rápidamente y vuelve a ejecutar tus búsquedas más utilizadas",
+    "loading": "Cargando búsquedas guardadas...",
+    "empty": {
+      "title": "Sin búsquedas guardadas",
+      "description": "Guarda tus búsquedas para acceso rápido más tarde",
+      "createButton": "Buscar prospectos"
+    },
+    "card": {
+      "saved": "Guardado {date}",
+      "runButton": "Ejecutar búsqueda"
+    },
+    "filters": {
+      "noFilters": "Sin filtros",
+      "specialties": "{count} especialidades",
+      "qualityRange": "Calidad: {min}-{max}"
+    },
+    "delete": {
+      "title": "¿Eliminar búsqueda guardada?",
+      "description": "Esta acción no se puede deshacer. Esto eliminará permanentemente tu búsqueda guardada.",
+      "cancel": "Cancelar",
+      "deleting": "Eliminando...",
+      "confirm": "Eliminar"
+    },
+    "toast": {
+      "loadFailed": "Carga fallida",
+      "loadFailedDesc": "Error al cargar búsquedas guardadas",
+      "applied": "Búsqueda aplicada",
+      "appliedDesc": "Ejecutando búsqueda \"{name}\"",
+      "deleted": "Búsqueda eliminada",
+      "deletedDesc": "La búsqueda guardada ha sido eliminada",
+      "deleteFailed": "Eliminación fallida",
+      "deleteFailedDesc": "Error al eliminar búsqueda guardada"
+    }
+  },
   "errors": {
     "generic": "Algo salió mal",
     "notFound": "Página no encontrada",

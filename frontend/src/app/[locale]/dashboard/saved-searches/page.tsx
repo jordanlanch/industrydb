@@ -6,6 +6,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -30,6 +31,7 @@ const formatDate = (dateString: string) => {
 }
 
 export default function SavedSearchesPage() {
+  const t = useTranslations('savedSearches')
   const router = useRouter()
   const { toast } = useToast()
   const [searches, setSearches] = useState<SavedSearch[]>([])
@@ -49,8 +51,8 @@ export default function SavedSearchesPage() {
     } catch (error) {
       console.error('Failed to load saved searches:', error)
       toast({
-        title: 'Load Failed',
-        description: 'Failed to load saved searches',
+        title: t('toast.loadFailed'),
+        description: t('toast.loadFailedDesc'),
         variant: 'destructive',
       })
     } finally {
@@ -66,8 +68,8 @@ export default function SavedSearchesPage() {
     router.push('/dashboard/leads')
 
     toast({
-      title: 'Search Applied',
-      description: `Running "${search.name}" search`,
+      title: t('toast.applied'),
+      description: t('toast.appliedDesc', { name: search.name }),
       variant: 'default',
     })
   }
@@ -80,8 +82,8 @@ export default function SavedSearchesPage() {
       await savedSearchesService.delete(deleteId)
 
       toast({
-        title: 'Search Deleted',
-        description: 'Saved search has been removed',
+        title: t('toast.deleted'),
+        description: t('toast.deletedDesc'),
         variant: 'default',
       })
 
@@ -90,8 +92,8 @@ export default function SavedSearchesPage() {
       setDeleteId(null)
     } catch (error) {
       toast({
-        title: 'Delete Failed',
-        description: 'Failed to delete saved search',
+        title: t('toast.deleteFailed'),
+        description: t('toast.deleteFailedDesc'),
         variant: 'destructive',
       })
     } finally {
@@ -128,38 +130,38 @@ export default function SavedSearchesPage() {
     }
 
     if (filters.specialties && filters.specialties.length > 0) {
-      parts.push(`${filters.specialties.length} specialties`)
+      parts.push(t('filters.specialties', { count: filters.specialties.length }))
     }
 
-    return parts.length > 0 ? parts.join(' • ') : 'No filters'
+    return parts.length > 0 ? parts.join(' • ') : t('filters.noFilters')
   }
 
   return (
     <div className="p-8">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold mb-2">My Saved Searches</h1>
+        <h1 className="text-3xl font-bold mb-2">{t('title')}</h1>
         <p className="text-muted-foreground">
-          Quickly access and re-run your frequently used searches
+          {t('subtitle')}
         </p>
       </div>
 
       {loading ? (
         <Card>
           <CardContent className="py-12 text-center">
-            <p className="text-muted-foreground">Loading saved searches...</p>
+            <p className="text-muted-foreground">{t('loading')}</p>
           </CardContent>
         </Card>
       ) : searches.length === 0 ? (
         <Card>
           <CardContent className="py-12 text-center">
             <Save className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-lg font-semibold mb-2">No Saved Searches</h3>
+            <h3 className="text-lg font-semibold mb-2">{t('empty.title')}</h3>
             <p className="text-muted-foreground mb-4">
-              Save your searches for quick access later
+              {t('empty.description')}
             </p>
             <Button onClick={() => router.push('/dashboard/leads')}>
               <Search className="mr-2 h-4 w-4" />
-              Search Leads
+              {t('empty.createButton')}
             </Button>
           </CardContent>
         </Card>
@@ -175,7 +177,7 @@ export default function SavedSearchesPage() {
                     </CardTitle>
                     <CardDescription className="flex items-center gap-2 text-xs">
                       <Clock className="h-3 w-3" />
-                      Saved {formatDate(search.created_at)}
+                      {t('card.saved', { date: formatDate(search.created_at) })}
                     </CardDescription>
                   </div>
                   <Button
@@ -202,8 +204,10 @@ export default function SavedSearchesPage() {
                   {(search.filters.qualityScoreMin || search.filters.qualityScoreMax) && (
                     <div className="flex gap-1">
                       <Badge variant="outline" className="text-xs">
-                        Quality: {search.filters.qualityScoreMin || 0}-
-                        {search.filters.qualityScoreMax || 100}
+                        {t('filters.qualityRange', {
+                          min: search.filters.qualityScoreMin || 0,
+                          max: search.filters.qualityScoreMax || 100
+                        })}
                       </Badge>
                     </div>
                   )}
@@ -215,7 +219,7 @@ export default function SavedSearchesPage() {
                     size="sm"
                   >
                     <Search className="mr-2 h-4 w-4" />
-                    Run Search
+                    {t('card.runButton')}
                   </Button>
                 </div>
               </CardContent>
@@ -228,19 +232,19 @@ export default function SavedSearchesPage() {
       <AlertDialog open={deleteId !== null} onOpenChange={(open) => !open && setDeleteId(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete Saved Search?</AlertDialogTitle>
+            <AlertDialogTitle>{t('delete.title')}</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete your saved search.
+              {t('delete.description')}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={deleting}>Cancel</AlertDialogCancel>
+            <AlertDialogCancel disabled={deleting}>{t('delete.cancel')}</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDelete}
               disabled={deleting}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              {deleting ? 'Deleting...' : 'Delete'}
+              {deleting ? t('delete.deleting') : t('delete.confirm')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

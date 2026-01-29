@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import analyticsService, {
@@ -36,6 +37,7 @@ ChartJS.register(
 );
 
 export default function AnalyticsPage() {
+  const t = useTranslations('analytics');
   const [dailyUsage, setDailyUsage] = useState<DailyUsage[]>([]);
   const [summary, setSummary] = useState<UsageSummary | null>(null);
   const [breakdown, setBreakdown] = useState<ActionBreakdown[]>([]);
@@ -77,7 +79,7 @@ export default function AnalyticsPage() {
     }),
     datasets: [
       {
-        label: 'Searches',
+        label: t('charts.searches'),
         data: dailyUsage.map(d => d.search),
         borderColor: 'rgb(59, 130, 246)',
         backgroundColor: 'rgba(59, 130, 246, 0.1)',
@@ -85,7 +87,7 @@ export default function AnalyticsPage() {
         tension: 0.4,
       },
       {
-        label: 'Exports',
+        label: t('charts.exports'),
         data: dailyUsage.map(d => d.export),
         borderColor: 'rgb(16, 185, 129)',
         backgroundColor: 'rgba(16, 185, 129, 0.1)',
@@ -121,7 +123,7 @@ export default function AnalyticsPage() {
     labels: breakdown.map(b => b.action.charAt(0).toUpperCase() + b.action.slice(1)),
     datasets: [
       {
-        label: 'Actions',
+        label: t('charts.actions'),
         data: breakdown.map(b => b.count),
         backgroundColor: [
           'rgba(59, 130, 246, 0.8)',
@@ -156,7 +158,7 @@ export default function AnalyticsPage() {
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center">
           <Activity className="h-12 w-12 animate-spin text-primary mx-auto mb-4" />
-          <p className="text-muted-foreground">Loading analytics...</p>
+          <p className="text-muted-foreground">{t('loading')}</p>
         </div>
       </div>
     );
@@ -167,7 +169,7 @@ export default function AnalyticsPage() {
       <div className="flex items-center justify-center min-h-[60vh]">
         <Card className="max-w-md">
           <CardHeader>
-            <CardTitle className="text-destructive">Error</CardTitle>
+            <CardTitle className="text-destructive">{t('error')}</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground">{error}</p>
@@ -182,9 +184,9 @@ export default function AnalyticsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">Usage Analytics</h1>
+          <h1 className="text-3xl font-bold">{t('title')}</h1>
           <p className="text-muted-foreground mt-1">
-            Track your platform usage and activity
+            {t('subtitle')}
           </p>
         </div>
 
@@ -193,15 +195,15 @@ export default function AnalyticsPage() {
           <Calendar className="h-4 w-4 text-muted-foreground" />
           <Select value={days.toString()} onValueChange={(v) => setDays(parseInt(v))}>
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Select time range" />
+              <SelectValue placeholder={t('timeRange.placeholder')} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="7">Last 7 days</SelectItem>
-              <SelectItem value="30">Last 30 days</SelectItem>
-              <SelectItem value="60">Last 60 days</SelectItem>
-              <SelectItem value="90">Last 90 days</SelectItem>
-              <SelectItem value="180">Last 6 months</SelectItem>
-              <SelectItem value="365">Last year</SelectItem>
+              <SelectItem value="7">{t('timeRange.last7Days')}</SelectItem>
+              <SelectItem value="30">{t('timeRange.last30Days')}</SelectItem>
+              <SelectItem value="60">{t('timeRange.last60Days')}</SelectItem>
+              <SelectItem value="90">{t('timeRange.last90Days')}</SelectItem>
+              <SelectItem value="180">{t('timeRange.last6Months')}</SelectItem>
+              <SelectItem value="365">{t('timeRange.lastYear')}</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -211,46 +213,46 @@ export default function AnalyticsPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Searches</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('stats.totalSearches')}</CardTitle>
             <Search className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{summary?.total_searches || 0}</div>
             <p className="text-xs text-muted-foreground">
-              {(summary?.total_searches || 0) > 0 ? `${days} days` : 'No activity yet'}
+              {(summary?.total_searches || 0) > 0 ? t('stats.days', { count: days }) : t('stats.noActivity')}
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Exports</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('stats.totalExports')}</CardTitle>
             <FileDown className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{summary?.total_exports || 0}</div>
             <p className="text-xs text-muted-foreground">
-              {(summary?.total_exports || 0) > 0 ? `${days} days` : 'No activity yet'}
+              {(summary?.total_exports || 0) > 0 ? t('stats.days', { count: days }) : t('stats.noActivity')}
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Leads Accessed</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('stats.totalLeads')}</CardTitle>
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{summary?.total_leads || 0}</div>
             <p className="text-xs text-muted-foreground">
-              Avg {summary?.avg_per_day.toFixed(1) || 0}/day
+              {t('stats.avgPerDay', { value: summary?.avg_per_day.toFixed(1) || 0 })}
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Peak Day</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('stats.peakDay')}</CardTitle>
             <Activity className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -267,9 +269,9 @@ export default function AnalyticsPage() {
         {/* Daily Usage Line Chart */}
         <Card className="lg:col-span-2">
           <CardHeader>
-            <CardTitle>Daily Usage</CardTitle>
+            <CardTitle>{t('charts.dailyUsage')}</CardTitle>
             <CardDescription>
-              Searches and exports over the last {days} days
+              {t('charts.dailyUsageDesc', { days })}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -282,9 +284,9 @@ export default function AnalyticsPage() {
         {/* Action Breakdown Doughnut Chart */}
         <Card>
           <CardHeader>
-            <CardTitle>Action Breakdown</CardTitle>
+            <CardTitle>{t('charts.actionBreakdown')}</CardTitle>
             <CardDescription>
-              Distribution by action type
+              {t('charts.actionBreakdownDesc')}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -295,7 +297,7 @@ export default function AnalyticsPage() {
             {/* Fallback: Show breakdown as list */}
             {breakdown.length > 0 && (
               <div className="mt-4 space-y-2">
-                <p className="text-sm font-medium">Action Summary:</p>
+                <p className="text-sm font-medium">{t('actionSummary')}</p>
                 {breakdown.map((item, idx) => (
                   <div key={idx} className="flex items-center justify-between text-sm">
                     <span className="capitalize">{item.action}</span>
@@ -317,9 +319,9 @@ export default function AnalyticsPage() {
       {dailyUsage.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle>Detailed Daily Breakdown</CardTitle>
+            <CardTitle>{t('table.title')}</CardTitle>
             <CardDescription>
-              Day-by-day usage statistics
+              {t('table.description')}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -327,10 +329,10 @@ export default function AnalyticsPage() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b">
-                    <th className="text-left py-2 px-4">Date</th>
-                    <th className="text-right py-2 px-4">Searches</th>
-                    <th className="text-right py-2 px-4">Exports</th>
-                    <th className="text-right py-2 px-4">Total</th>
+                    <th className="text-left py-2 px-4">{t('table.date')}</th>
+                    <th className="text-right py-2 px-4">{t('table.searches')}</th>
+                    <th className="text-right py-2 px-4">{t('table.exports')}</th>
+                    <th className="text-right py-2 px-4">{t('table.total')}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -353,7 +355,7 @@ export default function AnalyticsPage() {
             </div>
             {dailyUsage.length > 10 && (
               <p className="text-xs text-muted-foreground mt-2 text-center">
-                Showing 10 most recent days of {dailyUsage.length} total
+                {t('table.showing', { total: dailyUsage.length })}
               </p>
             )}
           </CardContent>
@@ -366,9 +368,9 @@ export default function AnalyticsPage() {
           <CardContent className="py-12">
             <div className="text-center text-muted-foreground">
               <Activity className="h-16 w-16 mx-auto mb-4 opacity-50" />
-              <h3 className="text-lg font-medium mb-2">No Usage Data</h3>
+              <h3 className="text-lg font-medium mb-2">{t('noData.title')}</h3>
               <p className="text-sm">
-                Start searching and exporting leads to see your analytics here.
+                {t('noData.description')}
               </p>
             </div>
           </CardContent>

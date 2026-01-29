@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { useAuthStore } from '@/store/auth.store';
 import { apiKeyService, APIKey, CreateAPIKeyResponse, APIKeyStats } from '@/services/apikey.service';
 import { Button } from '@/components/ui/button';
@@ -14,6 +15,7 @@ import { Key, Copy, Trash2, RotateCcw, AlertCircle, TrendingUp, Calendar, CheckC
 import { useToast } from '@/hooks/use-toast';
 
 export default function APIKeysPage() {
+  const t = useTranslations('apiKeys');
   const { user } = useAuthStore();
   const { toast } = useToast();
 
@@ -58,8 +60,8 @@ export default function APIKeysPage() {
       setStats(statsData);
     } catch (error: any) {
       toast({
-        title: 'Error loading API keys',
-        description: error.response?.data?.message || 'Failed to load API keys',
+        title: t('toast.loadError'),
+        description: error.response?.data?.message || t('toast.loadError'),
         variant: 'destructive',
       });
     } finally {
@@ -70,8 +72,8 @@ export default function APIKeysPage() {
   const handleCreate = async () => {
     if (!newKeyName.trim()) {
       toast({
-        title: 'Name required',
-        description: 'Please enter a name for the API key',
+        title: t('toast.nameRequired'),
+        description: t('toast.nameRequiredDesc'),
         variant: 'destructive',
       });
       return;
@@ -94,8 +96,8 @@ export default function APIKeysPage() {
       await loadData();
     } catch (error: any) {
       toast({
-        title: 'Error creating API key',
-        description: error.response?.data?.message || 'Failed to create API key',
+        title: t('toast.createError'),
+        description: error.response?.data?.message || t('toast.createError'),
         variant: 'destructive',
       });
     } finally {
@@ -108,8 +110,8 @@ export default function APIKeysPage() {
       navigator.clipboard.writeText(createdKey.key);
       setKeyCopied(true);
       toast({
-        title: 'Copied!',
-        description: 'API key copied to clipboard',
+        title: t('toast.copied'),
+        description: t('toast.copiedDesc'),
       });
       setTimeout(() => setKeyCopied(false), 2000);
     }
@@ -121,16 +123,16 @@ export default function APIKeysPage() {
     try {
       await apiKeyService.revoke(keyToRevoke.id);
       toast({
-        title: 'API key revoked',
-        description: `${keyToRevoke.name} has been revoked`,
+        title: t('toast.revoked'),
+        description: t('toast.revokedDesc', { name: keyToRevoke.name }),
       });
       setRevokeConfirmOpen(false);
       setKeyToRevoke(null);
       await loadData();
     } catch (error: any) {
       toast({
-        title: 'Error revoking API key',
-        description: error.response?.data?.message || 'Failed to revoke API key',
+        title: t('toast.revokeError'),
+        description: error.response?.data?.message || t('toast.revokeError'),
         variant: 'destructive',
       });
     }
@@ -142,23 +144,23 @@ export default function APIKeysPage() {
     try {
       await apiKeyService.delete(keyToDelete.id);
       toast({
-        title: 'API key deleted',
-        description: `${keyToDelete.name} has been permanently deleted`,
+        title: t('toast.deleted'),
+        description: t('toast.deletedDesc', { name: keyToDelete.name }),
       });
       setDeleteConfirmOpen(false);
       setKeyToDelete(null);
       await loadData();
     } catch (error: any) {
       toast({
-        title: 'Error deleting API key',
-        description: error.response?.data?.message || 'Failed to delete API key',
+        title: t('toast.deleteError'),
+        description: error.response?.data?.message || t('toast.deleteError'),
         variant: 'destructive',
       });
     }
   };
 
   const formatDate = (dateString: string | null) => {
-    if (!dateString) return 'Never';
+    if (!dateString) return t('list.never');
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
@@ -174,18 +176,18 @@ export default function APIKeysPage() {
       <div className="p-8">
         <div className="max-w-2xl mx-auto text-center">
           <Key className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-          <h1 className="text-3xl font-bold mb-2">API Keys</h1>
+          <h1 className="text-3xl font-bold mb-2">{t('upgrade.title')}</h1>
           <p className="text-muted-foreground mb-6">
-            API keys are available exclusively on the Business tier
+            {t('upgrade.description')}
           </p>
           <Card className="bg-yellow-50 border-yellow-200">
             <CardContent className="pt-6">
               <AlertCircle className="h-8 w-8 text-yellow-600 mx-auto mb-3" />
-              <h3 className="font-semibold mb-2">Upgrade to Business Tier</h3>
+              <h3 className="font-semibold mb-2">{t('upgrade.upgradeTitle')}</h3>
               <p className="text-sm text-muted-foreground mb-4">
-                Get programmatic access to IndustryDB with API keys on our Business plan
+                {t('upgrade.upgradeDescription')}
               </p>
-              <Button>Upgrade Now</Button>
+              <Button>{t('upgrade.upgradeButton')}</Button>
             </CardContent>
           </Card>
         </div>
@@ -214,14 +216,14 @@ export default function APIKeysPage() {
       <div className="mb-8">
         <div className="flex justify-between items-center mb-4">
           <div>
-            <h1 className="text-3xl font-bold mb-2">API Keys</h1>
+            <h1 className="text-3xl font-bold mb-2">{t('title')}</h1>
             <p className="text-muted-foreground">
-              Manage your API keys for programmatic access to IndustryDB
+              {t('subtitle')}
             </p>
           </div>
           <Button onClick={() => setCreateDialogOpen(true)}>
             <Key className="h-4 w-4 mr-2" />
-            Create API Key
+            {t('createButton')}
           </Button>
         </div>
 
@@ -231,7 +233,7 @@ export default function APIKeysPage() {
             <Card>
               <CardHeader className="pb-3">
                 <CardTitle className="text-sm font-medium text-muted-foreground">
-                  Total Keys
+                  {t('stats.totalKeys')}
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -241,7 +243,7 @@ export default function APIKeysPage() {
             <Card>
               <CardHeader className="pb-3">
                 <CardTitle className="text-sm font-medium text-muted-foreground">
-                  Active Keys
+                  {t('stats.activeKeys')}
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -251,7 +253,7 @@ export default function APIKeysPage() {
             <Card>
               <CardHeader className="pb-3">
                 <CardTitle className="text-sm font-medium text-muted-foreground">
-                  Total Usage
+                  {t('stats.totalUsage')}
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -261,7 +263,7 @@ export default function APIKeysPage() {
             <Card>
               <CardHeader className="pb-3">
                 <CardTitle className="text-sm font-medium text-muted-foreground">
-                  Last Used
+                  {t('stats.lastUsed')}
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -277,13 +279,13 @@ export default function APIKeysPage() {
         <Card>
           <CardContent className="flex flex-col items-center justify-center py-12">
             <Key className="h-12 w-12 text-muted-foreground mb-4" />
-            <h3 className="text-lg font-semibold mb-2">No API keys yet</h3>
+            <h3 className="text-lg font-semibold mb-2">{t('list.empty')}</h3>
             <p className="text-muted-foreground text-center mb-4">
-              Create your first API key to start accessing IndustryDB programmatically
+              {t('list.emptyDescription')}
             </p>
             <Button onClick={() => setCreateDialogOpen(true)}>
               <Key className="h-4 w-4 mr-2" />
-              Create API Key
+              {t('list.createFirst')}
             </Button>
           </CardContent>
         </Card>
@@ -297,12 +299,12 @@ export default function APIKeysPage() {
                     <div className="flex items-center gap-2 mb-2">
                       <CardTitle className="text-lg">{key.name}</CardTitle>
                       {key.revoked ? (
-                        <Badge variant="destructive">Revoked</Badge>
+                        <Badge variant="destructive">{t('list.revoked')}</Badge>
                       ) : (
-                        <Badge variant="default">Active</Badge>
+                        <Badge variant="default">{t('list.active')}</Badge>
                       )}
                       {key.expires_at && new Date(key.expires_at) < new Date() && (
-                        <Badge variant="destructive">Expired</Badge>
+                        <Badge variant="destructive">{t('list.expired')}</Badge>
                       )}
                     </div>
                     <CardDescription className="space-y-1">
@@ -344,18 +346,18 @@ export default function APIKeysPage() {
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                   <div>
-                    <div className="text-muted-foreground mb-1">Created</div>
+                    <div className="text-muted-foreground mb-1">{t('list.created')}</div>
                     <div className="flex items-center gap-1">
                       <Calendar className="h-3 w-3" />
                       {formatDate(key.created_at)}
                     </div>
                   </div>
                   <div>
-                    <div className="text-muted-foreground mb-1">Last Used</div>
+                    <div className="text-muted-foreground mb-1">{t('list.lastUsed')}</div>
                     <div>{formatDate(key.last_used_at)}</div>
                   </div>
                   <div>
-                    <div className="text-muted-foreground mb-1">Usage Count</div>
+                    <div className="text-muted-foreground mb-1">{t('list.usageCount')}</div>
                     <div className="flex items-center gap-1">
                       <TrendingUp className="h-3 w-3" />
                       {key.usage_count}
@@ -363,7 +365,7 @@ export default function APIKeysPage() {
                   </div>
                   {key.expires_at && (
                     <div>
-                      <div className="text-muted-foreground mb-1">Expires</div>
+                      <div className="text-muted-foreground mb-1">{t('list.expires')}</div>
                       <div>{formatDate(key.expires_at)}</div>
                     </div>
                   )}
@@ -378,23 +380,23 @@ export default function APIKeysPage() {
       <Dialog open={createDialogOpen} onOpenChange={setCreateDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Create API Key</DialogTitle>
+            <DialogTitle>{t('create.title')}</DialogTitle>
             <DialogDescription>
-              Create a new API key for programmatic access to IndustryDB
+              {t('create.description')}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div>
-              <Label htmlFor="name">Name</Label>
+              <Label htmlFor="name">{t('create.nameLabel')}</Label>
               <Input
                 id="name"
-                placeholder="e.g., Production Server"
+                placeholder={t('create.namePlaceholder')}
                 value={newKeyName}
                 onChange={(e) => setNewKeyName(e.target.value)}
               />
             </div>
             <div>
-              <Label htmlFor="expires_at">Expires At (Optional)</Label>
+              <Label htmlFor="expires_at">{t('create.expiryLabel')}</Label>
               <Input
                 id="expires_at"
                 type="datetime-local"
@@ -406,9 +408,9 @@ export default function APIKeysPage() {
               <div className="flex gap-2">
                 <AlertCircle className="h-5 w-5 text-yellow-600 flex-shrink-0" />
                 <div className="text-sm">
-                  <p className="font-medium text-yellow-900 mb-1">Important</p>
+                  <p className="font-medium text-yellow-900 mb-1">{t('create.warning')}</p>
                   <p className="text-yellow-700">
-                    The API key will only be shown once. Make sure to copy and store it securely.
+                    {t('create.warningMessage')}
                   </p>
                 </div>
               </div>
@@ -416,10 +418,10 @@ export default function APIKeysPage() {
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setCreateDialogOpen(false)}>
-              Cancel
+              {t('create.cancel')}
             </Button>
             <Button onClick={handleCreate} disabled={creating}>
-              {creating ? 'Creating...' : 'Create API Key'}
+              {creating ? t('create.creating') : t('create.createButton')}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -429,15 +431,15 @@ export default function APIKeysPage() {
       <Dialog open={showKeyDialog} onOpenChange={setShowKeyDialog}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>API Key Created Successfully</DialogTitle>
+            <DialogTitle>{t('created.title')}</DialogTitle>
             <DialogDescription>
-              Copy your API key now. This is the only time it will be displayed.
+              {t('created.description')}
             </DialogDescription>
           </DialogHeader>
           {createdKey && (
             <div className="space-y-4 py-4">
               <div>
-                <Label>API Key</Label>
+                <Label>{t('created.label')}</Label>
                 <div className="flex gap-2 mt-2">
                   <Input
                     readOnly
@@ -457,9 +459,9 @@ export default function APIKeysPage() {
                 <div className="flex gap-2">
                   <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0" />
                   <div className="text-sm">
-                    <p className="font-medium text-red-900 mb-1">Warning</p>
+                    <p className="font-medium text-red-900 mb-1">{t('created.warning')}</p>
                     <p className="text-red-700">
-                      Store this API key securely. You won't be able to see it again.
+                      {t('created.warningMessage')}
                     </p>
                   </div>
                 </div>
@@ -468,7 +470,7 @@ export default function APIKeysPage() {
           )}
           <DialogFooter>
             <Button onClick={() => setShowKeyDialog(false)}>
-              I've saved my API key
+              {t('created.confirmButton')}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -478,16 +480,15 @@ export default function APIKeysPage() {
       <AlertDialog open={revokeConfirmOpen} onOpenChange={setRevokeConfirmOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Revoke API Key?</AlertDialogTitle>
+            <AlertDialogTitle>{t('revoke.title')}</AlertDialogTitle>
             <AlertDialogDescription>
-              This will immediately invalidate the API key "{keyToRevoke?.name}".
-              Any applications using this key will lose access. This action cannot be undone.
+              {t('revoke.description', { name: keyToRevoke?.name || '' })}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>{t('revoke.cancel')}</AlertDialogCancel>
             <AlertDialogAction onClick={handleRevoke} className="bg-red-600 hover:bg-red-700">
-              Revoke API Key
+              {t('revoke.confirm')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -497,16 +498,15 @@ export default function APIKeysPage() {
       <AlertDialog open={deleteConfirmOpen} onOpenChange={setDeleteConfirmOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete API Key?</AlertDialogTitle>
+            <AlertDialogTitle>{t('delete.title')}</AlertDialogTitle>
             <AlertDialogDescription>
-              This will permanently delete the API key "{keyToDelete?.name}" and all its usage history.
-              This action cannot be undone.
+              {t('delete.description', { name: keyToDelete?.name || '' })}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>{t('delete.cancel')}</AlertDialogCancel>
             <AlertDialogAction onClick={handleDelete} className="bg-red-600 hover:bg-red-700">
-              Delete Permanently
+              {t('delete.confirm')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

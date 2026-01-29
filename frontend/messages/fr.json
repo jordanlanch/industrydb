@@ -419,6 +419,168 @@
       "suspend": "Suspendre l'utilisateur"
     }
   },
+  "analytics": {
+    "title": "Analytiques d'utilisation",
+    "subtitle": "Suivez votre utilisation et activité sur la plateforme",
+    "loading": "Chargement des analytiques...",
+    "error": "Erreur",
+    "timeRange": {
+      "label": "Plage de temps",
+      "placeholder": "Sélectionnez une plage de temps",
+      "last7Days": "7 derniers jours",
+      "last30Days": "30 derniers jours",
+      "last60Days": "60 derniers jours",
+      "last90Days": "90 derniers jours",
+      "last6Months": "6 derniers mois",
+      "lastYear": "Dernière année"
+    },
+    "stats": {
+      "totalSearches": "Recherches totales",
+      "totalExports": "Exportations totales",
+      "totalLeads": "Prospects totaux consultés",
+      "peakDay": "Jour de pointe",
+      "avgPerDay": "Moy {value}/jour",
+      "noActivity": "Aucune activité pour le moment",
+      "days": "{count} jours"
+    },
+    "charts": {
+      "dailyUsage": "Utilisation quotidienne",
+      "dailyUsageDesc": "Recherches et exportations au cours des {days} derniers jours",
+      "actionBreakdown": "Répartition des actions",
+      "actionBreakdownDesc": "Distribution par type d'action",
+      "searches": "Recherches",
+      "exports": "Exportations",
+      "actions": "Actions"
+    },
+    "table": {
+      "title": "Répartition quotidienne détaillée",
+      "description": "Statistiques d'utilisation jour par jour",
+      "date": "Date",
+      "searches": "Recherches",
+      "exports": "Exportations",
+      "total": "Total",
+      "showing": "Affichage de 10 jours les plus récents sur {total} au total"
+    },
+    "actionSummary": "Résumé des actions:",
+    "noData": {
+      "title": "Aucune donnée d'utilisation",
+      "description": "Commencez à rechercher et exporter des prospects pour voir vos analytiques ici."
+    }
+  },
+  "apiKeys": {
+    "title": "Clés API",
+    "subtitle": "Gérez vos clés API pour un accès programmatique à IndustryDB",
+    "createButton": "Créer une clé API",
+    "loading": "Chargement...",
+    "upgrade": {
+      "title": "Clés API",
+      "description": "Les clés API sont disponibles exclusivement sur le niveau Entreprise",
+      "upgradeTitle": "Passer au niveau Entreprise",
+      "upgradeDescription": "Obtenez un accès programmatique à IndustryDB avec des clés API sur notre plan Entreprise",
+      "upgradeButton": "Améliorer maintenant"
+    },
+    "stats": {
+      "totalKeys": "Clés totales",
+      "activeKeys": "Clés actives",
+      "totalUsage": "Utilisation totale",
+      "lastUsed": "Dernière utilisation"
+    },
+    "list": {
+      "empty": "Aucune clé API pour le moment",
+      "emptyDescription": "Créez votre première clé API pour commencer à accéder à IndustryDB de manière programmatique",
+      "createFirst": "Créer une clé API",
+      "active": "Active",
+      "revoked": "Révoquée",
+      "expired": "Expirée",
+      "created": "Créée",
+      "lastUsed": "Dernière utilisation",
+      "usageCount": "Nombre d'utilisations",
+      "expires": "Expire",
+      "never": "Jamais"
+    },
+    "create": {
+      "title": "Créer une clé API",
+      "description": "Créez une nouvelle clé API pour un accès programmatique à IndustryDB",
+      "nameLabel": "Nom",
+      "namePlaceholder": "ex., Serveur de production",
+      "expiryLabel": "Expire le (Facultatif)",
+      "warning": "Important",
+      "warningMessage": "La clé API ne sera affichée qu'une seule fois. Assurez-vous de la copier et de la stocker en toute sécurité.",
+      "cancel": "Annuler",
+      "creating": "Création...",
+      "createButton": "Créer une clé API"
+    },
+    "created": {
+      "title": "Clé API créée avec succès",
+      "description": "Copiez votre clé API maintenant. C'est la seule fois qu'elle sera affichée.",
+      "label": "Clé API",
+      "warning": "Avertissement",
+      "warningMessage": "Stockez cette clé API en toute sécurité. Vous ne pourrez plus la voir.",
+      "confirmButton": "J'ai sauvegardé ma clé API"
+    },
+    "revoke": {
+      "title": "Révoquer la clé API?",
+      "description": "Cela invalidera immédiatement la clé API \"{name}\". Toutes les applications utilisant cette clé perdront l'accès. Cette action ne peut pas être annulée.",
+      "cancel": "Annuler",
+      "confirm": "Révoquer la clé API"
+    },
+    "delete": {
+      "title": "Supprimer la clé API?",
+      "description": "Cela supprimera définitivement la clé API \"{name}\" et tout son historique d'utilisation. Cette action ne peut pas être annulée.",
+      "cancel": "Annuler",
+      "confirm": "Supprimer définitivement"
+    },
+    "toast": {
+      "loadError": "Erreur lors du chargement des clés API",
+      "nameRequired": "Nom requis",
+      "nameRequiredDesc": "Veuillez entrer un nom pour la clé API",
+      "createError": "Erreur lors de la création de la clé API",
+      "copied": "Copié!",
+      "copiedDesc": "Clé API copiée dans le presse-papiers",
+      "revoked": "Clé API révoquée",
+      "revokedDesc": "{name} a été révoquée",
+      "revokeError": "Erreur lors de la révocation de la clé API",
+      "deleted": "Clé API supprimée",
+      "deletedDesc": "{name} a été définitivement supprimée",
+      "deleteError": "Erreur lors de la suppression de la clé API"
+    }
+  },
+  "savedSearches": {
+    "title": "Mes recherches sauvegardées",
+    "subtitle": "Accédez rapidement et relancez vos recherches fréquentes",
+    "loading": "Chargement des recherches sauvegardées...",
+    "empty": {
+      "title": "Aucune recherche sauvegardée",
+      "description": "Sauvegardez vos recherches pour un accès rapide ultérieur",
+      "createButton": "Rechercher des prospects"
+    },
+    "card": {
+      "saved": "Sauvegardé le {date}",
+      "runButton": "Lancer la recherche"
+    },
+    "filters": {
+      "noFilters": "Aucun filtre",
+      "specialties": "{count} spécialités",
+      "qualityRange": "Qualité: {min}-{max}"
+    },
+    "delete": {
+      "title": "Supprimer la recherche sauvegardée?",
+      "description": "Cette action ne peut pas être annulée. Cela supprimera définitivement votre recherche sauvegardée.",
+      "cancel": "Annuler",
+      "deleting": "Suppression...",
+      "confirm": "Supprimer"
+    },
+    "toast": {
+      "loadFailed": "Échec du chargement",
+      "loadFailedDesc": "Échec du chargement des recherches sauvegardées",
+      "applied": "Recherche appliquée",
+      "appliedDesc": "Exécution de la recherche \"{name}\"",
+      "deleted": "Recherche supprimée",
+      "deletedDesc": "La recherche sauvegardée a été supprimée",
+      "deleteFailed": "Échec de la suppression",
+      "deleteFailedDesc": "Échec de la suppression de la recherche sauvegardée"
+    }
+  },
   "errors": {
     "generic": "Quelque chose s'est mal passé",
     "notFound": "Page non trouvée",
