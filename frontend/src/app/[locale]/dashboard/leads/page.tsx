@@ -23,7 +23,11 @@ import { SearchButton } from '@/components/leads/search-button'
 import { SearchPreview } from '@/components/leads/search-preview'
 import { EmptySearchState } from '@/components/leads/empty-search-state'
 import { CreditConfirmationDialog } from '@/components/leads/credit-confirmation-dialog'
+import { CountrySelector } from '@/components/leads/country-selector'
+import { FilterSection } from '@/components/leads/filter-section'
+import { RecentSearches } from '@/components/leads/recent-searches'
 import { useVirtualization } from '@/hooks/useVirtualization'
+import { useRecentSearches } from '@/hooks/useRecentSearches'
 
 export default function LeadsPage() {
   const t = useTranslations('leads')
@@ -48,6 +52,9 @@ export default function LeadsPage() {
     itemHeight: viewMode === 'card' ? 200 : 60, // Adjust based on view mode
     bufferSize: 3
   })
+
+  // Recent searches
+  const { addSearch: addRecentSearch } = useRecentSearches()
   const [filters, setFilters] = useState<LeadSearchRequest>({
     page: 1,
     limit: 20,
@@ -208,6 +215,20 @@ export default function LeadsPage() {
     }, 100)
   }
 
+  const handleApplyRecentSearch = (searchFilters: LeadSearchRequest) => {
+    // Apply the saved search filters
+    if (searchFilters.industry) {
+      setSelectedIndustries([searchFilters.industry])
+    } else {
+      setSelectedIndustries([])
+    }
+    setFilters({ ...searchFilters, page: 1 })
+    // Trigger search after a short delay to let state update
+    setTimeout(() => {
+      executeSearch()
+    }, 100)
+  }
+
   const fetchPreview = async () => {
     // Only fetch preview if at least one filter is selected
     if (!filters.industry && !filters.country && !filters.has_email && !filters.has_phone && !filters.verified) {
@@ -254,6 +275,11 @@ export default function LeadsPage() {
 
       setLeads(response.data || [])
       setPagination(response.pagination)
+
+      // Save to recent searches if this was a manual search (page 1)
+      if (filters.page === 1 && response.pagination.total > 0) {
+        addRecentSearch(filters, response.pagination.total)
+      }
     } catch (error: any) {
       // Ignore abort errors (user cancelled the request)
       if (error.name === 'AbortError' || error.message?.includes('abort')) {
@@ -448,50 +474,48 @@ export default function LeadsPage() {
           <p className="text-sm text-muted-foreground">{t('filters.refineSearch')}</p>
         </div>
 
+        {/* Recent Searches */}
+        <div className="p-4">
+          <RecentSearches
+            onApplySearch={handleApplyRecentSearch}
+            getCountryName={getCountryName}
+            getIndustryName={(code) => code} // Will be improved when we have industry names
+          />
+        </div>
+
         {/* Filters Content */}
         <div className="flex-1 overflow-y-auto p-6 space-y-6">
           {/* Industry Filter */}
-          <div>
-            <Label className="text-sm font-semibold mb-3 flex items-center gap-2">
-              <Building2 className="h-4 w-4" />
-              {t('filters.industry')}
-            </Label>
+          <FilterSection
+            icon={Building2}
+            label={t('filters.industry')}
+            required
+          >
             <IndustrySelector
               selectedIndustries={selectedIndustries}
               onChange={handleIndustryChange}
               multiSelect={false}
             />
-          </div>
+          </FilterSection>
 
           <Separator />
 
           {/* Location Filters */}
-          <div className="space-y-4">
-            <Label className="text-sm font-semibold flex items-center gap-2">
-              <MapPin className="h-4 w-4" />
-              {t('filters.location')}
-            </Label>
-
+          <FilterSection
+            icon={MapPin}
+            label={t('filters.location')}
+          >
             <div className="space-y-2">
               <Label className="text-xs text-muted-foreground">{t('filters.country')}</Label>
-              <Select
-                value={filters.country || ''}
-                onValueChange={(value) => {
-                  setFilters({ ...filters, country: value || undefined, city: undefined, page: 1 })
+              <CountrySelector
+                value={filters.country}
+                onChange={(country) => {
+                  setFilters({ ...filters, country, city: undefined, page: 1 })
                 }}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder={t('filters.selectCountry')} />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="">🌍 {t('filters.allCountries')}</SelectItem>
-                  {availableCountries.map((country) => (
-                    <SelectItem key={country} value={country}>
-                      {getCountryFlag(country)} {getCountryName(country)}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+                availableCountries={availableCountries}
+                getCountryName={getCountryName}
+                getCountryFlag={getCountryFlag}
+              />
             </div>
 
             <div className="space-y-2">
@@ -528,16 +552,15 @@ export default function LeadsPage() {
                 </SelectContent>
               </Select>
             </div>
-          </div>
+          </FilterSection>
 
           <Separator />
 
           {/* Data Quality Filters */}
-          <div className="space-y-3">
-            <Label className="text-sm font-semibold flex items-center gap-2">
-              <Shield className="h-4 w-4" />
-              {t('filters.dataQuality')}
-            </Label>
+          <FilterSection
+            icon={Shield}
+            label={t('filters.dataQuality')}
+          >
 
             <div className="space-y-2">
               <label className="flex items-center gap-2 cursor-pointer group">
@@ -573,7 +596,7 @@ export default function LeadsPage() {
                 <span className="text-sm">{t('filters.verifiedOnly')}</span>
               </label>
             </div>
-          </div>
+          </FilterSection>
         </div>
 
         {/* Sidebar Footer */}

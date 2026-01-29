@@ -7,7 +7,17 @@ import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import type { IndustryCategory, IndustryWithCount } from '@/types'
 import { industriesService } from '@/services/industries.service'
-import { ChevronDown, ChevronUp, Loader2, AlertCircle } from 'lucide-react'
+import { ChevronDown, ChevronUp, Loader2, AlertCircle, TrendingUp } from 'lucide-react'
+
+// Popular industries shown at the top for quick access
+const POPULAR_INDUSTRIES = [
+  'tattoo',
+  'beauty',
+  'restaurant',
+  'gym',
+  'cafe',
+  'barber',
+]
 
 interface IndustrySelectorProps {
   selectedIndustries: string[]
@@ -124,6 +134,17 @@ export function IndustrySelector({
     onChange([])
   }
 
+  const findIndustryById = (industryId: string) => {
+    for (const category of categories) {
+      const industry = category.industries.find((ind) => ind.id === industryId)
+      if (industry) return industry
+    }
+    return null
+  }
+
+  // Get popular industries that exist in our data
+  const popularIndustries = POPULAR_INDUSTRIES.map(findIndustryById).filter(Boolean) as (IndustryWithCount & { osm_primary_tag: string, osm_additional_tags: string[], active: boolean, sort_order: number })[]
+
   if (loading) {
     return (
       <Card>
@@ -198,6 +219,37 @@ export function IndustrySelector({
                 </Badge>
               )
             })}
+          </div>
+        )}
+
+        {/* Popular Industries Section */}
+        {popularIndustries.length > 0 && (
+          <div className="mb-6 pb-4 border-b">
+            <Label className="text-sm font-semibold mb-3 flex items-center gap-2">
+              <TrendingUp className="h-4 w-4" />
+              Popular Industries
+            </Label>
+            <div className="grid grid-cols-2 gap-2">
+              {popularIndustries.map((industry) => (
+                <Button
+                  key={industry.id}
+                  variant={selectedIndustries.includes(industry.id) ? 'default' : 'outline'}
+                  size="sm"
+                  className="justify-start h-auto py-2"
+                  onClick={() => handleIndustryToggle(industry.id)}
+                >
+                  <span className="mr-2">{industry.icon}</span>
+                  <div className="flex-1 text-left min-w-0">
+                    <div className="text-xs font-medium truncate">
+                      {industry.name}
+                    </div>
+                    <Badge variant="secondary" className="text-[10px] h-4 mt-0.5">
+                      {industry.lead_count?.toLocaleString() || 0}
+                    </Badge>
+                  </div>
+                </Button>
+              ))}
+            </div>
           </div>
         )}
 

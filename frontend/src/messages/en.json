@@ -264,7 +264,22 @@
       "hasEmail": "Has Email",
       "hasPhone": "Has Phone",
       "verifiedOnly": "Verified Only",
-      "clearAll": "Clear All Filters"
+      "clearAll": "Clear All Filters",
+      "popularIndustries": "Popular Industries",
+      "recentSearches": "Recent Searches",
+      "countrySelector": {
+        "title": "Select Country",
+        "search": "Search countries...",
+        "popular": "POPULAR",
+        "allCountries": "All Countries ({count})",
+        "regions": {
+          "americas": "Americas",
+          "europe": "Europe",
+          "asia": "Asia Pacific",
+          "africa": "Africa",
+          "oceania": "Oceania"
+        }
+      }
     },
     "preview": {
       "estimatedResults": "Estimated {count} results",
