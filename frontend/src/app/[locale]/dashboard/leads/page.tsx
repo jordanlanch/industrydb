@@ -25,6 +25,7 @@ import { SearchPreview } from '@/components/leads/search-preview'
 import { EmptySearchState } from '@/components/leads/empty-search-state'
 import { CreditConfirmationDialog } from '@/components/leads/credit-confirmation-dialog'
 import { CountrySelector } from '@/components/leads/country-selector'
+import { CitySelector } from '@/components/leads/city-selector'
 import { PopularCountryChips } from '@/components/leads/popular-country-chips'
 import { FilterSection } from '@/components/leads/filter-section'
 import { RecentSearches } from '@/components/leads/recent-searches'
@@ -547,37 +548,20 @@ export default function LeadsPage() {
 
             <div className="space-y-2">
               <Label className="text-xs text-muted-foreground">{t('filters.city')}</Label>
-              <Select
-                value={filters.city || ''}
-                onValueChange={(value) => {
-                  setFilters({ ...filters, city: value || undefined, page: 1 })
+              <CitySelector
+                value={filters.city}
+                onChange={(city) => {
+                  setFilters({ ...filters, city, page: 1 })
                 }}
-              >
-                <SelectTrigger disabled={!filters.country || loadingCities}>
-                  <SelectValue placeholder={
-                    loadingCities ? t('filters.loadingCities') :
-                    filters.country ? t('filters.selectCity') :
-                    t('filters.selectCountryFirst')
-                  } />
-                </SelectTrigger>
-                <SelectContent>
-                  {loadingCities ? (
-                    <div className="flex items-center justify-center py-6 text-sm text-muted-foreground">
-                      <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                      {t('filters.loadingCities')}
-                    </div>
-                  ) : (
-                    <>
-                      <SelectItem value="">🗺️ {t('filters.allCities')}</SelectItem>
-                      {availableCities.map((city) => (
-                        <SelectItem key={city} value={city}>
-                          🏙️ {city}
-                        </SelectItem>
-                      ))}
-                    </>
-                  )}
-                </SelectContent>
-              </Select>
+                cities={availableCities}
+                placeholder={
+                  loadingCities ? t('filters.loadingCities') :
+                  filters.country ? t('filters.selectCity') :
+                  t('filters.selectCountryFirst')
+                }
+                disabled={!filters.country}
+                loading={loadingCities}
+              />
             </div>
           </FilterSection>
 
