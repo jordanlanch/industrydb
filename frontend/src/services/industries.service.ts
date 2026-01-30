@@ -54,21 +54,30 @@ class IndustriesService {
 
   /**
    * Get only industries that have leads with counts (cached for 5 minutes)
+   * Optionally filtered by country and city
    */
-  async getIndustriesWithLeads(): Promise<IndustriesWithLeadsResponse> {
-    const cacheKey = 'industries:with-leads'
+  async getIndustriesWithLeads(country?: string, city?: string): Promise<IndustriesWithLeadsResponse> {
+    // Build cache key with filters
+    let cacheKey = 'industries:with-leads'
+    if (country) cacheKey += `:country=${country}`
+    if (city) cacheKey += `:city=${city}`
 
     // Check cache
     const cached = industriesCache.get(cacheKey)
     if (cached) {
-      console.log('✅ Cache hit for industries with leads')
+      console.log('✅ Cache hit for industries with leads', { country, city })
       return cached
     }
 
-    console.log('❌ Cache miss for industries with leads')
-    const response = await axios.get<IndustriesWithLeadsResponse>(
-      `${API_URL}/api/v1/industries/with-leads`
-    )
+    console.log('❌ Cache miss for industries with leads', { country, city })
+
+    // Build query params
+    const params = new URLSearchParams()
+    if (country) params.append('country', country)
+    if (city) params.append('city', city)
+
+    const url = `${API_URL}/api/v1/industries/with-leads${params.toString() ? '?' + params.toString() : ''}`
+    const response = await axios.get<IndustriesWithLeadsResponse>(url)
 
     // Cache for 5 minutes (lead counts change frequently)
     industriesCache.set(cacheKey, response.data, 5 * 60 * 1000)

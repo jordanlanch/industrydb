@@ -24,12 +24,16 @@ interface IndustrySelectorProps {
   selectedIndustries: string[]
   onChange: (industries: string[]) => void
   multiSelect?: boolean
+  country?: string
+  city?: string
 }
 
 export function IndustrySelector({
   selectedIndustries,
   onChange,
   multiSelect = false,
+  country,
+  city,
 }: IndustrySelectorProps) {
   const [categories, setCategories] = useState<IndustryCategory[]>([])
   const [loading, setLoading] = useState(true)
@@ -37,15 +41,17 @@ export function IndustrySelector({
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set())
   const [searchQuery, setSearchQuery] = useState('')
 
+  // Reload industries when filters change
   useEffect(() => {
     loadIndustries()
-  }, [])
+  }, [country, city])
 
   const loadIndustries = async () => {
     try {
       setError(null)
-      // Fetch only industries with leads (with counts)
-      const response = await industriesService.getIndustriesWithLeads()
+      setLoading(true)
+      // Fetch only industries with leads (with counts, filtered by country/city)
+      const response = await industriesService.getIndustriesWithLeads(country, city)
 
       // Group industries by category
       const categoryMap = new Map<string, {
@@ -265,38 +271,7 @@ export function IndustrySelector({
         )}
 
         {/* Scrollable Content Wrapper */}
-        <div className="max-h-[400px] overflow-y-auto">
-          {/* Popular Industries Section */}
-          {popularIndustries.length > 0 && !searchQuery && (
-            <div className="mb-6 pb-4 border-b">
-              <Label className="text-sm font-semibold mb-3 flex items-center gap-2">
-                <TrendingUp className="h-4 w-4" />
-                Popular Industries
-              </Label>
-              <div className="grid grid-cols-2 gap-2">
-                {popularIndustries.map((industry) => (
-                  <Button
-                    key={industry.id}
-                    variant={selectedIndustries.includes(industry.id) ? 'default' : 'outline'}
-                    size="sm"
-                    className="justify-start h-auto py-2"
-                    onClick={() => handleIndustryToggle(industry.id)}
-                  >
-                    <span className="mr-2">{industry.icon}</span>
-                    <div className="flex-1 text-left min-w-0">
-                      <div className="text-xs font-medium truncate">
-                        {industry.name}
-                      </div>
-                      <Badge variant="secondary" className="text-[10px] h-4 mt-0.5">
-                        {industry.lead_count?.toLocaleString() || 0}
-                      </Badge>
-                    </div>
-                  </Button>
-                ))}
-              </div>
-            </div>
-          )}
-
+        <div className="max-h-[300px] overflow-y-auto">
           <div className="space-y-2">
             {filteredCategories.map((category) => {
             const isExpanded = expandedCategories.has(category.id)

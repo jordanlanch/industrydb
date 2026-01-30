@@ -6,8 +6,6 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Label } from '@/components/ui/label'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Separator } from '@/components/ui/separator'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import { leadsService } from '@/services/leads.service'
 import { exportsService } from '@/services/exports.service'
@@ -26,7 +24,6 @@ import { EmptySearchState } from '@/components/leads/empty-search-state'
 import { CreditConfirmationDialog } from '@/components/leads/credit-confirmation-dialog'
 import { CountrySelector } from '@/components/leads/country-selector'
 import { CitySelector } from '@/components/leads/city-selector'
-import { PopularCountryChips } from '@/components/leads/popular-country-chips'
 import { FilterSection } from '@/components/leads/filter-section'
 import { RecentSearches } from '@/components/leads/recent-searches'
 import { useVirtualization } from '@/hooks/useVirtualization'
@@ -460,32 +457,6 @@ export default function LeadsPage() {
       />
 
       <div className="flex flex-col lg:flex-row h-[calc(100vh-4rem)] overflow-hidden">
-      {/* Filter Toggle Button - Mobile and Desktop */}
-      <div className="p-4 border-b bg-white flex items-center gap-2">
-        <Button
-          variant="outline"
-          className="w-full lg:w-auto"
-          onClick={() => {
-            // On mobile, use showMobileFilters, on desktop use sidebar state
-            if (window.innerWidth < 1024) {
-              setShowMobileFilters(!showMobileFilters)
-            } else {
-              toggleFilterSidebar()
-            }
-          }}
-          aria-expanded={isFilterSidebarOpen || showMobileFilters}
-          aria-controls="filter-sidebar"
-          aria-label={`${(isFilterSidebarOpen || showMobileFilters) ? t('hideFilters') : t('showFilters')}${activeFiltersCount > 0 ? ` (${t('filtersActive', { count: activeFiltersCount })})` : ''}`}
-          title={window.innerWidth >= 1024 ? 'Toggle filters (⌘/)' : undefined}
-        >
-          <Filter className="h-4 w-4 mr-2" aria-hidden="true" />
-          {(isFilterSidebarOpen || showMobileFilters) ? t('hideFilters') : t('showFilters')}
-          {activeFiltersCount > 0 && (
-            <Badge variant="secondary" className="ml-2">{t('filtersActive', { count: activeFiltersCount })}</Badge>
-          )}
-        </Button>
-      </div>
-
       {/* SIDEBAR - Filters */}
       <aside
         id="filter-sidebar"
@@ -501,17 +472,18 @@ export default function LeadsPage() {
         aria-label="Search filters"
       >
         {/* Sidebar Header */}
-        <div className="p-6 border-b bg-white">
-          <div className="flex items-center justify-between mb-1">
-            <h2 className="text-lg font-semibold flex items-center gap-2">
-              <Filter className="h-5 w-5" />
+        <div className="p-4 border-b bg-white">
+          <div className="flex items-center justify-between">
+            <h2 className="text-base font-semibold flex items-center gap-2">
+              <Filter className="h-4 w-4" />
               {t('filters.title')}
+              {activeFiltersCount > 0 && (
+                <Badge variant="secondary" className="text-xs">
+                  {activeFiltersCount}
+                </Badge>
+              )}
             </h2>
-            {activeFiltersCount > 0 && (
-              <Badge variant="secondary">{t('filtersActive', { count: activeFiltersCount })}</Badge>
-            )}
           </div>
-          <p className="text-sm text-muted-foreground">{t('filters.refineSearch')}</p>
         </div>
 
         {/* Recent Searches */}
@@ -524,7 +496,7 @@ export default function LeadsPage() {
         </div>
 
         {/* Filters Content */}
-        <div className="flex-1 overflow-y-auto p-6 pb-0 space-y-6">
+        <div className="flex-1 overflow-y-auto p-4 pb-0 space-y-4">
           {/* Location Filters - NOW FIRST */}
           <FilterSection
             icon={MapPin}
@@ -532,38 +504,6 @@ export default function LeadsPage() {
             required
             helpText={t('filters.selectCountryHelp')}
           >
-            {/* Popular Countries Chips */}
-            {popularCountries.length > 0 && (
-              <div className="space-y-3">
-                <Label className="text-xs text-muted-foreground">
-                  {t('filters.popularCountries')}
-                </Label>
-                <PopularCountryChips
-                  selectedCountry={filters.country}
-                  onSelectCountry={(country) => {
-                    setFilters({ ...filters, country, city: undefined, page: 1 })
-                  }}
-                  popularCountries={popularCountries}
-                  getCountryFlag={getCountryFlag}
-                  getCountryName={getCountryName}
-                />
-              </div>
-            )}
-
-            {/* Separator */}
-            {popularCountries.length > 0 && (
-              <div className="relative my-4">
-                <div className="absolute inset-0 flex items-center">
-                  <span className="w-full border-t" />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-gray-50 px-2 text-muted-foreground">
-                    {t('filters.orSearchAll')}
-                  </span>
-                </div>
-              </div>
-            )}
-
             <div className="space-y-2">
               <Label className="text-xs text-muted-foreground">{t('filters.country')}</Label>
               <CountrySelector
@@ -596,8 +536,6 @@ export default function LeadsPage() {
             </div>
           </FilterSection>
 
-          <Separator />
-
           {/* Industry Filter - NOW SECOND AND OPTIONAL */}
           <FilterSection
             icon={Building2}
@@ -608,10 +546,10 @@ export default function LeadsPage() {
               selectedIndustries={selectedIndustries}
               onChange={handleIndustryChange}
               multiSelect={false}
+              country={filters.country}
+              city={filters.city}
             />
           </FilterSection>
-
-          <Separator />
 
           {/* Data Quality Filters - Collapsible */}
           <Collapsible open={dataQualityExpanded} onOpenChange={setDataQualityExpanded}>
@@ -666,7 +604,7 @@ export default function LeadsPage() {
         </div>
 
         {/* Sidebar Footer */}
-        <div className="p-6 border-t bg-white space-y-3">
+        <div className="p-4 border-t bg-white space-y-2">
           {/* Preview Statistics */}
           <SearchPreview
             preview={preview}
@@ -704,17 +642,47 @@ export default function LeadsPage() {
         {/* Header */}
         <header className="p-6 border-b bg-white">
           <div className="flex items-center justify-between mb-4">
-            <div>
-              <h1 className="text-2xl font-bold">{t('title')}</h1>
-              <p className="text-sm text-muted-foreground mt-1">
-                {loading ? (
-                  t('searching')
-                ) : pagination.total > 0 ? (
-                  t('found', { count: pagination.total })
-                ) : (
-                  t('noLeadsFound')
+            <div className="flex items-center gap-3">
+              {/* Filter Toggle Button */}
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  // On mobile, use showMobileFilters, on desktop use sidebar state
+                  if (window.innerWidth < 1024) {
+                    setShowMobileFilters(!showMobileFilters)
+                  } else {
+                    toggleFilterSidebar()
+                  }
+                }}
+                aria-expanded={isFilterSidebarOpen || showMobileFilters}
+                aria-controls="filter-sidebar"
+                aria-label={`${(isFilterSidebarOpen || showMobileFilters) ? t('hideFilters') : t('showFilters')}`}
+                title={window.innerWidth >= 1024 ? 'Toggle filters (⌘/)' : undefined}
+                className="shrink-0"
+              >
+                <Filter className="h-4 w-4" aria-hidden="true" />
+                <span className="hidden sm:inline ml-2">
+                  {(isFilterSidebarOpen || showMobileFilters) ? t('hideFilters') : t('showFilters')}
+                </span>
+                {activeFiltersCount > 0 && (
+                  <Badge variant="secondary" className="ml-2 hidden sm:inline-flex">{activeFiltersCount}</Badge>
                 )}
-              </p>
+              </Button>
+
+              {/* Title */}
+              <div>
+                <h1 className="text-2xl font-bold">{t('title')}</h1>
+                <p className="text-sm text-muted-foreground mt-1">
+                  {loading ? (
+                    t('searching')
+                  ) : pagination.total > 0 ? (
+                    t('found', { count: pagination.total })
+                  ) : (
+                    t('noLeadsFound')
+                  )}
+                </p>
+              </div>
             </div>
 
             <div className="flex items-center gap-2">
