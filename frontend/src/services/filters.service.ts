@@ -46,6 +46,9 @@ class FiltersService {
 
   /**
    * Get list of available cities (optionally filtered by country)
+   *
+   * Includes defensive deduplication and normalization to handle
+   * any edge cases where backend returns duplicates
    */
   async getCities(country?: string): Promise<string[]> {
     const params = country ? { country } : {}
@@ -53,7 +56,36 @@ class FiltersService {
       `${API_URL}/api/v1/leads/filters/cities`,
       { params }
     )
-    return response.data.cities
+
+    // Defensive deduplication and normalization
+    const cities = response.data.cities || []
+
+    // Use a Map to deduplicate by normalized form
+    const uniqueCities = new Map<string, string>()
+
+    cities.forEach(city => {
+      if (!city) return
+
+      const trimmed = city.trim()
+      if (!trimmed) return
+
+      // Use lowercase as key for case-insensitive deduplication
+      const key = trimmed.toLowerCase()
+
+      // Keep the first occurrence (backend should have already normalized)
+      if (!uniqueCities.has(key)) {
+        // Normalize to title case for consistency
+        const normalized = trimmed
+          .split(' ')
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+          .join(' ')
+
+        uniqueCities.set(key, normalized)
+      }
+    })
+
+    // Return deduplicated and sorted array
+    return Array.from(uniqueCities.values()).sort()
   }
 
   /**
