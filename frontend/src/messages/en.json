@@ -267,6 +267,10 @@
       "clearAll": "Clear All Filters",
       "popularIndustries": "Popular Industries",
       "recentSearches": "Recent Searches",
+      "selectCountryHelp": "Start by selecting your target country",
+      "selectIndustryHelp": "Choose one or more industries (optional)",
+      "searchIndustries": "Search industries...",
+      "orSearchAll": "or search all",
       "countrySelector": {
         "title": "Select Country",
         "search": "Search countries...",
@@ -283,7 +287,9 @@
     },
     "preview": {
       "estimatedResults": "Estimated {count} results",
-      "selectFilters": "Select filters to preview results"
+      "selectFilters": "Select filters to preview results",
+      "selectCountry": "Select a country to preview results",
+      "estimatedInCountry": "Estimated {count} businesses in {country}"
     },
     "viewMode": {
       "card": "Card view",

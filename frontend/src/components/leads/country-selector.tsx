@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import {
   Popover,
@@ -26,6 +26,31 @@ interface CountrySelectorProps {
   availableCountries: string[]
   getCountryName?: (code: string) => string
   getCountryFlag?: (code: string) => string
+  countryStats?: Record<string, number> // Optional lead counts per country
+}
+
+/**
+ * Highlight text matching the search query
+ */
+function highlightMatch(text: string, query: string) {
+  if (!query) return text
+
+  const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi')
+  const parts = text.split(regex)
+
+  return (
+    <>
+      {parts.map((part, i) =>
+        regex.test(part) ? (
+          <mark key={i} className="bg-yellow-200 font-semibold">
+            {part}
+          </mark>
+        ) : (
+          <span key={i}>{part}</span>
+        )
+      )}
+    </>
+  )
 }
 
 /**
@@ -37,11 +62,13 @@ export function CountrySelector({
   availableCountries,
   getCountryName = (code) => code,
   getCountryFlag = (code) => `${code}`,
+  countryStats,
 }: CountrySelectorProps) {
   const t = useTranslations('leads')
   const [open, setOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [expandedRegions, setExpandedRegions] = useState<Set<string>>(new Set())
+  const [selectedIndex, setSelectedIndex] = useState(0)
 
   // Filter available countries to only those in our data
   const availableSet = useMemo(
@@ -87,6 +114,42 @@ export function CountrySelector({
       }
     }).filter((region) => region.countries.length > 0) // Only show regions with countries
   }, [searchQuery, availableSet, getCountryName])
+
+  // Flat list of all countries for keyboard navigation
+  const allCountries = useMemo(() => {
+    return filteredRegions.flatMap((r) => r.countries)
+  }, [filteredRegions])
+
+  // Reset selected index when search changes
+  useEffect(() => {
+    setSelectedIndex(0)
+  }, [searchQuery])
+
+  // Keyboard navigation
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (!open || allCountries.length === 0) return
+
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault()
+        setSelectedIndex((prev) => Math.min(prev + 1, allCountries.length - 1))
+        break
+      case 'ArrowUp':
+        e.preventDefault()
+        setSelectedIndex((prev) => Math.max(prev - 1, 0))
+        break
+      case 'Enter':
+        e.preventDefault()
+        if (allCountries[selectedIndex]) {
+          handleSelect(allCountries[selectedIndex])
+        }
+        break
+      case 'Escape':
+        e.preventDefault()
+        setOpen(false)
+        break
+    }
+  }
 
   const handleSelect = (country: string) => {
     onChange(country === value ? undefined : country)
@@ -152,6 +215,7 @@ export function CountrySelector({
               placeholder={t('filters.countrySelector.search')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={handleKeyDown}
               className="pl-8"
               autoFocus
             />
@@ -170,13 +234,20 @@ export function CountrySelector({
                   key={country}
                   variant={value === country ? 'default' : 'ghost'}
                   size="sm"
-                  className="justify-start h-auto py-2 px-3"
+                  className="justify-between h-auto py-2 px-3"
                   onClick={() => handleSelect(country)}
                 >
-                  <span className="mr-2">{getCountryFlag(country)}</span>
-                  <span className="truncate text-xs">
-                    {getCountryName(country)}
-                  </span>
+                  <div className="flex items-center gap-2 min-w-0">
+                    <span>{getCountryFlag(country)}</span>
+                    <span className="truncate text-xs">
+                      {getCountryName(country)}
+                    </span>
+                  </div>
+                  {countryStats?.[country] && (
+                    <Badge variant="secondary" className="ml-2 text-xs shrink-0">
+                      {countryStats[country].toLocaleString()}
+                    </Badge>
+                  )}
                 </Button>
               ))}
             </div>
@@ -212,20 +283,34 @@ export function CountrySelector({
                     </div>
                   </CollapsibleTrigger>
                   <CollapsibleContent className="bg-muted/30">
-                    {region.countries.map((country) => (
-                      <Button
-                        key={country}
-                        variant={value === country ? 'default' : 'ghost'}
-                        size="sm"
-                        className="w-full justify-start px-6 h-auto py-2"
-                        onClick={() => handleSelect(country)}
-                      >
-                        <span className="mr-2">{getCountryFlag(country)}</span>
-                        <span className="truncate text-xs">
-                          {getCountryName(country)}
-                        </span>
-                      </Button>
-                    ))}
+                    {region.countries.map((country, idx) => {
+                      const globalIndex = allCountries.indexOf(country)
+                      const isKeyboardSelected = globalIndex === selectedIndex
+
+                      return (
+                        <Button
+                          key={country}
+                          variant={value === country ? 'default' : 'ghost'}
+                          size="sm"
+                          className={`w-full justify-between px-6 h-auto py-2 ${
+                            isKeyboardSelected ? 'bg-accent' : ''
+                          }`}
+                          onClick={() => handleSelect(country)}
+                        >
+                          <div className="flex items-center gap-2 min-w-0">
+                            <span>{getCountryFlag(country)}</span>
+                            <span className="truncate text-xs">
+                              {highlightMatch(getCountryName(country), searchQuery)}
+                            </span>
+                          </div>
+                          {countryStats?.[country] && (
+                            <Badge variant="secondary" className="ml-2 text-xs shrink-0">
+                              {countryStats[country].toLocaleString()}
+                            </Badge>
+                          )}
+                        </Button>
+                      )
+                    })}
                   </CollapsibleContent>
                 </Collapsible>
               ))}

@@ -1,13 +1,14 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
+import { Input } from '@/components/ui/input'
 import type { IndustryCategory, IndustryWithCount } from '@/types'
 import { industriesService } from '@/services/industries.service'
-import { ChevronDown, ChevronUp, Loader2, AlertCircle, TrendingUp } from 'lucide-react'
+import { ChevronDown, ChevronUp, Loader2, AlertCircle, TrendingUp, Search, X } from 'lucide-react'
 
 // Popular industries shown at the top for quick access
 const POPULAR_INDUSTRIES = [
@@ -34,6 +35,7 @@ export function IndustrySelector({
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set())
+  const [searchQuery, setSearchQuery] = useState('')
 
   useEffect(() => {
     loadIndustries()
@@ -145,6 +147,23 @@ export function IndustrySelector({
   // Get popular industries that exist in our data
   const popularIndustries = POPULAR_INDUSTRIES.map(findIndustryById).filter(Boolean) as (IndustryWithCount & { osm_primary_tag: string, osm_additional_tags: string[], active: boolean, sort_order: number })[]
 
+  // Filter categories and industries based on search query
+  const filteredCategories = useMemo(() => {
+    if (!searchQuery) return categories
+
+    const query = searchQuery.toLowerCase()
+    return categories
+      .map(category => ({
+        ...category,
+        industries: category.industries.filter(ind =>
+          ind.name.toLowerCase().includes(query) ||
+          ind.description?.toLowerCase().includes(query) ||
+          ind.id.toLowerCase().includes(query)
+        )
+      }))
+      .filter(cat => cat.industries.length > 0)
+  }, [categories, searchQuery])
+
   if (loading) {
     return (
       <Card>
@@ -191,8 +210,8 @@ export function IndustrySelector({
   }
 
   return (
-    <Card>
-      <CardHeader>
+    <Card className="border-0 shadow-none">
+      <CardHeader className="px-0 pb-4">
         <div className="flex items-center justify-between">
           <div>
             <CardTitle>Industry</CardTitle>
@@ -207,7 +226,30 @@ export function IndustrySelector({
           )}
         </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="px-0">
+        {/* Search Bar */}
+        <div className="sticky top-0 z-10 bg-white pb-4 border-b mb-4">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              type="text"
+              placeholder="Search industries..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-9"
+            />
+            {searchQuery && (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 p-0"
+                onClick={() => setSearchQuery('')}
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            )}
+          </div>
+        </div>
         {selectedIndustries.length > 0 && (
           <div className="mb-4 flex flex-wrap gap-2">
             <span className="text-sm text-muted-foreground">Selected:</span>
@@ -222,39 +264,41 @@ export function IndustrySelector({
           </div>
         )}
 
-        {/* Popular Industries Section */}
-        {popularIndustries.length > 0 && (
-          <div className="mb-6 pb-4 border-b">
-            <Label className="text-sm font-semibold mb-3 flex items-center gap-2">
-              <TrendingUp className="h-4 w-4" />
-              Popular Industries
-            </Label>
-            <div className="grid grid-cols-2 gap-2">
-              {popularIndustries.map((industry) => (
-                <Button
-                  key={industry.id}
-                  variant={selectedIndustries.includes(industry.id) ? 'default' : 'outline'}
-                  size="sm"
-                  className="justify-start h-auto py-2"
-                  onClick={() => handleIndustryToggle(industry.id)}
-                >
-                  <span className="mr-2">{industry.icon}</span>
-                  <div className="flex-1 text-left min-w-0">
-                    <div className="text-xs font-medium truncate">
-                      {industry.name}
+        {/* Scrollable Content Wrapper */}
+        <div className="max-h-[400px] overflow-y-auto">
+          {/* Popular Industries Section */}
+          {popularIndustries.length > 0 && !searchQuery && (
+            <div className="mb-6 pb-4 border-b">
+              <Label className="text-sm font-semibold mb-3 flex items-center gap-2">
+                <TrendingUp className="h-4 w-4" />
+                Popular Industries
+              </Label>
+              <div className="grid grid-cols-2 gap-2">
+                {popularIndustries.map((industry) => (
+                  <Button
+                    key={industry.id}
+                    variant={selectedIndustries.includes(industry.id) ? 'default' : 'outline'}
+                    size="sm"
+                    className="justify-start h-auto py-2"
+                    onClick={() => handleIndustryToggle(industry.id)}
+                  >
+                    <span className="mr-2">{industry.icon}</span>
+                    <div className="flex-1 text-left min-w-0">
+                      <div className="text-xs font-medium truncate">
+                        {industry.name}
+                      </div>
+                      <Badge variant="secondary" className="text-[10px] h-4 mt-0.5">
+                        {industry.lead_count?.toLocaleString() || 0}
+                      </Badge>
                     </div>
-                    <Badge variant="secondary" className="text-[10px] h-4 mt-0.5">
-                      {industry.lead_count?.toLocaleString() || 0}
-                    </Badge>
-                  </div>
-                </Button>
-              ))}
+                  </Button>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        <div className="space-y-2">
-          {categories.map((category) => {
+          <div className="space-y-2">
+            {filteredCategories.map((category) => {
             const isExpanded = expandedCategories.has(category.id)
             const categoryIndustryIds = category.industries.map((ind) => ind.id)
             const selectedCount = selectedIndustries.filter((id) =>
@@ -365,6 +409,7 @@ export function IndustrySelector({
               </div>
             )
           })}
+          </div>
         </div>
       </CardContent>
     </Card>

@@ -7,7 +7,9 @@ interface FilterSectionProps {
   icon: LucideIcon
   label: string
   required?: boolean
+  helpText?: string
   children: React.ReactNode
+  variant?: 'default' | 'compact'
 }
 
 /**
@@ -18,17 +20,28 @@ export function FilterSection({
   icon: Icon,
   label,
   required,
+  helpText,
   children,
+  variant = 'default',
 }: FilterSectionProps) {
+  const spacing = variant === 'compact' ? 'space-y-2' : 'space-y-3'
+  const iconSize = variant === 'compact' ? 'h-3.5 w-3.5' : 'h-4 w-4'
+  const textSize = variant === 'compact' ? 'text-xs' : 'text-sm'
+
   return (
-    <div className="space-y-3">
-      <Label className="text-sm font-semibold flex items-center gap-2">
-        <Icon className="h-4 w-4 text-muted-foreground" />
-        {label}
-        {required && (
-          <span className="text-xs text-destructive ml-1">(required)</span>
+    <div className={spacing}>
+      <div>
+        <Label className={`${textSize} font-semibold flex items-center gap-2`}>
+          <Icon className={`${iconSize} text-muted-foreground`} />
+          {label}
+          {required && (
+            <span className="text-xs text-destructive ml-1">(required)</span>
+          )}
+        </Label>
+        {helpText && (
+          <p className="text-xs text-muted-foreground mt-1">{helpText}</p>
         )}
-      </Label>
+      </div>
       <div className="space-y-2">{children}</div>
     </div>
   )

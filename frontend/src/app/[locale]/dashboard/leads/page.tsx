@@ -8,12 +8,13 @@ import { Badge } from '@/components/ui/badge'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import { leadsService } from '@/services/leads.service'
 import { exportsService } from '@/services/exports.service'
 import { filtersService } from '@/services/filters.service'
 import { getCountryName, getCountryFlag } from '@/lib/countries'
 import type { Lead, LeadSearchRequest, UsageInfo, LeadPreviewResponse } from '@/types'
-import { Search, Download, FileSpreadsheet, X, Filter, ChevronLeft, ChevronRight, LayoutGrid, List, Building2, MapPin, Mail, Phone, Shield, Loader2, TrendingUp, CheckCircle2, AlertCircle } from 'lucide-react'
+import { Search, Download, FileSpreadsheet, X, Filter, ChevronLeft, ChevronRight, ChevronDown, LayoutGrid, List, Building2, MapPin, Mail, Phone, Shield, Loader2, TrendingUp, CheckCircle2, AlertCircle } from 'lucide-react'
 import { useToast } from '@/components/toast-provider'
 import { LeadCard } from '@/components/leads/lead-card'
 import { LeadTableRow } from '@/components/leads/lead-table-row'
@@ -24,6 +25,7 @@ import { SearchPreview } from '@/components/leads/search-preview'
 import { EmptySearchState } from '@/components/leads/empty-search-state'
 import { CreditConfirmationDialog } from '@/components/leads/credit-confirmation-dialog'
 import { CountrySelector } from '@/components/leads/country-selector'
+import { PopularCountryChips } from '@/components/leads/popular-country-chips'
 import { FilterSection } from '@/components/leads/filter-section'
 import { RecentSearches } from '@/components/leads/recent-searches'
 import { useVirtualization } from '@/hooks/useVirtualization'
@@ -68,6 +70,8 @@ export default function LeadsPage() {
   const [availableCountries, setAvailableCountries] = useState<string[]>([])
   const [availableCities, setAvailableCities] = useState<string[]>([])
   const [loadingCities, setLoadingCities] = useState(false)
+  const [popularCountries, setPopularCountries] = useState<string[]>([])
+  const [dataQualityExpanded, setDataQualityExpanded] = useState(false)
 
   // Preview state
   const [preview, setPreview] = useState<LeadPreviewResponse | null>(null)
@@ -159,12 +163,16 @@ export default function LeadsPage() {
     }, 500) // Wait 500ms after last filter change
 
     return () => clearTimeout(timeoutId)
-  }, [filters.industry, filters.country, filters.city, filters.has_email, filters.has_phone, filters.verified])
+  }, [filters.country, filters.industry, filters.city, filters.has_email, filters.has_phone, filters.verified])
 
   const loadFilterOptions = async () => {
     try {
-      const countries = await filtersService.getCountries()
+      const [countries, popular] = await Promise.all([
+        filtersService.getCountries(),
+        filtersService.getPopularCountries(),
+      ])
       setAvailableCountries(countries || [])
+      setPopularCountries(popular || [])
     } catch (error) {
       console.error('Failed to load filter options:', error)
     }
@@ -230,8 +238,8 @@ export default function LeadsPage() {
   }
 
   const fetchPreview = async () => {
-    // Only fetch preview if at least one filter is selected
-    if (!filters.industry && !filters.country && !filters.has_email && !filters.has_phone && !filters.verified) {
+    // Only fetch preview if at least country is selected (now required)
+    if (!filters.country && !filters.industry && !filters.has_email && !filters.has_phone && !filters.verified) {
       setPreview(null)
       return
     }
@@ -456,7 +464,7 @@ export default function LeadsPage() {
         className={`
           w-full lg:w-80 border-r lg:border-r border-b lg:border-b-0 bg-gray-50/50 flex flex-col overflow-hidden
           ${showMobileFilters ? 'block' : 'hidden lg:flex'}
-          max-h-[60vh] lg:max-h-full
+          max-h-[80vh] lg:max-h-full
         `}
         aria-label="Search filters"
       >
@@ -484,27 +492,46 @@ export default function LeadsPage() {
         </div>
 
         {/* Filters Content */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-6">
-          {/* Industry Filter */}
-          <FilterSection
-            icon={Building2}
-            label={t('filters.industry')}
-            required
-          >
-            <IndustrySelector
-              selectedIndustries={selectedIndustries}
-              onChange={handleIndustryChange}
-              multiSelect={false}
-            />
-          </FilterSection>
-
-          <Separator />
-
-          {/* Location Filters */}
+        <div className="flex-1 overflow-y-auto p-6 pb-0 space-y-6">
+          {/* Location Filters - NOW FIRST */}
           <FilterSection
             icon={MapPin}
             label={t('filters.location')}
+            required
+            helpText={t('filters.selectCountryHelp')}
           >
+            {/* Popular Countries Chips */}
+            {popularCountries.length > 0 && (
+              <div className="space-y-3">
+                <Label className="text-xs text-muted-foreground">
+                  {t('filters.popularCountries')}
+                </Label>
+                <PopularCountryChips
+                  selectedCountry={filters.country}
+                  onSelectCountry={(country) => {
+                    setFilters({ ...filters, country, city: undefined, page: 1 })
+                  }}
+                  popularCountries={popularCountries}
+                  getCountryFlag={getCountryFlag}
+                  getCountryName={getCountryName}
+                />
+              </div>
+            )}
+
+            {/* Separator */}
+            {popularCountries.length > 0 && (
+              <div className="relative my-4">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-gray-50 px-2 text-muted-foreground">
+                    {t('filters.orSearchAll')}
+                  </span>
+                </div>
+              </div>
+            )}
+
             <div className="space-y-2">
               <Label className="text-xs text-muted-foreground">{t('filters.country')}</Label>
               <CountrySelector
@@ -556,13 +583,37 @@ export default function LeadsPage() {
 
           <Separator />
 
-          {/* Data Quality Filters */}
+          {/* Industry Filter - NOW SECOND AND OPTIONAL */}
           <FilterSection
-            icon={Shield}
-            label={t('filters.dataQuality')}
+            icon={Building2}
+            label={t('filters.industry')}
+            helpText={t('filters.selectIndustryHelp')}
           >
+            <IndustrySelector
+              selectedIndustries={selectedIndustries}
+              onChange={handleIndustryChange}
+              multiSelect={false}
+            />
+          </FilterSection>
 
-            <div className="space-y-2">
+          <Separator />
+
+          {/* Data Quality Filters - Collapsible */}
+          <Collapsible open={dataQualityExpanded} onOpenChange={setDataQualityExpanded}>
+            <CollapsibleTrigger className="w-full flex items-center justify-between p-0 h-auto text-left hover:opacity-80 transition-opacity">
+              <div className="flex items-center gap-2">
+                <Shield className="h-4 w-4 text-muted-foreground" />
+                <span className="text-sm font-semibold">{t('filters.dataQuality')}</span>
+                {(filters.has_email || filters.has_phone || filters.verified) && (
+                  <Badge variant="secondary" className="ml-2 text-xs">
+                    {[filters.has_email, filters.has_phone, filters.verified].filter(Boolean).length}
+                  </Badge>
+                )}
+              </div>
+              <ChevronDown className={`h-4 w-4 transition-transform ${dataQualityExpanded ? 'rotate-180' : ''}`} />
+            </CollapsibleTrigger>
+
+            <CollapsibleContent className="mt-3 space-y-2">
               <label className="flex items-center gap-2 cursor-pointer group">
                 <input
                   type="checkbox"
@@ -595,8 +646,8 @@ export default function LeadsPage() {
                 <CheckCircle2 className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
                 <span className="text-sm">{t('filters.verifiedOnly')}</span>
               </label>
-            </div>
-          </FilterSection>
+            </CollapsibleContent>
+          </Collapsible>
         </div>
 
         {/* Sidebar Footer */}
