@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
-import { Database, FileDown, Activity, Building2, Settings, LogOut, Key } from 'lucide-react'
+import { Database, FileDown, Activity, Building2, Settings, LogOut, Key, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuthStore } from '@/store/auth.store'
 import { useRouter } from 'next/navigation'
@@ -17,7 +17,12 @@ const navigation = [
   { name: 'Settings', href: '/dashboard/settings', icon: Settings },
 ]
 
-export function Sidebar() {
+interface SidebarProps {
+  isOpen: boolean
+  onToggle: () => void
+}
+
+export function Sidebar({ isOpen, onToggle }: SidebarProps) {
   const pathname = usePathname()
   const router = useRouter()
   const { user, logout } = useAuthStore()
@@ -29,17 +34,45 @@ export function Sidebar() {
 
   return (
     <aside
-      className="flex h-screen w-64 flex-col border-r bg-gray-50"
+      className={cn(
+        "relative flex h-screen flex-col border-r bg-gray-50 transition-all duration-300 ease-in-out",
+        isOpen ? "w-[200px]" : "w-16"
+      )}
       aria-label="Main navigation"
     >
-      <div className="flex h-16 items-center border-b px-6">
-        <h1 className="text-xl font-bold">
-          <Link href="/dashboard" className="focus:outline-none focus:ring-2 focus:ring-primary rounded">
-            IndustryDB
+      {/* Toggle Button */}
+      <button
+        onClick={onToggle}
+        className="absolute -right-3 top-6 z-10 h-6 w-6 rounded-full bg-white border shadow-md hover:shadow-lg transition-shadow focus:outline-none focus:ring-2 focus:ring-primary"
+        aria-label={isOpen ? "Collapse sidebar" : "Expand sidebar"}
+        title={isOpen ? "Collapse sidebar (⌘B)" : "Expand sidebar (⌘B)"}
+      >
+        {isOpen ? (
+          <ChevronLeft className="h-4 w-4 m-auto" />
+        ) : (
+          <ChevronRight className="h-4 w-4 m-auto" />
+        )}
+      </button>
+
+      {/* Logo */}
+      <div className={cn(
+        "flex h-16 items-center border-b transition-all",
+        isOpen ? "px-6 justify-start" : "px-0 justify-center"
+      )}>
+        <h1 className={cn(
+          "font-bold transition-all",
+          isOpen ? "text-xl" : "text-lg"
+        )}>
+          <Link
+            href="/dashboard"
+            className="focus:outline-none focus:ring-2 focus:ring-primary rounded"
+          >
+            {isOpen ? 'IndustryDB' : 'IDB'}
           </Link>
         </h1>
       </div>
 
+      {/* Navigation */}
       <nav className="flex-1 space-y-1 px-3 py-4" aria-label="Dashboard navigation">
         {navigation.map((item) => {
           const isActive = pathname === item.href || pathname?.startsWith(item.href + '/')
@@ -49,38 +82,58 @@ export function Sidebar() {
               href={item.href}
               aria-current={isActive ? 'page' : undefined}
               aria-label={`${item.name} page`}
+              title={!isOpen ? item.name : undefined}
               className={cn(
                 'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2',
                 isActive
                   ? 'bg-primary text-primary-foreground'
-                  : 'text-muted-foreground hover:bg-gray-100 hover:text-foreground'
+                  : 'text-muted-foreground hover:bg-gray-100 hover:text-foreground',
+                !isOpen && 'justify-center'
               )}
             >
-              <item.icon className="h-5 w-5" aria-hidden="true" />
-              {item.name}
+              <item.icon className="h-5 w-5 shrink-0" aria-hidden="true" />
+              {isOpen && <span className="truncate">{item.name}</span>}
             </Link>
           )
         })}
       </nav>
 
-      <div className="border-t p-4">
-        <div className="mb-3 px-3" role="region" aria-label="User information">
-          <p className="text-sm font-medium">{user?.name}</p>
-          <p className="text-xs text-muted-foreground">{user?.email}</p>
-          <p className="mt-1 text-xs">
-            <span className="font-medium capitalize">{user?.subscription_tier}</span> plan
-          </p>
+      {/* Footer */}
+      {isOpen && (
+        <div className="border-t p-4">
+          <div className="mb-3 px-3" role="region" aria-label="User information">
+            <p className="text-sm font-medium truncate">{user?.name}</p>
+            <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
+            <p className="mt-1 text-xs">
+              <span className="font-medium capitalize">{user?.subscription_tier}</span> plan
+            </p>
+          </div>
+          <Button
+            variant="ghost"
+            className="w-full justify-start"
+            onClick={handleLogout}
+            aria-label="Logout from account"
+          >
+            <LogOut className="mr-2 h-4 w-4" aria-hidden="true" />
+            Logout
+          </Button>
         </div>
-        <Button
-          variant="ghost"
-          className="w-full justify-start"
-          onClick={handleLogout}
-          aria-label="Logout from account"
-        >
-          <LogOut className="mr-2 h-4 w-4" aria-hidden="true" />
-          Logout
-        </Button>
-      </div>
+      )}
+
+      {/* Collapsed Footer - Logout Icon Only */}
+      {!isOpen && (
+        <div className="border-t p-2">
+          <Button
+            variant="ghost"
+            className="w-full p-2"
+            onClick={handleLogout}
+            aria-label="Logout from account"
+            title="Logout"
+          >
+            <LogOut className="h-5 w-5" aria-hidden="true" />
+          </Button>
+        </div>
+      )}
     </aside>
   )
 }

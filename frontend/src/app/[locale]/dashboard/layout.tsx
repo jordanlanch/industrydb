@@ -6,6 +6,7 @@ import { Sidebar } from '@/components/dashboard/sidebar'
 import { EmailVerificationBanner } from '@/components/email-verification-banner'
 import { DashboardErrorBoundary } from '@/components/error-boundary'
 import { useAuthStore } from '@/store/auth.store'
+import { useSidebarState } from '@/hooks/useSidebarState'
 
 export default function DashboardLayout({
   children,
@@ -14,6 +15,7 @@ export default function DashboardLayout({
 }) {
   const router = useRouter()
   const { isAuthenticated, isLoading, initialize, user } = useAuthStore()
+  const { isMainSidebarOpen, toggleMainSidebar } = useSidebarState()
 
   useEffect(() => {
     initialize()
@@ -24,6 +26,20 @@ export default function DashboardLayout({
       router.push('/login')
     }
   }, [isAuthenticated, isLoading, router])
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      // Cmd/Ctrl + B = Toggle Main Sidebar
+      if ((e.metaKey || e.ctrlKey) && e.key === 'b') {
+        e.preventDefault()
+        toggleMainSidebar()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyPress)
+    return () => window.removeEventListener('keydown', handleKeyPress)
+  }, [toggleMainSidebar])
 
   if (isLoading) {
     return (
@@ -48,7 +64,7 @@ export default function DashboardLayout({
       )}
 
       <div className="flex flex-1 overflow-hidden">
-        <Sidebar />
+        <Sidebar isOpen={isMainSidebarOpen} onToggle={toggleMainSidebar} />
         <main className="flex-1 overflow-y-auto bg-white">
           <DashboardErrorBoundary>
             {children}

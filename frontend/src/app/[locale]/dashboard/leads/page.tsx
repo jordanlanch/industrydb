@@ -31,6 +31,8 @@ import { FilterSection } from '@/components/leads/filter-section'
 import { RecentSearches } from '@/components/leads/recent-searches'
 import { useVirtualization } from '@/hooks/useVirtualization'
 import { useRecentSearches } from '@/hooks/useRecentSearches'
+import { useSidebarState } from '@/hooks/useSidebarState'
+import { cn } from '@/lib/utils'
 
 export default function LeadsPage() {
   const t = useTranslations('leads')
@@ -45,6 +47,9 @@ export default function LeadsPage() {
   const [selectedIndustries, setSelectedIndustries] = useState<string[]>([])
   const [searchTriggered, setSearchTriggered] = useState(false)
   const [showConfirmDialog, setShowConfirmDialog] = useState(false)
+
+  // Filter sidebar state
+  const { isFilterSidebarOpen, toggleFilterSidebar } = useSidebarState()
 
   // AbortController for canceling previous requests
   const abortControllerRef = useRef<AbortController | null>(null)
@@ -100,6 +105,20 @@ export default function LeadsPage() {
       verified: leads.filter(l => l.verified).length,
     }
   }, [leads])
+
+  // Keyboard shortcut for toggling filter sidebar
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      // Cmd/Ctrl + / = Toggle Filter Sidebar
+      if ((e.metaKey || e.ctrlKey) && e.key === '/') {
+        e.preventDefault()
+        toggleFilterSidebar()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyPress)
+    return () => window.removeEventListener('keydown', handleKeyPress)
+  }, [toggleFilterSidebar])
 
   // Initial load - only once
   useEffect(() => {
@@ -441,18 +460,26 @@ export default function LeadsPage() {
       />
 
       <div className="flex flex-col lg:flex-row h-[calc(100vh-4rem)] overflow-hidden">
-      {/* Mobile Filter Toggle Button */}
-      <div className="lg:hidden p-4 border-b bg-white">
+      {/* Filter Toggle Button - Mobile and Desktop */}
+      <div className="p-4 border-b bg-white flex items-center gap-2">
         <Button
           variant="outline"
-          className="w-full"
-          onClick={() => setShowMobileFilters(!showMobileFilters)}
-          aria-expanded={showMobileFilters}
+          className="w-full lg:w-auto"
+          onClick={() => {
+            // On mobile, use showMobileFilters, on desktop use sidebar state
+            if (window.innerWidth < 1024) {
+              setShowMobileFilters(!showMobileFilters)
+            } else {
+              toggleFilterSidebar()
+            }
+          }}
+          aria-expanded={isFilterSidebarOpen || showMobileFilters}
           aria-controls="filter-sidebar"
-          aria-label={`${showMobileFilters ? t('hideFilters') : t('showFilters')}${activeFiltersCount > 0 ? ` (${t('filtersActive', { count: activeFiltersCount })})` : ''}`}
+          aria-label={`${(isFilterSidebarOpen || showMobileFilters) ? t('hideFilters') : t('showFilters')}${activeFiltersCount > 0 ? ` (${t('filtersActive', { count: activeFiltersCount })})` : ''}`}
+          title={window.innerWidth >= 1024 ? 'Toggle filters (⌘/)' : undefined}
         >
           <Filter className="h-4 w-4 mr-2" aria-hidden="true" />
-          {showMobileFilters ? t('hideFilters') : t('showFilters')}
+          {(isFilterSidebarOpen || showMobileFilters) ? t('hideFilters') : t('showFilters')}
           {activeFiltersCount > 0 && (
             <Badge variant="secondary" className="ml-2">{t('filtersActive', { count: activeFiltersCount })}</Badge>
           )}
@@ -462,11 +489,15 @@ export default function LeadsPage() {
       {/* SIDEBAR - Filters */}
       <aside
         id="filter-sidebar"
-        className={`
-          w-full lg:w-80 border-r lg:border-r border-b lg:border-b-0 bg-gray-50/50 flex flex-col overflow-hidden
-          ${showMobileFilters ? 'block' : 'hidden lg:flex'}
-          max-h-[80vh] lg:max-h-full
-        `}
+        className={cn(
+          "border-r lg:border-r border-b lg:border-b-0 bg-gray-50/50 flex flex-col overflow-hidden transition-all duration-300",
+          "max-h-[80vh] lg:max-h-full",
+          // Mobile behavior
+          "lg:flex",
+          showMobileFilters ? "block w-full" : "hidden",
+          // Desktop behavior
+          isFilterSidebarOpen ? "lg:w-96" : "lg:w-0 lg:hidden"
+        )}
         aria-label="Search filters"
       >
         {/* Sidebar Header */}
