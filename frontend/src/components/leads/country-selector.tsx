@@ -222,40 +222,8 @@ export function CountrySelector({
           </div>
         </div>
 
-        {/* Popular Countries */}
-        {!searchQuery && popularCountries.length > 0 && (
-          <div className="p-3 border-b">
-            <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-              {t('filters.countrySelector.popular')}
-            </Label>
-            <div className="grid grid-cols-2 gap-1 mt-2">
-              {popularCountries.map((country) => (
-                <Button
-                  key={country}
-                  variant={value === country ? 'default' : 'ghost'}
-                  size="sm"
-                  className="justify-between h-auto py-2 px-3"
-                  onClick={() => handleSelect(country)}
-                >
-                  <div className="flex items-center gap-2 min-w-0">
-                    <span>{getCountryFlag(country)}</span>
-                    <span className="truncate text-xs">
-                      {getCountryName(country)}
-                    </span>
-                  </div>
-                  {countryStats?.[country] && (
-                    <Badge variant="secondary" className="ml-2 text-xs shrink-0">
-                      {countryStats[country].toLocaleString()}
-                    </Badge>
-                  )}
-                </Button>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Regions */}
-        <ScrollArea className="max-h-96">
+        {/* Regions with controlled height */}
+        <ScrollArea className="max-h-[400px]">
           {filteredRegions.length === 0 ? (
             <div className="p-6 text-center text-sm text-muted-foreground">
               No countries found
@@ -268,47 +236,45 @@ export function CountrySelector({
                   open={searchQuery ? true : expandedRegions.has(region.id)}
                   onOpenChange={() => toggleRegion(region.id)}
                 >
-                  <CollapsibleTrigger className="w-full p-3 hover:bg-accent flex items-center justify-between group">
-                    <span className="font-medium text-sm flex items-center gap-2">
-                      <span>{region.icon}</span>
+                  <CollapsibleTrigger className="w-full px-3 py-2 hover:bg-accent flex items-center justify-between group">
+                    <span className="font-medium text-xs flex items-center gap-2">
+                      <span className="text-sm">{region.icon}</span>
                       <span>{region.name}</span>
                     </span>
                     <div className="flex items-center gap-2">
-                      <Badge variant="secondary" className="text-xs">
+                      <span className="text-xs text-muted-foreground">
                         {region.countries.length}
-                      </Badge>
+                      </span>
                       {!searchQuery && (
-                        <ChevronRight className="h-4 w-4 transition-transform group-data-[state=open]:rotate-90" />
+                        <ChevronRight className="h-3 w-3 transition-transform group-data-[state=open]:rotate-90" />
                       )}
                     </div>
                   </CollapsibleTrigger>
-                  <CollapsibleContent className="bg-muted/30">
+                  <CollapsibleContent className="bg-muted/30 py-1">
                     {region.countries.map((country, idx) => {
                       const globalIndex = allCountries.indexOf(country)
                       const isKeyboardSelected = globalIndex === selectedIndex
 
                       return (
-                        <Button
+                        <button
                           key={country}
-                          variant={value === country ? 'default' : 'ghost'}
-                          size="sm"
-                          className={`w-full justify-between px-6 h-auto py-2 ${
-                            isKeyboardSelected ? 'bg-accent' : ''
-                          }`}
                           onClick={() => handleSelect(country)}
+                          className={`w-full flex items-center justify-between px-6 py-1.5 text-sm hover:bg-accent transition-colors ${
+                            value === country ? 'bg-primary text-primary-foreground hover:bg-primary/90' : ''
+                          } ${isKeyboardSelected ? 'bg-accent' : ''}`}
                         >
                           <div className="flex items-center gap-2 min-w-0">
-                            <span>{getCountryFlag(country)}</span>
+                            <span className="text-base">{getCountryFlag(country)}</span>
                             <span className="truncate text-xs">
                               {highlightMatch(getCountryName(country), searchQuery)}
                             </span>
                           </div>
                           {countryStats?.[country] && (
-                            <Badge variant="secondary" className="ml-2 text-xs shrink-0">
+                            <span className="ml-2 text-xs opacity-60 shrink-0">
                               {countryStats[country].toLocaleString()}
-                            </Badge>
+                            </span>
                           )}
-                        </Button>
+                        </button>
                       )
                     })}
                   </CollapsibleContent>
@@ -317,6 +283,13 @@ export function CountrySelector({
             </div>
           )}
         </ScrollArea>
+
+        {/* Results counter */}
+        {searchQuery && allCountries.length > 0 && (
+          <div className="border-t p-2 text-xs text-muted-foreground text-center">
+            {allCountries.length} {allCountries.length === 1 ? 'country' : 'countries'} found
+          </div>
+        )}
       </PopoverContent>
     </Popover>
   )
