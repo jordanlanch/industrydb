@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     siteName: "IndustryDB",
     images: [
       {
-        url: "/og-image.png",
+        url: "/api/og?title=IndustryDB&subtitle=Industry-specific%20business%20data.%20Verified.%20Affordable.",
         width: 1200,
         height: 630,
         alt: "IndustryDB - Industry-Specific Business Data",
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "IndustryDB - Industry-Specific Business Data",
     description: "Access verified local business data by industry. Affordable and reliable.",
-    images: ["/og-image.png"],
+    images: ["/api/og?title=IndustryDB"],
     creator: "@industrydb",
   },
   robots: {

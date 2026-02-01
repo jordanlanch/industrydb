@@ -8,9 +8,6 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Badge } from '@/components/ui/badge'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import {
   Collapsible,
   CollapsibleContent,
@@ -222,8 +219,9 @@ export function CountrySelector({
           </div>
         </div>
 
-        {/* Regions with controlled height */}
-        <ScrollArea className="max-h-[400px]">
+        {/* Regions with controlled height - Using plain div for better scroll behavior */}
+        <div className="max-h-[400px] overflow-y-auto scroll-smooth"
+             style={{ scrollbarWidth: 'thin' }}>
           {filteredRegions.length === 0 ? (
             <div className="p-6 text-center text-sm text-muted-foreground">
               No countries found
@@ -282,7 +280,7 @@ export function CountrySelector({
               ))}
             </div>
           )}
-        </ScrollArea>
+        </div>
 
         {/* Results counter */}
         {searchQuery && allCountries.length > 0 && (

@@ -203,6 +203,12 @@
       "title": "¿Listo para encontrar tus próximos clientes?",
       "subtitle": "Únete a miles de negocios que usan IndustryDB",
       "button": "Comenzar gratis"
+    },
+    "stats": {
+      "leads": "Prospectos Verificados",
+      "countries": "Países Cubiertos",
+      "industries": "Industrias",
+      "users": "Usuarios Satisfechos"
     }
   },
   "dashboard": {
@@ -608,5 +614,22 @@
     "unauthorized": "Acceso no autorizado",
     "network": "Error de red",
     "tryAgain": "Por favor, intenta de nuevo"
+  },
+  "cookieConsent": {
+    "title": "Usamos cookies",
+    "message": "Usamos cookies para mejorar tu experiencia de navegación, ofrecer contenido personalizado y analizar nuestro tráfico. Al hacer clic en \"Aceptar todo\", consientes el uso de cookies.",
+    "accept": "Aceptar todo",
+    "decline": "Rechazar",
+    "learnMore": "Más información en nuestra Política de Privacidad"
+  },
+  "footer": {
+    "description": "Datos empresariales por industria. Verificados. Asequibles.",
+    "product": "Producto",
+    "company": "Empresa",
+    "legal": "Legal",
+    "aboutUs": "Sobre nosotros",
+    "contact": "Contacto",
+    "blog": "Blog",
+    "allRightsReserved": "Todos los derechos reservados."
   }
 }

@@ -8,7 +8,6 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { Input } from '@/components/ui/input'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import { Check, ChevronDown, X, MapPin, Search } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -132,8 +131,8 @@ export function CitySelector({
           </div>
         </div>
 
-        {/* Cities List */}
-        <ScrollArea className="max-h-80">
+        {/* Cities List - Using plain div for better scroll behavior */}
+        <div className="max-h-80 overflow-y-auto scroll-smooth" style={{ scrollbarWidth: 'thin' }}>
           {filteredCities.length === 0 ? (
             <div className="p-6 text-center text-sm text-muted-foreground">
               No cities found
@@ -183,7 +182,7 @@ export function CitySelector({
               ))}
             </div>
           )}
-        </ScrollArea>
+        </div>
 
         {/* Results count */}
         {searchQuery && (

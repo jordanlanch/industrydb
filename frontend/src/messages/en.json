@@ -203,6 +203,12 @@
       "title": "Ready to find your next customers?",
       "subtitle": "Join thousands of businesses using IndustryDB",
       "button": "Get Started Free"
+    },
+    "stats": {
+      "leads": "Verified Leads",
+      "countries": "Countries Covered",
+      "industries": "Industries",
+      "users": "Happy Users"
     }
   },
   "dashboard": {
@@ -608,5 +614,22 @@
     "unauthorized": "Unauthorized access",
     "network": "Network error",
     "tryAgain": "Please try again"
+  },
+  "cookieConsent": {
+    "title": "We use cookies",
+    "message": "We use cookies to enhance your browsing experience, serve personalized content, and analyze our traffic. By clicking \"Accept All\", you consent to our use of cookies.",
+    "accept": "Accept All",
+    "decline": "Decline",
+    "learnMore": "Learn more in our Privacy Policy"
+  },
+  "footer": {
+    "description": "Industry-specific business data. Verified. Affordable.",
+    "product": "Product",
+    "company": "Company",
+    "legal": "Legal",
+    "aboutUs": "About Us",
+    "contact": "Contact",
+    "blog": "Blog",
+    "allRightsReserved": "All rights reserved."
   }
 }

@@ -40,81 +40,56 @@ export function SearchButton({ onClick, loading, disabled, usage, hasFilters }: 
   }
 
   return (
-    <div className="space-y-3">
-      {/* Credit Warning Banner */}
-      {isLowCredits && !isOutOfCredits && (
-        <div className="p-3 rounded-lg bg-yellow-50 border border-yellow-200 flex items-start gap-2">
-          <AlertCircle className="h-4 w-4 text-yellow-600 mt-0.5 flex-shrink-0" />
-          <div className="text-xs text-yellow-700">
-            <p className="font-semibold">Low on credits!</p>
-            <p>You have <strong>{usage?.remaining}</strong> searches remaining this month.</p>
-          </div>
-        </div>
-      )}
-
-      {/* Out of Credits Banner */}
-      {isOutOfCredits && (
-        <div className="p-3 rounded-lg bg-red-50 border border-red-200 flex items-start gap-2">
-          <AlertCircle className="h-4 w-4 text-red-600 mt-0.5 flex-shrink-0" />
-          <div className="text-xs text-red-700">
-            <p className="font-semibold">Usage limit reached</p>
-            <p>Upgrade your plan to continue searching for leads.</p>
-            <Button
-              variant="default"
-              size="sm"
-              className="mt-2 w-full"
-              onClick={() => window.location.href = '/dashboard/settings/billing'}
-            >
-              Upgrade Now
-            </Button>
-          </div>
-        </div>
-      )}
-
+    <div className="space-y-2">
       {/* Search Button */}
       <Button
         onClick={onClick}
         disabled={disabled || isOutOfCredits || !hasFilters || loading}
         variant={getButtonVariant()}
-        size="lg"
+        size="default"
         className="w-full"
         title={getTooltipText()}
       >
         {loading ? (
           <>
-            <Loader2 className="h-5 w-5 mr-2 animate-spin" />
-            {getButtonText()}
+            <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+            Searching...
           </>
         ) : (
           <>
-            <Search className="h-5 w-5 mr-2" />
-            {getButtonText()}
+            <Search className="h-4 w-4 mr-2" />
+            {isOutOfCredits ? 'No Credits' : 'Search'}
             {usage && usage.remaining > 0 && !isOutOfCredits && (
-              <Badge variant="secondary" className="ml-2">
-                1 credit
+              <Badge variant="secondary" className="ml-auto">
+                {usage.remaining}/{usage.usage_limit}
               </Badge>
             )}
           </>
         )}
       </Button>
 
-      {/* Credit Counter */}
-      {usage && usage.remaining > 0 && (
-        <div className="text-center text-xs text-muted-foreground">
-          <span className="font-medium">{usage.remaining}</span> of <span className="font-medium">{usage.usage_limit}</span> searches remaining
-          {usage.reset_at && (
-            <span className="block mt-1">
-              Resets {new Date(usage.reset_at).toLocaleDateString()}
-            </span>
-          )}
-        </div>
+      {/* Compact warnings */}
+      {isOutOfCredits && (
+        <p className="text-xs text-destructive flex items-center gap-1">
+          <AlertCircle className="h-3 w-3" />
+          Out of credits.{' '}
+          <a href="/dashboard/settings/billing" className="underline font-medium">
+            Upgrade
+          </a>
+        </p>
       )}
 
-      {/* No Filters Warning */}
+      {isLowCredits && !isOutOfCredits && (
+        <p className="text-xs text-amber-600 flex items-center gap-1">
+          <AlertCircle className="h-3 w-3" />
+          Low credits ({usage?.remaining} left)
+        </p>
+      )}
+
       {!hasFilters && (
-        <div className="text-center text-xs text-muted-foreground">
-          Select filters above to start searching
-        </div>
+        <p className="text-xs text-muted-foreground text-center">
+          Select filters to search
+        </p>
       )}
     </div>
   )

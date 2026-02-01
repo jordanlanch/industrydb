@@ -68,57 +68,35 @@ export function SearchPreview({ preview, loading, error, hasFilters }: SearchPre
     )
   }
 
-  // Show preview with statistics
+  // Calculate contact info percentage (email OR phone OR website)
+  const contactInfoPct = Math.max(
+    preview.with_email_pct,
+    preview.with_phone_pct,
+    preview.verified_pct
+  )
+
+  // Show preview with simplified statistics
   return (
-    <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-200">
-      <CardContent className="p-4 space-y-3">
-        {/* Estimated Count */}
+    <Card className="bg-blue-50 border-blue-200">
+      <CardContent className="py-3 space-y-2">
+        {/* Main count and contact info percentage */}
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <TrendingUp className="h-4 w-4 text-blue-600" />
-            <span className="text-sm font-medium text-blue-900">Estimated Results</span>
-          </div>
-          <Badge variant="secondary" className="bg-blue-600 text-white hover:bg-blue-700">
-            {preview.estimated_count.toLocaleString()} leads
+          <span className="text-sm font-medium flex items-center gap-1.5">
+            <TrendingUp className="h-3.5 w-3.5 text-blue-600" />
+            {preview.estimated_count.toLocaleString()} leads found
+          </span>
+          <Badge variant="secondary" className="text-xs">
+            {Math.round(contactInfoPct)}% contact info
           </Badge>
         </div>
 
-        {/* Statistics Grid */}
-        <div className="grid grid-cols-3 gap-2 text-xs">
-          {/* Email */}
-          <div className="flex flex-col items-center p-2 bg-white/60 rounded">
-            <Mail className="h-3 w-3 text-blue-600 mb-1" />
-            <span className="font-semibold text-blue-900">{Math.round(preview.with_email_pct)}%</span>
-            <span className="text-blue-700">Email</span>
+        {/* Quality score (optional, only if good quality) */}
+        {preview.quality_score_avg >= 50 && (
+          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <CheckCircle2 className="h-3 w-3" />
+            <span>Avg quality: {preview.quality_score_avg.toFixed(0)}/100</span>
           </div>
-
-          {/* Phone */}
-          <div className="flex flex-col items-center p-2 bg-white/60 rounded">
-            <Phone className="h-3 w-3 text-blue-600 mb-1" />
-            <span className="font-semibold text-blue-900">{Math.round(preview.with_phone_pct)}%</span>
-            <span className="text-blue-700">Phone</span>
-          </div>
-
-          {/* Verified */}
-          <div className="flex flex-col items-center p-2 bg-white/60 rounded">
-            <CheckCircle2 className="h-3 w-3 text-blue-600 mb-1" />
-            <span className="font-semibold text-blue-900">{Math.round(preview.verified_pct)}%</span>
-            <span className="text-blue-700">Verified</span>
-          </div>
-        </div>
-
-        {/* Quality Score */}
-        <div className="flex items-center justify-between text-xs bg-white/60 p-2 rounded">
-          <span className="text-blue-700">Avg Quality Score</span>
-          <Badge variant="outline" className="border-blue-300 text-blue-900">
-            {preview.quality_score_avg.toFixed(1)}/100
-          </Badge>
-        </div>
-
-        {/* Info message */}
-        <p className="text-xs text-blue-600 text-center pt-1">
-          Preview doesn't consume credits
-        </p>
+        )}
       </CardContent>
     </Card>
   )
