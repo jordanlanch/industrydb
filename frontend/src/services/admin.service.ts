@@ -23,12 +23,17 @@ export interface User {
   id: number;
   email: string;
   name: string;
-  subscription_tier: string;
+  subscription_tier?: string;
+  tier: string; // Alias for subscription_tier
   role: string;
   usage_count: number;
   usage_limit: number;
-  email_verified: boolean;
+  email_verified?: boolean; // Old field
+  email_verified_at?: string; // New field with timestamp
+  stripe_customer_id?: string;
+  last_login_at?: string;
   created_at: string;
+  updated_at: string;
 }
 
 export interface UserListResponse {
