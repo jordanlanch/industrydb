@@ -19,9 +19,34 @@ export const exportsService = {
     return response.data
   },
 
-  getDownloadUrl(id: number): string {
-    const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:7890'
-    const token = typeof window !== 'undefined' ? localStorage.getItem('auth_token') : null
-    return `${baseURL}/api/v1/exports/${id}/download?token=${token}`
+  async download(id: number): Promise<void> {
+    // Use axios to download with Authorization header (no token in URL)
+    const response = await apiClient.get(`/exports/${id}/download`, {
+      responseType: 'blob',
+    })
+
+    // Extract filename from Content-Disposition header or use default
+    const contentDisposition = response.headers['content-disposition']
+    let filename = `export-${id}.csv`
+
+    if (contentDisposition) {
+      const filenameMatch = contentDisposition.match(/filename="?(.+)"?/)
+      if (filenameMatch) {
+        filename = filenameMatch[1]
+      }
+    }
+
+    // Create blob URL and trigger download
+    const blob = new Blob([response.data])
+    const url = window.URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = filename
+    document.body.appendChild(link)
+    link.click()
+
+    // Cleanup
+    document.body.removeChild(link)
+    window.URL.revokeObjectURL(url)
   },
 }

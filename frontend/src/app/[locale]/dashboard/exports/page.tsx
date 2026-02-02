@@ -43,9 +43,13 @@ export default function ExportsPage() {
     }
   }
 
-  const handleDownload = (exportId: number) => {
-    const url = exportsService.getDownloadUrl(exportId)
-    window.open(url, '_blank')
+  const handleDownload = async (exportId: number) => {
+    try {
+      await exportsService.download(exportId)
+    } catch (error) {
+      console.error('Failed to download export:', error)
+      // TODO: Show error toast notification
+    }
   }
 
   const formatDate = (dateStr: string) => {
