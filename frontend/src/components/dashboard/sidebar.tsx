@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
-import { Database, FileDown, Activity, Building2, Settings, LogOut, Key, ChevronLeft, ChevronRight, Shield } from 'lucide-react'
+import { Database, FileDown, Activity, Building2, Settings, LogOut, Key, ChevronLeft, ChevronRight, Shield, BookOpen } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuthStore } from '@/store/auth.store'
 import { useRouter } from 'next/navigation'
@@ -117,6 +117,28 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
               <Shield className="h-5 w-5 shrink-0" aria-hidden="true" />
               {isOpen && <span className="truncate">Admin Panel</span>}
             </Link>
+          </>
+        )}
+
+        {/* API Documentation Link (only for business tier) */}
+        {user?.subscription_tier === 'business' && (
+          <>
+            {isOpen && <div className="border-t my-2" />}
+            <a
+              href={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:7890'}/swagger/index.html`}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="API Documentation (opens in new tab)"
+              title={!isOpen ? 'API Docs' : undefined}
+              className={cn(
+                'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2',
+                'text-muted-foreground hover:bg-gray-100 hover:text-foreground',
+                !isOpen && 'justify-center'
+              )}
+            >
+              <BookOpen className="h-5 w-5 shrink-0" aria-hidden="true" />
+              {isOpen && <span className="truncate">API Docs</span>}
+            </a>
           </>
         )}
       </nav>
