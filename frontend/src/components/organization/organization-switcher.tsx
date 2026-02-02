@@ -1,6 +1,5 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import {
   Select,
   SelectContent,
@@ -11,61 +10,22 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Building2, Loader2, Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import organizationService, { Organization } from '@/services/organization.service';
-import { useToast } from '@/components/toast-provider';
-
-const STORAGE_KEY = 'industrydb_selected_organization';
+import { useOrganization } from '@/contexts/organization.context';
 
 interface OrganizationSwitcherProps {
-  onOrganizationChange?: (organization: Organization | null) => void;
   showCreateButton?: boolean;
 }
 
 export function OrganizationSwitcher({
-  onOrganizationChange,
   showCreateButton = false,
 }: OrganizationSwitcherProps) {
   const router = useRouter();
-  const { toast } = useToast();
-  const [organizations, setOrganizations] = useState<Organization[]>([]);
-  const [selectedOrgId, setSelectedOrgId] = useState<string>('personal');
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    loadOrganizations();
-  }, []);
-
-  const loadOrganizations = async () => {
-    try {
-      setLoading(true);
-      const response = await organizationService.listOrganizations();
-      setOrganizations(response.organizations);
-
-      // Load saved selection from localStorage
-      const savedOrgId = localStorage.getItem(STORAGE_KEY);
-      if (savedOrgId && response.organizations.find((org) => org.id.toString() === savedOrgId)) {
-        setSelectedOrgId(savedOrgId);
-        const selectedOrg = response.organizations.find((org) => org.id.toString() === savedOrgId);
-        if (onOrganizationChange && selectedOrg) {
-          onOrganizationChange(selectedOrg);
-        }
-      } else {
-        // Default to personal account
-        setSelectedOrgId('personal');
-        if (onOrganizationChange) {
-          onOrganizationChange(null);
-        }
-      }
-    } catch (error: any) {
-      toast({
-        title: 'Failed to load organizations',
-        description: error.message || 'Please try again',
-        variant: 'destructive',
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
+  const {
+    currentOrganization,
+    organizations,
+    organizationsLoading,
+    switchOrganization,
+  } = useOrganization();
 
   const handleOrganizationChange = (value: string) => {
     if (value === 'create-new') {
@@ -73,20 +33,11 @@ export function OrganizationSwitcher({
       return;
     }
 
-    setSelectedOrgId(value);
-
-    // Save to localStorage
     if (value === 'personal') {
-      localStorage.removeItem(STORAGE_KEY);
-      if (onOrganizationChange) {
-        onOrganizationChange(null);
-      }
+      switchOrganization(null);
     } else {
-      localStorage.setItem(STORAGE_KEY, value);
-      const selectedOrg = organizations.find((org) => org.id.toString() === value);
-      if (onOrganizationChange && selectedOrg) {
-        onOrganizationChange(selectedOrg);
-      }
+      const orgId = parseInt(value, 10);
+      switchOrganization(orgId);
     }
   };
 
@@ -109,7 +60,11 @@ export function OrganizationSwitcher({
     return name.charAt(0).toUpperCase();
   };
 
-  if (loading) {
+  const selectedValue = currentOrganization
+    ? currentOrganization.id.toString()
+    : 'personal';
+
+  if (organizationsLoading) {
     return (
       <div className="flex items-center gap-2 px-3 py-2 text-sm text-muted-foreground">
         <Loader2 className="h-4 w-4 animate-spin" />
@@ -119,10 +74,10 @@ export function OrganizationSwitcher({
   }
 
   return (
-    <Select value={selectedOrgId} onValueChange={handleOrganizationChange}>
+    <Select value={selectedValue} onValueChange={handleOrganizationChange}>
       <SelectTrigger className="w-full min-w-[200px]">
         <div className="flex items-center gap-2 overflow-hidden">
-          {selectedOrgId === 'personal' ? (
+          {currentOrganization === null ? (
             <>
               <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                 <Building2 className="h-3.5 w-3.5 text-primary" />
@@ -133,23 +88,14 @@ export function OrganizationSwitcher({
             </>
           ) : (
             <>
-              {(() => {
-                const org = organizations.find((o) => o.id.toString() === selectedOrgId);
-                return org ? (
-                  <>
-                    <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                      <span className="text-xs font-semibold text-primary">
-                        {getOrgInitial(org.name)}
-                      </span>
-                    </div>
-                    <SelectValue>
-                      <span className="truncate">{org.name}</span>
-                    </SelectValue>
-                  </>
-                ) : (
-                  <SelectValue />
-                );
-              })()}
+              <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <span className="text-xs font-semibold text-primary">
+                  {getOrgInitial(currentOrganization.name)}
+                </span>
+              </div>
+              <SelectValue>
+                <span className="truncate">{currentOrganization.name}</span>
+              </SelectValue>
             </>
           )}
         </div>

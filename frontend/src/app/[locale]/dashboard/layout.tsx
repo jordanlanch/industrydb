@@ -7,6 +7,7 @@ import { EmailVerificationBanner } from '@/components/email-verification-banner'
 import { DashboardErrorBoundary } from '@/components/error-boundary'
 import { useAuthStore } from '@/store/auth.store'
 import { useSidebarState } from '@/hooks/useSidebarState'
+import { OrganizationProvider } from '@/contexts/organization.context'
 
 export default function DashboardLayout({
   children,
@@ -57,20 +58,22 @@ export default function DashboardLayout({
   }
 
   return (
-    <div className="flex h-screen flex-col">
-      {/* Email verification banner */}
-      {user && !user.email_verified && (
-        <EmailVerificationBanner email={user.email} />
-      )}
+    <OrganizationProvider>
+      <div className="flex h-screen flex-col">
+        {/* Email verification banner */}
+        {user && !user.email_verified && (
+          <EmailVerificationBanner email={user.email} />
+        )}
 
-      <div className="flex flex-1 overflow-hidden">
-        <Sidebar isOpen={isMainSidebarOpen} onToggle={toggleMainSidebar} />
-        <main className="flex-1 overflow-y-auto bg-white">
-          <DashboardErrorBoundary>
-            {children}
-          </DashboardErrorBoundary>
-        </main>
+        <div className="flex flex-1 overflow-hidden">
+          <Sidebar isOpen={isMainSidebarOpen} onToggle={toggleMainSidebar} />
+          <main className="flex-1 overflow-y-auto bg-white">
+            <DashboardErrorBoundary>
+              {children}
+            </DashboardErrorBoundary>
+          </main>
+        </div>
       </div>
-    </div>
+    </OrganizationProvider>
   )
 }
