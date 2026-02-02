@@ -9,9 +9,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge'
 import { billingService } from '@/services/billing.service'
 import { userService } from '@/services/user.service'
+import analyticsService from '@/services/analytics.service'
 import { useAuthStore } from '@/store/auth.store'
 import type { PricingTier } from '@/types'
-import { CreditCard, User, Check, Download, Shield, AlertTriangle } from 'lucide-react'
+import { CreditCard, User, Check, Download, Shield, AlertTriangle, BarChart3, TrendingUp, Activity } from 'lucide-react'
+import { UsageChart, UsageDataPoint } from '@/components/usage-chart'
+import { UsageBreakdownChart, UsageBreakdown } from '@/components/usage-breakdown-chart'
 import {
   Dialog,
   DialogContent,
@@ -34,10 +37,14 @@ export default function SettingsPage() {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [deletePassword, setDeletePassword] = useState('')
   const [deletingAccount, setDeletingAccount] = useState(false)
+  const [usageData, setUsageData] = useState<UsageDataPoint[]>([])
+  const [breakdownData, setBreakdownData] = useState<UsageBreakdown>({ searches: 0, exports: 0, apiCalls: 0 })
+  const [analyticsLoading, setAnalyticsLoading] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
     loadPricing()
+    loadAnalytics()
   }, [])
 
   const loadPricing = async () => {
@@ -46,6 +53,50 @@ export default function SettingsPage() {
       setPricingTiers(response.tiers)
     } catch (error) {
       console.error('Failed to load pricing:', error)
+    }
+  }
+
+  const loadAnalytics = async () => {
+    setAnalyticsLoading(true)
+    try {
+      // Fetch daily usage for chart (last 30 days)
+      const dailyData = await analyticsService.getDailyUsage(30)
+
+      // Transform daily usage data to match UsageChart interface
+      const chartData: UsageDataPoint[] = dailyData.daily_usage.map(day => ({
+        date: day.date,
+        count: day.total
+      }))
+      setUsageData(chartData)
+
+      // Fetch action breakdown for doughnut chart
+      const breakdown = await analyticsService.getActionBreakdown(30)
+
+      // Transform breakdown data to match UsageBreakdownChart interface
+      const transformedBreakdown: UsageBreakdown = {
+        searches: 0,
+        exports: 0,
+        apiCalls: 0
+      }
+
+      breakdown.breakdown.forEach(item => {
+        if (item.action === 'search') {
+          transformedBreakdown.searches = item.count
+        } else if (item.action === 'export') {
+          transformedBreakdown.exports = item.count
+        } else if (item.action === 'api') {
+          transformedBreakdown.apiCalls = item.count
+        }
+      })
+
+      setBreakdownData(transformedBreakdown)
+    } catch (error) {
+      console.error('Failed to load analytics:', error)
+      // Set empty data on error to show empty states
+      setUsageData([])
+      setBreakdownData({ searches: 0, exports: 0, apiCalls: 0 })
+    } finally {
+      setAnalyticsLoading(false)
     }
   }
 
@@ -196,6 +247,105 @@ export default function SettingsPage() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
+              <BarChart3 className="h-5 w-5" aria-hidden="true" />
+              Usage & Analytics
+            </CardTitle>
+            <CardDescription>View your usage patterns and activity over the last 30 days</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {/* Stats Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                <div className="flex items-center gap-2 mb-2">
+                  <Activity className="h-4 w-4 text-blue-600" aria-hidden="true" />
+                  <p className="text-sm font-semibold text-blue-900">Current Usage</p>
+                </div>
+                <p className="text-3xl font-bold text-blue-600">{user?.usage_count || 0}</p>
+                <p className="text-xs text-blue-700 mt-1">leads this month</p>
+              </div>
+
+              <div className="p-4 bg-purple-50 rounded-lg border border-purple-200">
+                <div className="flex items-center gap-2 mb-2">
+                  <TrendingUp className="h-4 w-4 text-purple-600" aria-hidden="true" />
+                  <p className="text-sm font-semibold text-purple-900">Usage Limit</p>
+                </div>
+                <p className="text-3xl font-bold text-purple-600">{user?.usage_limit || 0}</p>
+                <p className="text-xs text-purple-700 mt-1">leads per month</p>
+              </div>
+
+              <div className="p-4 bg-green-50 rounded-lg border border-green-200">
+                <div className="flex items-center gap-2 mb-2">
+                  <Check className="h-4 w-4 text-green-600" aria-hidden="true" />
+                  <p className="text-sm font-semibold text-green-900">Remaining</p>
+                </div>
+                <p className="text-3xl font-bold text-green-600">
+                  {(user?.usage_limit || 0) - (user?.usage_count || 0)}
+                </p>
+                <p className="text-xs text-green-700 mt-1">leads available</p>
+              </div>
+            </div>
+
+            {/* Upgrade Notice if near limit */}
+            {user && user.usage_count >= user.usage_limit * 0.8 && (
+              <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg">
+                <div className="flex items-start gap-3">
+                  <AlertTriangle className="h-5 w-5 text-amber-600 mt-0.5 flex-shrink-0" aria-hidden="true" />
+                  <div className="flex-1">
+                    <h4 className="font-semibold text-amber-900 mb-1">
+                      Approaching Usage Limit
+                    </h4>
+                    <p className="text-sm text-amber-800 mb-3">
+                      You've used {Math.round((user.usage_count / user.usage_limit) * 100)}% of your monthly limit.
+                      Consider upgrading to continue accessing more leads.
+                    </p>
+                    <Button
+                      size="sm"
+                      variant="default"
+                      onClick={() => {
+                        // Scroll to plans section
+                        const plansSection = document.getElementById('plans-section')
+                        plansSection?.scrollIntoView({ behavior: 'smooth' })
+                      }}
+                    >
+                      View Plans
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Charts */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {analyticsLoading ? (
+                <>
+                  <div className="h-[300px] bg-gray-50 rounded-lg border border-gray-200 flex items-center justify-center">
+                    <p className="text-gray-500 text-sm">Loading usage data...</p>
+                  </div>
+                  <div className="h-[300px] bg-gray-50 rounded-lg border border-gray-200 flex items-center justify-center">
+                    <p className="text-gray-500 text-sm">Loading breakdown...</p>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <UsageChart
+                    data={usageData}
+                    title="Daily Usage Trend"
+                    height={300}
+                  />
+                  <UsageBreakdownChart
+                    data={breakdownData}
+                    title="Usage by Action Type"
+                    height={300}
+                  />
+                </>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
               <CreditCard className="h-5 w-5" aria-hidden="true" />
               {t('billing.title')}
             </CardTitle>
@@ -267,7 +417,7 @@ export default function SettingsPage() {
           </CardContent>
         </Card>
 
-        <div>
+        <div id="plans-section">
           <h2 className="text-2xl font-bold mb-4">{t('plans.title')}</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {pricingTiers.map((tier) => {
