@@ -7,6 +7,7 @@ import { Database, FileDown, Activity, Building2, Settings, LogOut, Key, Chevron
 import { Button } from '@/components/ui/button'
 import { useAuthStore } from '@/store/auth.store'
 import { useRouter } from 'next/navigation'
+import { OrganizationSwitcher } from '@/components/organization/organization-switcher'
 
 const navigation = [
   { name: 'Leads', href: '/dashboard/leads', icon: Database },
@@ -71,6 +72,13 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
           </Link>
         </h1>
       </div>
+
+      {/* Organization Switcher */}
+      {isOpen && (
+        <div className="px-3 pt-4 pb-2 border-b">
+          <OrganizationSwitcher showCreateButton={true} />
+        </div>
+      )}
 
       {/* Navigation */}
       <nav className="flex-1 space-y-1 px-3 py-4" aria-label="Dashboard navigation">
