@@ -119,8 +119,8 @@ export default function RegisterPage() {
           <CardContent className="space-y-4">
             {/* API Error Display */}
             {apiError && (
-              <div className="bg-destructive/10 border border-destructive/20 text-destructive px-3 py-2 rounded-md text-sm flex items-start gap-2">
-                <AlertCircle className="h-4 w-4 flex-shrink-0 mt-0.5" />
+              <div role="alert" className="bg-destructive/10 border border-destructive/20 text-destructive px-3 py-2 rounded-md text-sm flex items-start gap-2">
+                <AlertCircle className="h-4 w-4 flex-shrink-0 mt-0.5" aria-hidden="true" />
                 <span>{apiError}</span>
               </div>
             )}
@@ -135,6 +135,7 @@ export default function RegisterPage() {
                 disabled={loading}
                 {...register('name')}
                 aria-invalid={!!errors.name}
+                aria-required="true"
                 aria-describedby={errors.name ? 'name-error' : undefined}
               />
               {errors.name && (
@@ -155,6 +156,7 @@ export default function RegisterPage() {
                 disabled={loading}
                 {...register('email')}
                 aria-invalid={!!errors.email}
+                aria-required="true"
                 aria-describedby={errors.email ? 'email-error' : undefined}
               />
               {errors.email && (
@@ -175,6 +177,7 @@ export default function RegisterPage() {
                 disabled={loading}
                 {...register('password')}
                 aria-invalid={!!errors.password}
+                aria-required="true"
                 aria-describedby="password-requirements"
               />
 
@@ -225,6 +228,7 @@ export default function RegisterPage() {
                 disabled={loading}
                 {...register('acceptedTerms')}
                 aria-invalid={!!errors.acceptedTerms}
+                aria-required="true"
                 aria-describedby={errors.acceptedTerms ? 'terms-error' : undefined}
               />
               <div className="flex-1">

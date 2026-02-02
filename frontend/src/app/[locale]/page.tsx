@@ -55,11 +55,11 @@ export default function HomePage() {
       />
       
       {/* Navigation */}
-      <nav className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-40">
+      <nav className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-40" role="navigation" aria-label="Main navigation">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
             <div className="flex items-center">
-              <Database className="h-8 w-8 text-primary" />
+              <Database className="h-8 w-8 text-primary" aria-hidden="true" />
               <span className="ml-2 text-xl font-bold">IndustryDB</span>
             </div>
             <div className="hidden md:flex items-center gap-6">
@@ -85,11 +85,11 @@ export default function HomePage() {
         </div>
       </nav>
 
-      <main>
+      <main role="main">
         {/* Hero Section */}
-        <section className="py-20 px-4">
+        <section className="py-20 px-4" aria-labelledby="hero-title">
           <div className="max-w-7xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+            <h1 id="hero-title" className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
               {t('hero.title')}
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
@@ -99,7 +99,7 @@ export default function HomePage() {
               <Link href="/register">
                 <Button size="lg" className="w-full sm:w-auto">
                   {t('hero.cta')}
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
                 </Button>
               </Link>
               <Link href="/pricing">
@@ -115,7 +115,7 @@ export default function HomePage() {
         </section>
 
         {/* Stats Section */}
-        <section className="py-16 bg-white border-y">
+        <section className="py-16 bg-white border-y" aria-label="Platform statistics">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               {stats.map((stat) => {
@@ -124,7 +124,7 @@ export default function HomePage() {
                   <div key={stat.id} className="text-center">
                     <div className="flex justify-center mb-3">
                       <div className="p-3 bg-primary/10 rounded-full">
-                        <Icon className="h-6 w-6 text-primary" />
+                        <Icon className="h-6 w-6 text-primary" aria-hidden="true" />
                       </div>
                     </div>
                     <div className="text-3xl md:text-4xl font-bold text-gray-900 mb-1">
@@ -141,9 +141,9 @@ export default function HomePage() {
         </section>
 
         {/* Features Section */}
-        <section className="py-20 px-4">
+        <section className="py-20 px-4" aria-labelledby="features-title">
           <div className="max-w-7xl mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-4">
+            <h2 id="features-title" className="text-3xl font-bold text-center mb-4">
               {t('features.title')}
             </h2>
             <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
@@ -152,7 +152,7 @@ export default function HomePage() {
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
               <Card className="border-0 shadow-lg">
                 <CardHeader>
-                  <Database className="h-10 w-10 text-primary mb-2" />
+                  <Database className="h-10 w-10 text-primary mb-2" aria-hidden="true" />
                   <CardTitle>{t('features.verified.title')}</CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -164,7 +164,7 @@ export default function HomePage() {
 
               <Card className="border-0 shadow-lg">
                 <CardHeader>
-                  <Zap className="h-10 w-10 text-primary mb-2" />
+                  <Zap className="h-10 w-10 text-primary mb-2" aria-hidden="true" />
                   <CardTitle>Instant Access</CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -176,7 +176,7 @@ export default function HomePage() {
 
               <Card className="border-0 shadow-lg">
                 <CardHeader>
-                  <DollarSign className="h-10 w-10 text-primary mb-2" />
+                  <DollarSign className="h-10 w-10 text-primary mb-2" aria-hidden="true" />
                   <CardTitle>{t('features.affordable.title')}</CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -188,7 +188,7 @@ export default function HomePage() {
 
               <Card className="border-0 shadow-lg">
                 <CardHeader>
-                  <Shield className="h-10 w-10 text-primary mb-2" />
+                  <Shield className="h-10 w-10 text-primary mb-2" aria-hidden="true" />
                   <CardTitle>Industry Focus</CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -202,9 +202,9 @@ export default function HomePage() {
         </section>
 
         {/* Pricing Preview Section */}
-        <section className="py-20 px-4 bg-gray-50">
+        <section className="py-20 px-4 bg-gray-50" aria-labelledby="pricing-title">
           <div className="max-w-7xl mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-4">
+            <h2 id="pricing-title" className="text-3xl font-bold text-center mb-4">
               {t('pricing.title')}
             </h2>
             <p className="text-center text-muted-foreground mb-12">
@@ -255,9 +255,9 @@ export default function HomePage() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-20 px-4 bg-primary text-primary-foreground">
+        <section className="py-20 px-4 bg-primary text-primary-foreground" aria-labelledby="cta-title">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            <h2 id="cta-title" className="text-3xl md:text-4xl font-bold mb-4">
               {t('cta.title')}
             </h2>
             <p className="text-lg mb-8 opacity-90">
@@ -266,7 +266,7 @@ export default function HomePage() {
             <Link href="/register">
               <Button size="lg" variant="secondary">
                 {t('cta.button')}
-                <ArrowRight className="ml-2 h-4 w-4" />
+                <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
               </Button>
             </Link>
           </div>
@@ -274,13 +274,13 @@ export default function HomePage() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-gray-300">
+      <footer className="bg-gray-900 text-gray-300" role="contentinfo">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {/* Brand */}
             <div className="col-span-1 md:col-span-1">
               <div className="flex items-center mb-4">
-                <Database className="h-8 w-8 text-primary" />
+                <Database className="h-8 w-8 text-primary" aria-hidden="true" />
                 <span className="ml-2 text-xl font-bold text-white">IndustryDB</span>
               </div>
               <p className="text-sm text-gray-400">

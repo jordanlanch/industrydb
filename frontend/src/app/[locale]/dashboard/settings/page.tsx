@@ -142,7 +142,7 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="p-8">
+    <div className="p-8" role="main">
       <div className="mb-6">
         <h1 className="text-3xl font-bold mb-2">{t('title')}</h1>
         <p className="text-muted-foreground">
@@ -154,7 +154,7 @@ export default function SettingsPage() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <User className="h-5 w-5" />
+              <User className="h-5 w-5" aria-hidden="true" />
               {t('profile.title')}
             </CardTitle>
             <CardDescription>{t('profile.description')}</CardDescription>
@@ -162,12 +162,12 @@ export default function SettingsPage() {
           <CardContent className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <Label>{t('profile.name')}</Label>
-                <Input value={user?.name || ''} disabled />
+                <Label htmlFor="profile-name">{t('profile.name')}</Label>
+                <Input id="profile-name" value={user?.name || ''} disabled aria-readonly="true" />
               </div>
               <div>
-                <Label>{t('profile.email')}</Label>
-                <Input value={user?.email || ''} disabled />
+                <Label htmlFor="profile-email">{t('profile.email')}</Label>
+                <Input id="profile-email" type="email" value={user?.email || ''} disabled aria-readonly="true" />
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -196,7 +196,7 @@ export default function SettingsPage() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <CreditCard className="h-5 w-5" />
+              <CreditCard className="h-5 w-5" aria-hidden="true" />
               {t('billing.title')}
             </CardTitle>
             <CardDescription>{t('billing.description')}</CardDescription>
@@ -207,8 +207,8 @@ export default function SettingsPage() {
                 <p className="text-sm text-muted-foreground">
                   {t('billing.currentPlan', { tier: user?.subscription_tier })}
                 </p>
-                <Button onClick={handleManageBilling} disabled={loading}>
-                  <CreditCard className="h-4 w-4 mr-2" />
+                <Button onClick={handleManageBilling} disabled={loading} aria-label={loading ? t('billing.loading') : t('billing.manageBilling')}>
+                  <CreditCard className="h-4 w-4 mr-2" aria-hidden="true" />
                   {loading ? t('billing.loading') : t('billing.manageBilling')}
                 </Button>
                 <p className="text-xs text-muted-foreground">
@@ -226,7 +226,7 @@ export default function SettingsPage() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Shield className="h-5 w-5" />
+              <Shield className="h-5 w-5" aria-hidden="true" />
               {t('privacy.title')}
             </CardTitle>
             <CardDescription>{t('privacy.description')}</CardDescription>
@@ -241,15 +241,16 @@ export default function SettingsPage() {
                 variant="outline"
                 onClick={handleExportData}
                 disabled={exportingData}
+                aria-label={exportingData ? t('privacy.export.downloading') : t('privacy.export.button')}
               >
-                <Download className="h-4 w-4 mr-2" />
+                <Download className="h-4 w-4 mr-2" aria-hidden="true" />
                 {exportingData ? t('privacy.export.downloading') : t('privacy.export.button')}
               </Button>
             </div>
 
             <div className="pt-4 border-t">
               <h4 className="font-semibold mb-2 text-destructive flex items-center gap-2">
-                <AlertTriangle className="h-4 w-4" />
+                <AlertTriangle className="h-4 w-4" aria-hidden="true" />
                 {t('privacy.delete.title')}
               </h4>
               <p className="text-sm text-muted-foreground mb-3">
@@ -258,6 +259,7 @@ export default function SettingsPage() {
               <Button
                 variant="destructive"
                 onClick={() => setDeleteDialogOpen(true)}
+                aria-label={t('privacy.delete.button')}
               >
                 {t('privacy.delete.button')}
               </Button>
@@ -325,13 +327,13 @@ export default function SettingsPage() {
 
       {/* Delete Account Confirmation Dialog */}
       <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <DialogContent>
+        <DialogContent role="alertdialog" aria-labelledby="delete-dialog-title" aria-describedby="delete-dialog-description">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-destructive">
-              <AlertTriangle className="h-5 w-5" />
+            <DialogTitle id="delete-dialog-title" className="flex items-center gap-2 text-destructive">
+              <AlertTriangle className="h-5 w-5" aria-hidden="true" />
               {t('deleteDialog.title')}
             </DialogTitle>
-            <DialogDescription>
+            <DialogDescription id="delete-dialog-description">
               {t('deleteDialog.description')}
             </DialogDescription>
           </DialogHeader>
@@ -348,6 +350,8 @@ export default function SettingsPage() {
                 onChange={(e) => setDeletePassword(e.target.value)}
                 placeholder={t('deleteDialog.passwordPlaceholder')}
                 disabled={deletingAccount}
+                aria-required="true"
+                aria-invalid={!deletePassword && deletingAccount}
               />
             </div>
 

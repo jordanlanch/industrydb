@@ -79,8 +79,8 @@ export default function LoginPage() {
           <CardContent className="space-y-4">
             {/* API Error Display */}
             {apiError && (
-              <div className="bg-destructive/10 border border-destructive/20 text-destructive px-3 py-2 rounded-md text-sm flex items-start gap-2">
-                <AlertCircle className="h-4 w-4 flex-shrink-0 mt-0.5" />
+              <div role="alert" className="bg-destructive/10 border border-destructive/20 text-destructive px-3 py-2 rounded-md text-sm flex items-start gap-2">
+                <AlertCircle className="h-4 w-4 flex-shrink-0 mt-0.5" aria-hidden="true" />
                 <span>{apiError}</span>
               </div>
             )}
@@ -102,6 +102,7 @@ export default function LoginPage() {
                 disabled={loading}
                 className={validationErrors.email ? 'border-red-500' : ''}
                 aria-invalid={!!validationErrors.email}
+                aria-required="true"
                 aria-describedby={validationErrors.email ? 'email-error' : undefined}
               />
               {validationErrors.email && (
@@ -137,6 +138,7 @@ export default function LoginPage() {
                 disabled={loading}
                 className={validationErrors.password ? 'border-red-500' : ''}
                 aria-invalid={!!validationErrors.password}
+                aria-required="true"
                 aria-describedby={validationErrors.password ? 'password-error' : undefined}
               />
               {validationErrors.password && (
