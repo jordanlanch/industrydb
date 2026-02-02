@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
-import { Database, FileDown, Activity, Building2, Settings, LogOut, Key, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Database, FileDown, Activity, Building2, Settings, LogOut, Key, ChevronLeft, ChevronRight, Shield } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuthStore } from '@/store/auth.store'
 import { useRouter } from 'next/navigation'
@@ -96,6 +96,29 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
             </Link>
           )
         })}
+
+        {/* Admin Panel Link (only for admin/superadmin) */}
+        {(user?.role === 'admin' || user?.role === 'superadmin') && (
+          <>
+            {isOpen && <div className="border-t my-2" />}
+            <Link
+              href="/admin"
+              aria-current={pathname?.startsWith('/admin') ? 'page' : undefined}
+              aria-label="Admin Panel"
+              title={!isOpen ? 'Admin Panel' : undefined}
+              className={cn(
+                'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2',
+                pathname?.startsWith('/admin')
+                  ? 'bg-destructive text-destructive-foreground'
+                  : 'text-destructive hover:bg-red-50 hover:text-destructive',
+                !isOpen && 'justify-center'
+              )}
+            >
+              <Shield className="h-5 w-5 shrink-0" aria-hidden="true" />
+              {isOpen && <span className="truncate">Admin Panel</span>}
+            </Link>
+          </>
+        )}
       </nav>
 
       {/* Footer */}

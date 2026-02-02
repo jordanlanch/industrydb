@@ -116,6 +116,24 @@
     cursor: pointer;
   }
 
+  /* Links should be distinguishable - underline text links */
+  a:not(.no-underline) {
+    text-decoration-line: underline;
+    text-decoration-color: currentColor;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+
+  /* Remove underline from button-styled links */
+  a.button,
+  a > button,
+  button > a,
+  nav a,
+  .nav a,
+  [role="navigation"] a {
+    text-decoration: none;
+  }
+
   /* Disabled state cursor */
   button:disabled, a:disabled, select:disabled, [aria-disabled="true"] {
     cursor: not-allowed;
