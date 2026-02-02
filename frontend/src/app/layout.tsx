@@ -1,11 +1,14 @@
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
+import Script from "next/script"
 import "./globals.css"
 import { CookieBanner } from "@/components/cookie-consent"
 import { ToastProvider } from "@/components/toast-provider"
 import { Toaster } from "@/components/toaster"
 import { SkipLink } from "@/components/skip-link"
 import { ErrorBoundary } from "@/components/error-boundary"
+
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -69,6 +72,46 @@ export default function RootLayout({
 }) {
   return (
     <html suppressHydrationWarning>
+      <head>
+        {/* Google Analytics - Consent Mode */}
+        {GA_MEASUREMENT_ID && (
+          <>
+            <Script
+              id="gtag-consent-default"
+              strategy="beforeInteractive"
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+
+                  // Set default consent to 'denied' (GDPR compliant)
+                  gtag('consent', 'default', {
+                    'analytics_storage': 'denied'
+                  });
+                `,
+              }}
+            />
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script
+              id="gtag-init"
+              strategy="afterInteractive"
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', '${GA_MEASUREMENT_ID}', {
+                    page_path: window.location.pathname,
+                  });
+                `,
+              }}
+            />
+          </>
+        )}
+      </head>
       <body className={`${inter.className} flex flex-col min-h-screen`}>
         <SkipLink />
         <ErrorBoundary>
