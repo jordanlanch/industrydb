@@ -11,6 +11,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { authService } from '@/services/auth.service'
 import { useAuthStore } from '@/store/auth.store'
 import { AlertCircle } from 'lucide-react'
+import { loginSchema, type LoginFormData } from '@/lib/validations'
 
 export default function LoginPage() {
   const t = useTranslations('auth.login')
@@ -19,18 +20,36 @@ export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [apiError, setApiError] = useState('')
+  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({})
   const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setApiError('')
+    setValidationErrors({})
     setLoading(true)
 
-    try {
-      const response = await authService.login({
-        email: email.trim().toLowerCase(),
-        password: password,
+    // Validate form data with Zod
+    const formData: LoginFormData = {
+      email: email.trim().toLowerCase(),
+      password: password,
+    }
+
+    const validation = loginSchema.safeParse(formData)
+
+    if (!validation.success) {
+      const errors: Record<string, string> = {}
+      validation.error.errors.forEach((err) => {
+        const path = err.path.join('.')
+        errors[path] = err.message
       })
+      setValidationErrors(errors)
+      setLoading(false)
+      return
+    }
+
+    try {
+      const response = await authService.login(validation.data)
 
       login(response.token, response.user)
       router.push('/dashboard')
@@ -74,10 +93,22 @@ export default function LoginPage() {
                 type="email"
                 placeholder={t('emailPlaceholder')}
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value)
+                  if (validationErrors.email) {
+                    setValidationErrors((prev) => ({ ...prev, email: '' }))
+                  }
+                }}
                 disabled={loading}
-                required
+                className={validationErrors.email ? 'border-red-500' : ''}
+                aria-invalid={!!validationErrors.email}
+                aria-describedby={validationErrors.email ? 'email-error' : undefined}
               />
+              {validationErrors.email && (
+                <p id="email-error" className="text-sm text-red-500">
+                  {validationErrors.email}
+                </p>
+              )}
             </div>
 
             {/* Password Field */}
@@ -97,10 +128,22 @@ export default function LoginPage() {
                 type="password"
                 placeholder={t('passwordPlaceholder')}
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value)
+                  if (validationErrors.password) {
+                    setValidationErrors((prev) => ({ ...prev, password: '' }))
+                  }
+                }}
                 disabled={loading}
-                required
+                className={validationErrors.password ? 'border-red-500' : ''}
+                aria-invalid={!!validationErrors.password}
+                aria-describedby={validationErrors.password ? 'password-error' : undefined}
               />
+              {validationErrors.password && (
+                <p id="password-error" className="text-sm text-red-500">
+                  {validationErrors.password}
+                </p>
+              )}
             </div>
           </CardContent>
 
