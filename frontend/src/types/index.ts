@@ -4,6 +4,7 @@ export interface User {
   email: string
   name: string
   subscription_tier: 'free' | 'starter' | 'pro' | 'business'
+  role: 'user' | 'admin' | 'superadmin'
   usage_count: number
   usage_limit: number
   email_verified: boolean
