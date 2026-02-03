@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { useAuthStore } from '@/store/auth.store'
 import { leadsService } from '@/services/leads.service'
+import { useOrganization } from '@/contexts/organization.context'
 import { PopularIndustriesWidget } from '@/components/dashboard/popular-industries-widget'
 import { TrendingSearchesWidget } from '@/components/dashboard/trending-searches-widget'
 import { RecentSearchesWidget } from '@/components/dashboard/recent-searches-widget'
@@ -31,6 +32,7 @@ export default function DashboardPage() {
   const router = useRouter()
   const t = useTranslations('dashboard')
   const { user } = useAuthStore()
+  const { currentOrganization, currentUsage, usageLimit, remainingLeads } = useOrganization()
   const [usage, setUsage] = useState<UsageInfo | null>(null)
   const [stats, setStats] = useState({
     totalLeads: 100000,
@@ -41,12 +43,24 @@ export default function DashboardPage() {
 
   useEffect(() => {
     loadUsage()
-  }, [])
+  }, [currentOrganization]) // Reload when organization changes
 
   const loadUsage = async () => {
     try {
-      const data = await leadsService.getUsage()
-      setUsage(data)
+      // If using an organization, use organization usage data from context
+      if (currentOrganization) {
+        setUsage({
+          usage_count: currentUsage,
+          usage_limit: usageLimit,
+          remaining: remainingLeads,
+          tier: currentOrganization.subscription_tier,
+          reset_at: '', // Organization doesn't expose reset_at yet
+        })
+      } else {
+        // Personal account - fetch from API
+        const data = await leadsService.getUsage()
+        setUsage(data)
+      }
     } catch (error) {
       console.error('Failed to load usage:', error)
     } finally {
@@ -88,8 +102,8 @@ export default function DashboardPage() {
             </p>
           </div>
           <div className="flex items-center gap-3">
-            <Badge variant={getTierBadgeVariant(user?.subscription_tier || 'free')} className="text-sm">
-              {t('planBadge', { tier: (user?.subscription_tier || 'FREE').toUpperCase() })}
+            <Badge variant={getTierBadgeVariant(currentOrganization?.subscription_tier || user?.subscription_tier || 'free')} className="text-sm">
+              {t('planBadge', { tier: (currentOrganization?.subscription_tier || user?.subscription_tier || 'FREE').toUpperCase() })}
             </Badge>
             {user?.subscription_tier === 'free' && (
               <Link href="/dashboard/settings/billing">
@@ -110,10 +124,19 @@ export default function DashboardPage() {
             <div className="flex items-center justify-between flex-wrap gap-4">
               <div>
                 <div className="flex items-center gap-2 mb-2">
-                  <h3 className="text-lg font-semibold">{t('monthlyUsage')}</h3>
+                  <h3 className="text-lg font-semibold">
+                    {currentOrganization
+                      ? `${currentOrganization.name} - ${t('monthlyUsage')}`
+                      : t('monthlyUsage')}
+                  </h3>
                   <Badge variant={usage.remaining > 10 ? 'default' : 'destructive'}>
                     {usage.remaining} {t('remaining')}
                   </Badge>
+                  {currentOrganization && (
+                    <Badge variant="outline" className="bg-primary/10 text-primary">
+                      Organization
+                    </Badge>
+                  )}
                 </div>
                 <p className="text-3xl font-bold text-primary">
                   {usage.usage_count} / {usage.usage_limit}
