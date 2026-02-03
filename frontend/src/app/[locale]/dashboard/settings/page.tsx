@@ -7,12 +7,13 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { Switch } from '@/components/ui/switch'
 import { billingService } from '@/services/billing.service'
 import { userService } from '@/services/user.service'
 import analyticsService from '@/services/analytics.service'
 import { useAuthStore } from '@/store/auth.store'
 import type { PricingTier } from '@/types'
-import { CreditCard, User, Check, Download, Shield, AlertTriangle, BarChart3, TrendingUp, Activity } from 'lucide-react'
+import { CreditCard, User, Check, Download, Shield, AlertTriangle, BarChart3, TrendingUp, Activity, RefreshCw } from 'lucide-react'
 import { UsageChart, UsageDataPoint } from '@/components/usage-chart'
 import { UsageBreakdownChart, UsageBreakdown } from '@/components/usage-breakdown-chart'
 import {
@@ -34,18 +35,32 @@ export default function SettingsPage() {
   const [loading, setLoading] = useState(false)
   const [upgradingTo, setUpgradingTo] = useState<string | null>(null)
   const [exportingData, setExportingData] = useState(false)
+  const [restartingTutorial, setRestartingTutorial] = useState(false)
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [deletePassword, setDeletePassword] = useState('')
   const [deletingAccount, setDeletingAccount] = useState(false)
   const [usageData, setUsageData] = useState<UsageDataPoint[]>([])
   const [breakdownData, setBreakdownData] = useState<UsageBreakdown>({ searches: 0, exports: 0, apiCalls: 0 })
   const [analyticsLoading, setAnalyticsLoading] = useState(false)
+  const [autoRefresh, setAutoRefresh] = useState(true)
+  const [lastRefresh, setLastRefresh] = useState<Date>(new Date())
   const router = useRouter()
 
   useEffect(() => {
     loadPricing()
     loadAnalytics()
   }, [])
+
+  // Auto-refresh analytics every 30 seconds
+  useEffect(() => {
+    if (!autoRefresh) return
+
+    const interval = setInterval(() => {
+      loadAnalytics()
+    }, 30000) // 30 seconds
+
+    return () => clearInterval(interval)
+  }, [autoRefresh])
 
   const loadPricing = async () => {
     try {
@@ -90,6 +105,7 @@ export default function SettingsPage() {
       })
 
       setBreakdownData(transformedBreakdown)
+      setLastRefresh(new Date()) // Update last refresh timestamp
     } catch (error) {
       console.error('Failed to load analytics:', error)
       // Set empty data on error to show empty states
@@ -156,6 +172,29 @@ export default function SettingsPage() {
       })
     } finally {
       setExportingData(false)
+    }
+  }
+
+  const handleRestartTutorial = async () => {
+    setRestartingTutorial(true)
+    try {
+      await userService.resetOnboarding()
+      toast({
+        title: 'Tutorial Reset',
+        description: 'Redirecting to onboarding wizard...',
+        variant: 'default',
+      })
+      // Redirect to onboarding after short delay
+      setTimeout(() => {
+        router.push('/dashboard/onboarding')
+      }, 1500)
+    } catch (error: any) {
+      toast({
+        title: 'Failed to restart tutorial',
+        description: error.response?.data?.message || error.message,
+        variant: 'destructive',
+      })
+      setRestartingTutorial(false)
     }
   }
 
@@ -253,6 +292,37 @@ export default function SettingsPage() {
             <CardDescription>View your usage patterns and activity over the last 30 days</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
+            {/* Auto-refresh controls */}
+            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200">
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <span>Last updated:</span>
+                  <span className="font-medium text-foreground">
+                    {lastRefresh.toLocaleTimeString()}
+                  </span>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={loadAnalytics}
+                  disabled={analyticsLoading}
+                >
+                  <RefreshCw className={`h-4 w-4 mr-2 ${analyticsLoading ? 'animate-spin' : ''}`} />
+                  {analyticsLoading ? 'Refreshing...' : 'Refresh'}
+                </Button>
+              </div>
+              <div className="flex items-center gap-2">
+                <Label htmlFor="auto-refresh" className="text-sm font-medium">
+                  Auto-refresh (30s)
+                </Label>
+                <Switch
+                  id="auto-refresh"
+                  checked={autoRefresh}
+                  onCheckedChange={setAutoRefresh}
+                />
+              </div>
+            </div>
+
             {/* Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
@@ -395,6 +465,22 @@ export default function SettingsPage() {
               >
                 <Download className="h-4 w-4 mr-2" aria-hidden="true" />
                 {exportingData ? t('privacy.export.downloading') : t('privacy.export.button')}
+              </Button>
+            </div>
+
+            <div className="pt-4 border-t">
+              <h4 className="font-semibold mb-2">Restart Tutorial</h4>
+              <p className="text-sm text-muted-foreground mb-3">
+                Go through the onboarding wizard again to learn about all features.
+              </p>
+              <Button
+                variant="outline"
+                onClick={handleRestartTutorial}
+                disabled={restartingTutorial}
+                aria-label={restartingTutorial ? 'Restarting tutorial...' : 'Restart Tutorial'}
+              >
+                <User className="h-4 w-4 mr-2" aria-hidden="true" />
+                {restartingTutorial ? 'Restarting...' : 'Restart Tutorial'}
               </Button>
             </div>
 

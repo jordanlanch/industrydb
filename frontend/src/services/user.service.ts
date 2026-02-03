@@ -43,6 +43,14 @@ export const userService = {
   },
 
   /**
+   * Reset onboarding status to restart the tutorial
+   */
+  async resetOnboarding(): Promise<{ message: string }> {
+    const response = await apiClient.post('/user/onboarding/reset', {});
+    return response.data;
+  },
+
+  /**
    * Export all personal data (GDPR Article 15 - Right of Access)
    */
   async exportPersonalData(): Promise<PersonalDataExport> {

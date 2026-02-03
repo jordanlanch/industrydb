@@ -10,6 +10,12 @@ import { useTranslations } from 'next-intl'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 import { useAuthStore } from '@/store/auth.store'
 import { leadsService } from '@/services/leads.service'
 import { useOrganization } from '@/contexts/organization.context'
@@ -89,6 +95,7 @@ export default function DashboardPage() {
   }
 
   return (
+    <TooltipProvider>
     <div className="p-8">
       {/* Header */}
       <div className="mb-8">
@@ -106,12 +113,19 @@ export default function DashboardPage() {
               {t('planBadge', { tier: (currentOrganization?.subscription_tier || user?.subscription_tier || 'FREE').toUpperCase() })}
             </Badge>
             {user?.subscription_tier === 'free' && (
-              <Link href="/dashboard/settings/billing">
-                <Button size="sm">
-                  <Sparkles className="mr-2 h-4 w-4" />
-                  {t('upgrade')}
-                </Button>
-              </Link>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Link href="/dashboard/settings/billing">
+                    <Button size="sm">
+                      <Sparkles className="mr-2 h-4 w-4" />
+                      {t('upgrade')}
+                    </Button>
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Get more leads and unlock advanced features</p>
+                </TooltipContent>
+              </Tooltip>
             )}
           </div>
         </div>
@@ -129,9 +143,17 @@ export default function DashboardPage() {
                       ? `${currentOrganization.name} - ${t('monthlyUsage')}`
                       : t('monthlyUsage')}
                   </h3>
-                  <Badge variant={usage.remaining > 10 ? 'default' : 'destructive'}>
-                    {usage.remaining} {t('remaining')}
-                  </Badge>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Badge variant={usage.remaining > 10 ? 'default' : 'destructive'}>
+                        {usage.remaining} {t('remaining')}
+                      </Badge>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Number of leads you can still access this month</p>
+                      <p className="text-xs mt-1">Resets on {new Date(usage.reset_at || Date.now()).toLocaleDateString()}</p>
+                    </TooltipContent>
+                  </Tooltip>
                   {currentOrganization && (
                     <Badge variant="outline" className="bg-primary/10 text-primary">
                       Organization
@@ -147,18 +169,32 @@ export default function DashboardPage() {
               </div>
 
               <div className="flex gap-2">
-                <Link href="/dashboard/leads">
-                  <Button>
-                    <Search className="mr-2 h-4 w-4" />
-                    {t('searchLeads')}
-                  </Button>
-                </Link>
-                <Link href="/dashboard/exports">
-                  <Button variant="outline">
-                    <Download className="mr-2 h-4 w-4" />
-                    {t('exports')}
-                  </Button>
-                </Link>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Link href="/dashboard/leads">
+                      <Button>
+                        <Search className="mr-2 h-4 w-4" />
+                        {t('searchLeads')}
+                      </Button>
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Find business leads by industry, location, and more</p>
+                  </TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Link href="/dashboard/exports">
+                      <Button variant="outline">
+                        <Download className="mr-2 h-4 w-4" />
+                        {t('exports')}
+                      </Button>
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Download your search results as CSV or Excel files</p>
+                  </TooltipContent>
+                </Tooltip>
               </div>
             </div>
 
@@ -229,57 +265,85 @@ export default function DashboardPage() {
       <div className="mb-6">
         <h2 className="text-xl font-semibold mb-4">{t('quickActions.title')}</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Link href="/dashboard/leads">
-            <Card className="hover:shadow-md transition-shadow cursor-pointer">
-              <CardContent className="pt-6">
-                <Search className="h-8 w-8 text-primary mb-3" />
-                <h3 className="font-semibold mb-1">{t('quickActions.searchLeads')}</h3>
-                <p className="text-sm text-muted-foreground mb-3">
-                  {t('quickActions.searchLeadsDesc')}
-                </p>
-                <ArrowRight className="h-4 w-4 text-muted-foreground" />
-              </CardContent>
-            </Card>
-          </Link>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Link href="/dashboard/leads">
+                <Card className="hover:shadow-md transition-shadow cursor-pointer">
+                  <CardContent className="pt-6">
+                    <Search className="h-8 w-8 text-primary mb-3" />
+                    <h3 className="font-semibold mb-1">{t('quickActions.searchLeads')}</h3>
+                    <p className="text-sm text-muted-foreground mb-3">
+                      {t('quickActions.searchLeadsDesc')}
+                    </p>
+                    <ArrowRight className="h-4 w-4 text-muted-foreground" />
+                  </CardContent>
+                </Card>
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent side="top">
+              <p>Filter by industry, country, city, and contact info</p>
+            </TooltipContent>
+          </Tooltip>
 
-          <Link href="/dashboard/saved-searches">
-            <Card className="hover:shadow-md transition-shadow cursor-pointer">
-              <CardContent className="pt-6">
-                <Database className="h-8 w-8 text-blue-500 mb-3" />
-                <h3 className="font-semibold mb-1">{t('quickActions.savedSearches')}</h3>
-                <p className="text-sm text-muted-foreground mb-3">
-                  {t('quickActions.savedSearchesDesc')}
-                </p>
-                <ArrowRight className="h-4 w-4 text-muted-foreground" />
-              </CardContent>
-            </Card>
-          </Link>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Link href="/dashboard/saved-searches">
+                <Card className="hover:shadow-md transition-shadow cursor-pointer">
+                  <CardContent className="pt-6">
+                    <Database className="h-8 w-8 text-blue-500 mb-3" />
+                    <h3 className="font-semibold mb-1">{t('quickActions.savedSearches')}</h3>
+                    <p className="text-sm text-muted-foreground mb-3">
+                      {t('quickActions.savedSearchesDesc')}
+                    </p>
+                    <ArrowRight className="h-4 w-4 text-muted-foreground" />
+                  </CardContent>
+                </Card>
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent side="top">
+              <p>Reuse your favorite search filters without re-entering them</p>
+            </TooltipContent>
+          </Tooltip>
 
-          <Link href="/dashboard/exports">
-            <Card className="hover:shadow-md transition-shadow cursor-pointer">
-              <CardContent className="pt-6">
-                <Download className="h-8 w-8 text-green-500 mb-3" />
-                <h3 className="font-semibold mb-1">{t('quickActions.viewExports')}</h3>
-                <p className="text-sm text-muted-foreground mb-3">
-                  {t('quickActions.viewExportsDesc')}
-                </p>
-                <ArrowRight className="h-4 w-4 text-muted-foreground" />
-              </CardContent>
-            </Card>
-          </Link>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Link href="/dashboard/exports">
+                <Card className="hover:shadow-md transition-shadow cursor-pointer">
+                  <CardContent className="pt-6">
+                    <Download className="h-8 w-8 text-green-500 mb-3" />
+                    <h3 className="font-semibold mb-1">{t('quickActions.viewExports')}</h3>
+                    <p className="text-sm text-muted-foreground mb-3">
+                      {t('quickActions.viewExportsDesc')}
+                    </p>
+                    <ArrowRight className="h-4 w-4 text-muted-foreground" />
+                  </CardContent>
+                </Card>
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent side="top">
+              <p>Download and manage all your exported files in one place</p>
+            </TooltipContent>
+          </Tooltip>
 
-          <Link href="/dashboard/settings/billing">
-            <Card className="hover:shadow-md transition-shadow cursor-pointer">
-              <CardContent className="pt-6">
-                <TrendingUp className="h-8 w-8 text-purple-500 mb-3" />
-                <h3 className="font-semibold mb-1">{t('quickActions.upgradePlan')}</h3>
-                <p className="text-sm text-muted-foreground mb-3">
-                  {t('quickActions.upgradePlanDesc')}
-                </p>
-                <ArrowRight className="h-4 w-4 text-muted-foreground" />
-              </CardContent>
-            </Card>
-          </Link>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Link href="/dashboard/settings/billing">
+                <Card className="hover:shadow-md transition-shadow cursor-pointer">
+                  <CardContent className="pt-6">
+                    <TrendingUp className="h-8 w-8 text-purple-500 mb-3" />
+                    <h3 className="font-semibold mb-1">{t('quickActions.upgradePlan')}</h3>
+                    <p className="text-sm text-muted-foreground mb-3">
+                      {t('quickActions.upgradePlanDesc')}
+                    </p>
+                    <ArrowRight className="h-4 w-4 text-muted-foreground" />
+                  </CardContent>
+                </Card>
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent side="top">
+              <p>Get more leads, email addresses, and API access with a paid plan</p>
+            </TooltipContent>
+          </Tooltip>
         </div>
       </div>
 
@@ -297,5 +361,6 @@ export default function DashboardPage() {
         </div>
       </div>
     </div>
+    </TooltipProvider>
   )
 }
