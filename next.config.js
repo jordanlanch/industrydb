@@ -1,3 +1,4 @@
+const { withSentryConfig } = require('@sentry/nextjs');
 const withNextIntl = require('next-intl/plugin')(
   // Specify the path to the request config
   './src/i18n/request.ts'
@@ -77,4 +78,20 @@ const nextConfig = {
   },
 }
 
-module.exports = withNextIntl(nextConfig)
+const sentryWebpackPluginOptions = {
+  // Upload source maps in production only
+  silent: true,
+  org: process.env.SENTRY_ORG,
+  project: process.env.SENTRY_PROJECT,
+  authToken: process.env.SENTRY_AUTH_TOKEN,
+  widenClientFileUpload: true,
+  hideSourceMaps: true,
+  disableLogger: true,
+}
+
+// Only wrap with Sentry if DSN is configured
+const configWithIntl = withNextIntl(nextConfig)
+
+module.exports = process.env.NEXT_PUBLIC_SENTRY_DSN
+  ? withSentryConfig(configWithIntl, sentryWebpackPluginOptions)
+  : configWithIntl

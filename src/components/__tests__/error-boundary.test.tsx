@@ -1,6 +1,11 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { ErrorBoundary, DashboardErrorBoundary } from '../error-boundary';
+import { captureError } from '@/lib/sentry';
+
+jest.mock('@/lib/sentry', () => ({
+  captureError: jest.fn(),
+}));
 
 // Test component that throws an error when shouldThrow prop is true
 const ThrowError = ({ shouldThrow }: { shouldThrow: boolean }) => {
@@ -264,6 +269,24 @@ describe('ErrorBoundary', () => {
       );
       expect(errorCalls.length).toBeGreaterThan(0);
     });
+
+    test('calls captureError from Sentry when error is caught', () => {
+      (captureError as jest.Mock).mockClear();
+
+      render(
+        <ErrorBoundary>
+          <ThrowError shouldThrow={true} />
+        </ErrorBoundary>
+      );
+
+      expect(captureError).toHaveBeenCalledTimes(1);
+      expect(captureError).toHaveBeenCalledWith(
+        expect.any(Error),
+        expect.objectContaining({
+          componentStack: expect.any(String),
+        })
+      );
+    });
   });
 });
 
@@ -364,6 +387,24 @@ describe('DashboardErrorBoundary', () => {
       call[0] === 'Dashboard Error:'
     );
     expect(errorCalls.length).toBeGreaterThan(0);
+  });
+
+  test('calls captureError from Sentry when error is caught', () => {
+    (captureError as jest.Mock).mockClear();
+
+    render(
+      <DashboardErrorBoundary>
+        <ThrowError shouldThrow={true} />
+      </DashboardErrorBoundary>
+    );
+
+    expect(captureError).toHaveBeenCalledTimes(1);
+    expect(captureError).toHaveBeenCalledWith(
+      expect.any(Error),
+      expect.objectContaining({
+        componentStack: expect.any(String),
+      })
+    );
   });
 });
 

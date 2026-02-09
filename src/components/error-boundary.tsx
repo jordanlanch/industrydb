@@ -3,6 +3,7 @@
 import React, { Component, ReactNode, ErrorInfo } from 'react';
 import { Button } from '@/components/ui/button';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
+import { captureError } from '@/lib/sentry';
 
 interface Props {
   children: ReactNode;
@@ -52,10 +53,9 @@ export class ErrorBoundary extends Component<Props, State> {
       timestamp: new Date().toISOString(),
     });
 
-    // TODO: Send to error tracking service (Sentry, LogRocket, etc.)
-    // if (typeof window !== 'undefined' && window.Sentry) {
-    //   window.Sentry.captureException(error, { contexts: { react: { componentStack: errorInfo.componentStack } } });
-    // }
+    captureError(error, {
+      componentStack: errorInfo.componentStack,
+    });
 
     this.setState({ errorInfo });
   }
@@ -165,6 +165,11 @@ export class DashboardErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('Dashboard Error:', error, errorInfo);
+
+    captureError(error, {
+      componentStack: errorInfo.componentStack,
+    });
+
     this.setState({ errorInfo });
   }
 
