@@ -357,25 +357,24 @@ describe('LoginPage', () => {
     it('clears password validation error when user types in password field', async () => {
       render(<LoginPage />)
 
-      // Submit with empty password to trigger validation error
+      // Type a valid email so we can submit the form
       const emailInput = screen.getByLabelText('Email Address')
       await userEvent.type(emailInput, 'test@example.com')
 
-      // Clear password to trigger validation
-      const passwordInput = screen.getByLabelText('Password')
-      await userEvent.type(passwordInput, ' ')
-      await userEvent.clear(passwordInput)
-
-      // Need to make form "valid" enough to submit (both fields non-empty)
-      await userEvent.type(passwordInput, ' ')
-
+      // Submit form directly (bypassing disabled button) with empty password
+      // to trigger Zod password validation error ("Password is required")
       const form = screen.getByRole('button', { name: 'Sign in' }).closest('form')!
       fireEvent.submit(form)
 
-      // The password field has a value (space), so validation passes the min(1) check
-      // Instead, let's test the clearing mechanism directly by triggering password error via Zod
-      // Since password min(1) is the only validation, a space passes it.
-      // The validation error clearing on password change is tested by the code path coverage.
+      await waitFor(() => {
+        expect(screen.getByText('Password is required')).toBeInTheDocument()
+      })
+
+      // Now type in password field to trigger the error clearing code path
+      const passwordInput = screen.getByLabelText('Password')
+      await userEvent.type(passwordInput, 'x')
+
+      expect(screen.queryByText('Password is required')).not.toBeInTheDocument()
     })
   })
 
@@ -431,6 +430,34 @@ describe('LoginPage', () => {
 
       expect(screen.getByLabelText('Email Address')).toHaveAttribute('aria-required', 'true')
       expect(screen.getByLabelText('Password')).toHaveAttribute('aria-required', 'true')
+    })
+
+    it('sets aria-describedby on email field when validation error exists', async () => {
+      render(<LoginPage />)
+
+      await userEvent.type(screen.getByLabelText('Email Address'), 'bad-email')
+      await userEvent.type(screen.getByLabelText('Password'), 'pass')
+
+      const form = screen.getByRole('button', { name: 'Sign in' }).closest('form')!
+      fireEvent.submit(form)
+
+      await waitFor(() => {
+        expect(screen.getByLabelText('Email Address')).toHaveAttribute('aria-describedby', 'email-error')
+      })
+    })
+
+    it('sets aria-describedby on password field when validation error exists', async () => {
+      render(<LoginPage />)
+
+      await userEvent.type(screen.getByLabelText('Email Address'), 'test@example.com')
+
+      const form = screen.getByRole('button', { name: 'Sign in' }).closest('form')!
+      fireEvent.submit(form)
+
+      await waitFor(() => {
+        expect(screen.getByLabelText('Password')).toHaveAttribute('aria-describedby', 'password-error')
+        expect(screen.getByLabelText('Password')).toHaveAttribute('aria-invalid', 'true')
+      })
     })
 
     it('sets aria-invalid on email field when validation fails', async () => {

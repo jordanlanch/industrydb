@@ -387,6 +387,23 @@ describe('RegisterPage', () => {
         expect(screen.getByRole('alert')).toHaveTextContent('Email already registered')
       })
     })
+
+    it('falls back to generic error when no API message available', async () => {
+      mockRegister.mockRejectedValueOnce(new Error('Network error'))
+
+      render(<RegisterPage />)
+
+      await userEvent.type(screen.getByLabelText('Full Name'), 'John Doe')
+      await userEvent.type(screen.getByLabelText('Email Address'), 'john@example.com')
+      await userEvent.type(screen.getByLabelText('Password'), 'Password1')
+
+      fireEvent.click(screen.getByRole('checkbox'))
+      fireEvent.click(screen.getByRole('button', { name: 'Create account' }))
+
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).toHaveTextContent('Registration failed. Please try again.')
+      })
+    })
   })
 
   describe('Loading state', () => {
@@ -426,6 +443,25 @@ describe('RegisterPage', () => {
       const passwordInput = screen.getByLabelText('Password')
       expect(passwordInput).toHaveAttribute('aria-describedby', 'password-requirements')
       expect(document.getElementById('password-requirements')).toBeInTheDocument()
+    })
+
+    it('sets aria-describedby on checkbox when terms validation error exists', async () => {
+      render(<RegisterPage />)
+
+      // Fill in all fields except terms to trigger terms validation on submit
+      await userEvent.type(screen.getByLabelText('Full Name'), 'John Doe')
+      await userEvent.type(screen.getByLabelText('Email Address'), 'john@example.com')
+      await userEvent.type(screen.getByLabelText('Password'), 'Password1')
+
+      // Submit form directly (button is disabled because terms not checked, so use form submit)
+      const form = screen.getByRole('button', { name: 'Create account' }).closest('form')!
+      fireEvent.submit(form)
+
+      await waitFor(() => {
+        const checkbox = screen.getByRole('checkbox')
+        expect(checkbox).toHaveAttribute('aria-describedby', 'terms-error')
+        expect(checkbox).toHaveAttribute('aria-invalid', 'true')
+      })
     })
   })
 })
