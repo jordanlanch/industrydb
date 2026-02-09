@@ -1,7 +1,16 @@
+import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { locales } from '@/i18n';
+
+export const metadata: Metadata = {
+  title: {
+    default: 'IndustryDB - Industry-Specific Business Data',
+    template: '%s | IndustryDB',
+  },
+  description: 'Access verified local business data by industry. Affordable leads for tattoo studios, beauty salons, gyms, and more.',
+};
 
 export default async function LocaleLayout({
   children,

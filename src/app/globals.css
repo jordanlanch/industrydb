@@ -163,8 +163,13 @@
     }
   }
 
-  /* Smooth transitions for better UX */
-  * {
+  /* Smooth transitions for interactive elements only (not universal selector for performance) */
+  button,
+  a,
+  input,
+  select,
+  textarea,
+  [role="button"] {
     transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
@@ -172,7 +177,12 @@
 
   /* Disable transitions for reduced motion */
   @media (prefers-reduced-motion: reduce) {
-    * {
+    button,
+    a,
+    input,
+    select,
+    textarea,
+    [role="button"] {
       transition-duration: 0.01ms !important;
     }
   }

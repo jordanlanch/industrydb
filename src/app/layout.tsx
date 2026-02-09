@@ -10,7 +10,7 @@ import { ErrorBoundary } from "@/components/error-boundary"
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({ display: "swap", subsets: ["latin"], preload: true })
 
 export const metadata: Metadata = {
   title: {
@@ -73,12 +73,20 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning>
       <head>
+        {/* Preconnect hints for faster resource loading */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://js.stripe.com" />
+        {process.env.NEXT_PUBLIC_API_URL && (
+          <link rel="preconnect" href={process.env.NEXT_PUBLIC_API_URL} />
+        )}
+
         {/* Google Analytics - Consent Mode */}
         {GA_MEASUREMENT_ID && (
           <>
             <Script
               id="gtag-consent-default"
-              strategy="beforeInteractive"
+              strategy="afterInteractive"
               dangerouslySetInnerHTML={{
                 __html: `
                   window.dataLayer = window.dataLayer || [];
@@ -93,11 +101,11 @@ export default function RootLayout({
             />
             <Script
               src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-              strategy="afterInteractive"
+              strategy="lazyOnload"
             />
             <Script
               id="gtag-init"
-              strategy="afterInteractive"
+              strategy="lazyOnload"
               dangerouslySetInnerHTML={{
                 __html: `
                   window.dataLayer = window.dataLayer || [];
