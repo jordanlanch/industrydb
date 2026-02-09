@@ -2,6 +2,7 @@ const withNextIntl = require('next-intl/plugin')(
   // Specify the path to the request config
   './src/i18n/request.ts'
 );
+const { getSecurityHeaders } = require('./src/config/security-headers');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -26,9 +27,13 @@ const nextConfig = {
     optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
   },
 
-  // Headers for caching
+  // Security headers for all routes + caching headers for static assets
   async headers() {
     return [
+      {
+        source: '/:path*',
+        headers: getSecurityHeaders(),
+      },
       {
         source: '/:all*(svg|jpg|jpeg|png|gif|ico|webp|avif)',
         headers: [
