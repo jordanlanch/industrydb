@@ -12,6 +12,7 @@ import { authService } from '@/services/auth.service'
 import { useAuthStore } from '@/store/auth.store'
 import { AlertCircle } from 'lucide-react'
 import { loginSchema, type LoginFormData } from '@/lib/validations'
+import { initiateOAuth } from '@/lib/oauth'
 
 export default function LoginPage() {
   const t = useTranslations('auth.login')
@@ -174,10 +175,7 @@ export default function LoginPage() {
                 type="button"
                 variant="outline"
                 disabled={loading}
-                onClick={() => {
-                  // TODO: Implement Google OAuth
-                  window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/auth/google`
-                }}
+                onClick={() => initiateOAuth('google')}
                 className="w-full"
               >
                 <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
@@ -204,10 +202,7 @@ export default function LoginPage() {
                 type="button"
                 variant="outline"
                 disabled={loading}
-                onClick={() => {
-                  // TODO: Implement GitHub OAuth
-                  window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/auth/github`
-                }}
+                onClick={() => initiateOAuth('github')}
                 className="w-full"
               >
                 <svg className="mr-2 h-4 w-4" fill="currentColor" viewBox="0 0 24 24">

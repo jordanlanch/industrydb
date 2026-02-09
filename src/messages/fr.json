@@ -128,6 +128,18 @@
       "errorMessage": "Échec de la vérification de l'e-mail. Le lien peut être invalide ou expiré.",
       "goToLogin": "Aller à la connexion",
       "goToHome": "Retour à l'accueil"
+    },
+    "oauthCallback": {
+      "signingIn": "Connexion en cours...",
+      "signingInDescription": "Veuillez patienter pendant que nous terminons votre connexion.",
+      "error": "Échec de l'authentification",
+      "invalidProvider": "Fournisseur d'authentification invalide.",
+      "invalidState": "État d'authentification invalide. Veuillez réessayer.",
+      "oauthFailed": "L'authentification a échoué. Veuillez réessayer.",
+      "accountExists": "Un compte avec cet e-mail existe déjà avec un autre fournisseur.",
+      "accessDenied": "L'accès a été refusé. Veuillez réessayer.",
+      "genericError": "Une erreur s'est produite. Veuillez réessayer.",
+      "backToLogin": "Retour à la connexion"
     }
   },
   "landing": {

@@ -128,6 +128,18 @@
       "errorMessage": "Error al verificar el correo. El enlace puede ser inválido o haber expirado.",
       "goToLogin": "Ir al inicio de sesión",
       "goToHome": "Volver al inicio"
+    },
+    "oauthCallback": {
+      "signingIn": "Iniciando sesión...",
+      "signingInDescription": "Por favor espera mientras completamos tu inicio de sesión.",
+      "error": "Autenticación fallida",
+      "invalidProvider": "Proveedor de autenticación inválido.",
+      "invalidState": "Estado de autenticación inválido. Por favor intenta de nuevo.",
+      "oauthFailed": "La autenticación falló. Por favor intenta de nuevo.",
+      "accountExists": "Ya existe una cuenta con este correo usando un proveedor diferente.",
+      "accessDenied": "El acceso fue denegado. Por favor intenta de nuevo.",
+      "genericError": "Algo salió mal. Por favor intenta de nuevo.",
+      "backToLogin": "Volver al inicio de sesión"
     }
   },
   "landing": {

@@ -128,6 +128,18 @@
       "errorMessage": "Failed to verify email. The link may be invalid or expired.",
       "goToLogin": "Go to Login",
       "goToHome": "Back to Home"
+    },
+    "oauthCallback": {
+      "signingIn": "Signing you in...",
+      "signingInDescription": "Please wait while we complete your sign-in.",
+      "error": "Authentication Failed",
+      "invalidProvider": "Invalid authentication provider.",
+      "invalidState": "Invalid authentication state. Please try again.",
+      "oauthFailed": "Authentication failed. Please try again.",
+      "accountExists": "An account with this email already exists with a different provider.",
+      "accessDenied": "Access was denied. Please try again.",
+      "genericError": "Something went wrong. Please try again.",
+      "backToLogin": "Back to Login"
     }
   },
   "landing": {
