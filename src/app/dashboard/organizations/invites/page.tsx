@@ -4,49 +4,10 @@ import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Building2, Mail, Shield, Check, X, Loader2, AlertCircle } from 'lucide-react';
+import { Building2, Mail, Shield, Check, X, Loader2 } from 'lucide-react';
 import { useToast } from '@/components/toast-provider';
 import { useRouter } from 'next/navigation';
-
-/**
- * Organization Invitations Page
- *
- * Displays pending organization invitations for the current user.
- * Allows accepting or declining invitations.
- *
- * BACKEND REQUIREMENTS (Not yet implemented):
- * - GET /api/v1/organizations/invites/pending - List user's pending invites
- * - POST /api/v1/organizations/invites/:id/accept - Accept invitation
- * - POST /api/v1/organizations/invites/:id/decline - Decline invitation
- *
- * Expected Response Format:
- * {
- *   "invites": [
- *     {
- *       "id": 1,
- *       "organization_id": 123,
- *       "organization_name": "Acme Corp",
- *       "organization_tier": "business",
- *       "role": "member",
- *       "invited_by_email": "admin@acme.com",
- *       "invited_at": "2026-02-02T10:00:00Z",
- *       "status": "pending"
- *     }
- *   ],
- *   "total": 1
- * }
- */
-
-interface PendingInvite {
-  id: number;
-  organization_id: number;
-  organization_name: string;
-  organization_tier: 'free' | 'starter' | 'pro' | 'business';
-  role: 'admin' | 'member' | 'viewer';
-  invited_by_email?: string;
-  invited_at: string;
-  status: 'pending';
-}
+import organizationService, { PendingInvite } from '@/services/organization.service';
 
 export default function OrganizationInvitesPage() {
   const { toast } = useToast();
@@ -62,19 +23,8 @@ export default function OrganizationInvitesPage() {
   const loadPendingInvites = async () => {
     try {
       setLoading(true);
-
-      // TODO: Replace with actual API call when backend is ready
-      // const response = await fetch('/api/v1/organizations/invites/pending', {
-      //   headers: {
-      //     'Authorization': `Bearer ${getToken()}`,
-      //   },
-      // });
-      // const data = await response.json();
-      // setInvites(data.invites);
-
-      // Mock data for development
-      setInvites([]);
-
+      const data = await organizationService.getPendingInvites();
+      setInvites(data.invites);
     } catch (error: any) {
       toast({
         title: 'Failed to load invitations',
@@ -89,14 +39,7 @@ export default function OrganizationInvitesPage() {
   const handleAcceptInvite = async (inviteId: number) => {
     try {
       setProcessingId(inviteId);
-
-      // TODO: Replace with actual API call when backend is ready
-      // await fetch(`/api/v1/organizations/invites/${inviteId}/accept`, {
-      //   method: 'POST',
-      //   headers: {
-      //     'Authorization': `Bearer ${getToken()}`,
-      //   },
-      // });
+      await organizationService.acceptInvite(inviteId);
 
       toast({
         title: 'Invitation accepted',
@@ -104,10 +47,8 @@ export default function OrganizationInvitesPage() {
         variant: 'success',
       });
 
-      // Reload invites and redirect
       await loadPendingInvites();
       router.push('/dashboard/organizations');
-
     } catch (error: any) {
       toast({
         title: 'Failed to accept invitation',
@@ -122,14 +63,7 @@ export default function OrganizationInvitesPage() {
   const handleDeclineInvite = async (inviteId: number) => {
     try {
       setProcessingId(inviteId);
-
-      // TODO: Replace with actual API call when backend is ready
-      // await fetch(`/api/v1/organizations/invites/${inviteId}/decline`, {
-      //   method: 'POST',
-      //   headers: {
-      //     'Authorization': `Bearer ${getToken()}`,
-      //   },
-      // });
+      await organizationService.declineInvite(inviteId);
 
       toast({
         title: 'Invitation declined',
@@ -137,9 +71,7 @@ export default function OrganizationInvitesPage() {
         variant: 'success',
       });
 
-      // Reload invites
       await loadPendingInvites();
-
     } catch (error: any) {
       toast({
         title: 'Failed to decline invitation',
@@ -181,7 +113,7 @@ export default function OrganizationInvitesPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
+      <div className="flex items-center justify-center h-64" data-testid="loading-spinner">
         <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
       </div>
     );
@@ -196,32 +128,6 @@ export default function OrganizationInvitesPage() {
         </p>
       </div>
 
-      {/* Backend Not Ready Notice */}
-      <Card className="border-orange-200 bg-orange-50">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-orange-800">
-            <AlertCircle className="h-5 w-5" />
-            Backend Integration Pending
-          </CardTitle>
-          <CardDescription className="text-orange-700">
-            This feature requires backend API endpoints that are not yet implemented.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="text-sm text-orange-700">
-          <p className="mb-2 font-medium">Required endpoints:</p>
-          <ul className="list-disc list-inside space-y-1 ml-2">
-            <li>GET /api/v1/organizations/invites/pending</li>
-            <li>POST /api/v1/organizations/invites/:id/accept</li>
-            <li>POST /api/v1/organizations/invites/:id/decline</li>
-          </ul>
-          <p className="mt-3">
-            Once these endpoints are implemented, this page will display pending invitations
-            and allow users to accept or decline them.
-          </p>
-        </CardContent>
-      </Card>
-
-      {/* Pending Invitations */}
       {invites.length === 0 ? (
         <Card>
           <CardContent className="flex flex-col items-center justify-center py-12">
