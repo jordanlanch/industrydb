@@ -14,7 +14,7 @@ const ThrowError = ({ shouldThrow }: { shouldThrow: boolean }) => {
 const mockReload = jest.fn();
 const mockHref = { value: '' };
 
-// Delete and redefine window.location
+// Delete and redefine window.location for testing navigation
 delete (window as any).location;
 (window as any).location = {
   reload: mockReload,
