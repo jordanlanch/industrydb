@@ -58,6 +58,22 @@ export interface UpdateMemberRoleRequest {
   role: 'admin' | 'member' | 'viewer';
 }
 
+export interface PendingInvite {
+  id: number;
+  organization_id: number;
+  organization_name: string;
+  organization_tier: 'free' | 'starter' | 'pro' | 'business';
+  role: 'admin' | 'member' | 'viewer';
+  invited_by_email?: string;
+  invited_at: string;
+  status: 'pending';
+}
+
+export interface PendingInvitesResponse {
+  invites: PendingInvite[];
+  total: number;
+}
+
 class OrganizationService {
   /**
    * Create a new organization
@@ -145,6 +161,36 @@ class OrganizationService {
     data: UpdateMemberRoleRequest
   ): Promise<void> {
     await apiClient.patch(`/organizations/${organizationId}/members/${userId}`, data);
+  }
+
+  /**
+   * Get pending invitations for the current user
+   */
+  async getPendingInvites(): Promise<PendingInvitesResponse> {
+    const response = await apiClient.get<PendingInvitesResponse>(
+      '/organizations/invites/pending'
+    );
+    return response.data;
+  }
+
+  /**
+   * Accept a pending invitation
+   */
+  async acceptInvite(inviteId: number): Promise<{ message: string }> {
+    const response = await apiClient.post<{ message: string }>(
+      `/organizations/invites/${inviteId}/accept`
+    );
+    return response.data;
+  }
+
+  /**
+   * Decline a pending invitation
+   */
+  async declineInvite(inviteId: number): Promise<{ message: string }> {
+    const response = await apiClient.post<{ message: string }>(
+      `/organizations/invites/${inviteId}/decline`
+    );
+    return response.data;
   }
 
   /**
