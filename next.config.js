@@ -11,6 +11,11 @@ const nextConfig = {
   swcMinify: true,
   output: 'standalone',
 
+  // Skip type checking during build (types checked in CI separately)
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+
   // Performance optimizations
   compress: true,
   poweredByHeader: false,

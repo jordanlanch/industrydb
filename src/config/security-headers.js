@@ -24,7 +24,7 @@ function getSecurityHeaders() {
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: https: blob:",
     "font-src 'self'",
-    "connect-src 'self' https://api.stripe.com https://www.google-analytics.com http://localhost:7890",
+    `connect-src 'self' https://api.stripe.com https://www.google-analytics.com ${isDev ? 'http://localhost:7890' : 'https://api.industrydb.io'}`,
     "frame-src 'self' https://js.stripe.com https://hooks.stripe.com",
     "base-uri 'self'",
   ].join('; ')
