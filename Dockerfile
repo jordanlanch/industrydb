@@ -100,6 +100,8 @@ RUN useradd --system --uid 1001 nextjs
 COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+# Copy i18n message files (required for next-intl dynamic imports in standalone mode)
+COPY --from=builder --chown=nextjs:nodejs /app/src/messages ./src/messages
 
 USER nextjs
 
