@@ -65,6 +65,8 @@ build/
 
 # Testing
 coverage/
+playwright-report/
+test-results/
 
 # Misc
 .DS_Store
