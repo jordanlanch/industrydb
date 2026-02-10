@@ -16,6 +16,11 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
 
+  // Skip ESLint during build (linting done in CI separately)
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+
   // Performance optimizations
   compress: true,
   poweredByHeader: false,
