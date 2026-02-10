@@ -73,7 +73,7 @@ export function SearchButton({ onClick, loading, disabled, usage, hasFilters }: 
         <p className="text-xs text-destructive flex items-center gap-1">
           <AlertCircle className="h-3 w-3" />
           Out of credits.{' '}
-          <a href="/dashboard/settings/billing" className="underline font-medium">
+          <a href="/dashboard/settings?tab=billing" className="underline font-medium">
             Upgrade
           </a>
         </p>

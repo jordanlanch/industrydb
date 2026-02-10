@@ -162,6 +162,14 @@
       "easy": {
         "title": "Facile à utiliser",
         "description": "Recherchez, filtrez et exportez des prospects en quelques minutes"
+      },
+      "instantAccess": {
+        "title": "Accès instantané",
+        "description": "Recherchez et exportez des données instantanément. Sans attente, sans délai"
+      },
+      "industryFocus": {
+        "title": "Focus par secteur",
+        "description": "Données spécialisées pour le tatouage, la beauté, le fitness et l'hôtellerie"
       }
     },
     "pricing": {
@@ -211,6 +219,12 @@
         ]
       }
     },
+    "freeLeadsNote": "50 prospects gratuits par mois. Sans carte de crédit.",
+    "mostPopular": "Le plus populaire",
+    "leadsPerMonth": "prospects/mois",
+    "viewFullPricing": "Voir tous les détails des tarifs",
+    "privacyPolicy": "Politique de confidentialité",
+    "termsOfService": "Conditions d'utilisation",
     "cta": {
       "title": "Prêt à trouver vos prochains clients?",
       "subtitle": "Rejoignez des milliers d'entreprises utilisant IndustryDB",

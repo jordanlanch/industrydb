@@ -115,7 +115,7 @@ export default function DashboardPage() {
             {user?.subscription_tier === 'free' && (
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Link href="/dashboard/settings/billing">
+                  <Link href="/dashboard/settings?tab=billing">
                     <Button size="sm">
                       <Sparkles className="mr-2 h-4 w-4" />
                       {t('upgrade')}
@@ -327,7 +327,7 @@ export default function DashboardPage() {
 
           <Tooltip>
             <TooltipTrigger asChild>
-              <Link href="/dashboard/settings/billing">
+              <Link href="/dashboard/settings?tab=billing">
                 <Card className="hover:shadow-md transition-shadow cursor-pointer">
                   <CardContent className="pt-6">
                     <TrendingUp className="h-8 w-8 text-purple-500 mb-3" />

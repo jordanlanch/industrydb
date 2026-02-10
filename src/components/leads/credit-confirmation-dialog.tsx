@@ -89,7 +89,7 @@ export function CreditConfirmationDialog({
                       Upgrade to <strong>Starter</strong> for 500 searches/month or <strong>Pro</strong> for 2,000 searches/month.
                     </p>
                     <a
-                      href="/dashboard/settings/billing"
+                      href="/dashboard/settings?tab=billing"
                       className="text-primary hover:underline font-medium"
                     >
                       View Plans →

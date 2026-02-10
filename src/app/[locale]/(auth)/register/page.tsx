@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useParams } from 'next/navigation'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import { useForm } from 'react-hook-form'
@@ -44,6 +44,8 @@ type RegisterForm = z.infer<typeof registerSchema>
 export default function RegisterPage() {
   const t = useTranslations('auth.register')
   const router = useRouter()
+  const params = useParams()
+  const locale = params.locale as string || 'en'
   const login = useAuthStore((state) => state.login)
   const [apiError, setApiError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -88,8 +90,7 @@ export default function RegisterPage() {
 
       login(response.token, response.user)
 
-      // Redirect new users to onboarding wizard
-      router.push('/onboarding')
+      router.push(`/${locale}/dashboard`)
     } catch (err: any) {
       setApiError(err.response?.data?.message || t('error'))
     } finally {

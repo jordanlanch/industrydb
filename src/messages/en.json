@@ -162,6 +162,14 @@
       "easy": {
         "title": "Easy to Use",
         "description": "Search, filter, and export leads in minutes"
+      },
+      "instantAccess": {
+        "title": "Instant Access",
+        "description": "Search and export data instantly. No waiting, no delays"
+      },
+      "industryFocus": {
+        "title": "Industry Focus",
+        "description": "Specialized data for tattoo, beauty, fitness, and hospitality industries"
       }
     },
     "pricing": {
@@ -211,6 +219,12 @@
         ]
       }
     },
+    "freeLeadsNote": "50 free leads per month. No credit card required.",
+    "mostPopular": "Most Popular",
+    "leadsPerMonth": "leads/month",
+    "viewFullPricing": "View full pricing details",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
     "cta": {
       "title": "Ready to find your next customers?",
       "subtitle": "Join thousands of businesses using IndustryDB",

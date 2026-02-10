@@ -109,7 +109,7 @@ export default function HomePage() {
               </Link>
             </div>
             <p className="mt-4 text-sm text-muted-foreground">
-              50 free leads per month. No credit card required.
+              {t('freeLeadsNote')}
             </p>
           </div>
         </section>
@@ -165,11 +165,11 @@ export default function HomePage() {
               <Card className="border-0 shadow-lg">
                 <CardHeader>
                   <Zap className="h-10 w-10 text-primary mb-2" aria-hidden="true" />
-                  <CardTitle>Instant Access</CardTitle>
+                  <CardTitle>{t('features.instantAccess.title')}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">
-                    Search and export data instantly. No waiting, no delays
+                    {t('features.instantAccess.description')}
                   </p>
                 </CardContent>
               </Card>
@@ -189,11 +189,11 @@ export default function HomePage() {
               <Card className="border-0 shadow-lg">
                 <CardHeader>
                   <Shield className="h-10 w-10 text-primary mb-2" aria-hidden="true" />
-                  <CardTitle>Industry Focus</CardTitle>
+                  <CardTitle>{t('features.industryFocus.title')}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">
-                    Specialized data for tattoo, beauty, fitness, and hospitality industries
+                    {t('features.industryFocus.description')}
                   </p>
                 </CardContent>
               </Card>
@@ -219,7 +219,7 @@ export default function HomePage() {
                   {tier.popular && (
                     <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                       <span className="bg-primary text-primary-foreground text-xs font-semibold px-3 py-1 rounded-full">
-                        Most Popular
+                        {t('mostPopular')}
                       </span>
                     </div>
                   )}
@@ -232,7 +232,7 @@ export default function HomePage() {
                   </CardHeader>
                   <CardContent className="text-center">
                     <p className="text-sm text-muted-foreground mb-4">
-                      {tier.leads} leads/month
+                      {tier.leads} {t('leadsPerMonth')}
                     </p>
                     <Link href="/register">
                       <Button 
@@ -248,7 +248,7 @@ export default function HomePage() {
             </div>
             <div className="text-center mt-8">
               <Link href="/pricing" className="text-primary hover:underline font-medium">
-                View full pricing details →
+                {t('viewFullPricing')} →
               </Link>
             </div>
           </div>
@@ -339,12 +339,12 @@ export default function HomePage() {
               <ul className="space-y-3">
                 <li>
                   <Link href="/privacy" className="text-sm hover:text-white transition-colors">
-                    Privacy Policy
+                    {t('privacyPolicy')}
                   </Link>
                 </li>
                 <li>
                   <Link href="/terms" className="text-sm hover:text-white transition-colors">
-                    Terms of Service
+                    {t('termsOfService')}
                   </Link>
                 </li>
               </ul>
