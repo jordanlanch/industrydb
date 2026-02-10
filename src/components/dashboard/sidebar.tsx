@@ -3,13 +3,15 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
-import { Database, FileDown, Activity, Building2, Settings, LogOut, Key, ChevronLeft, ChevronRight, Shield, BookOpen } from 'lucide-react'
+import { LayoutDashboard, Database, FileDown, Activity, Building2, Settings, LogOut, Key, ChevronLeft, ChevronRight, Shield, BookOpen } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuthStore } from '@/store/auth.store'
 import { useRouter } from 'next/navigation'
 import { OrganizationSwitcher } from '@/components/organization/organization-switcher'
+import { LanguageSwitcher } from '@/components/language-switcher'
 
 const navigation = [
+  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
   { name: 'Leads', href: '/dashboard/leads', icon: Database },
   { name: 'Exports', href: '/dashboard/exports', icon: FileDown },
   { name: 'Analytics', href: '/dashboard/analytics', icon: Activity },
@@ -83,7 +85,9 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
       {/* Navigation */}
       <nav className="flex-1 space-y-1 px-3 py-4" aria-label="Dashboard navigation">
         {navigation.map((item) => {
-          const isActive = pathname === item.href || pathname?.startsWith(item.href + '/')
+          const isActive = item.href === '/dashboard'
+            ? pathname === item.href || pathname === item.href + '/'
+            : pathname === item.href || pathname?.startsWith(item.href + '/')
           return (
             <Link
               key={item.name}
@@ -161,6 +165,9 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
               <span className="font-medium capitalize">{user?.subscription_tier}</span> plan
             </p>
           </div>
+          <div className="mb-3 px-3">
+            <LanguageSwitcher variant="light" />
+          </div>
           <Button
             variant="ghost"
             className="w-full justify-start"
@@ -176,6 +183,9 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
       {/* Collapsed Footer - Logout Icon Only */}
       {!isOpen && (
         <div className="border-t p-2">
+          <div className="mb-2">
+            <LanguageSwitcher variant="light" compact />
+          </div>
           <Button
             variant="ghost"
             className="w-full p-2"
