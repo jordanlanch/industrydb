@@ -144,37 +144,142 @@
   },
   "landing": {
     "hero": {
-      "title": "Industry-Specific Business Data",
-      "subtitle": "Access verified leads for tattoo studios, beauty salons, gyms, and more",
-      "cta": "Start Free Trial",
+      "badge": "82,740+ verified business leads",
+      "title": "Stop Wasting Time Hunting for Leads.",
+      "titleHighlight": "We Already Found Them.",
+      "subtitle": "Get instant access to 82,740+ verified local businesses across 20 industries in 184 countries. Names, phones, emails, addresses — all ready to download.",
+      "subtext": "Other lead providers charge $0.50-$2.00 per lead. We start at $0.035. Do the math.",
+      "cta": "Get Your Leads Now",
       "secondary": "View Pricing"
     },
-    "features": {
-      "title": "Everything you need to find quality leads",
+    "stats": {
+      "leads": "Verified Leads",
+      "countries": "Countries Covered",
+      "industries": "Industries",
+      "costPerLead": "Lowest Cost Per Lead"
+    },
+    "problem": {
+      "title": "Finding Quality Leads Shouldn't Be This Hard",
+      "subtitle": "If you're still doing any of these, you're leaving money on the table.",
+      "manual": {
+        "title": "Googling one business at a time",
+        "desc": "Spending hours copying names and numbers from Google Maps. Time you'll never get back."
+      },
+      "expensive": {
+        "title": "Overpaying for lead databases",
+        "desc": "Most providers charge $0.50-$2.00 per lead. For 500 leads, that's $250-$1,000. Every single month."
+      },
+      "outdated": {
+        "title": "Working with stale, outdated data",
+        "desc": "Bought a list last year? Half those businesses have changed their phone numbers or closed."
+      },
+      "generic": {
+        "title": "Using generic business directories",
+        "desc": "Yellow Pages won't tell you which tattoo studios have Instagram or which gyms have websites."
+      }
+    },
+    "solution": {
+      "badge": "The solution",
+      "title": "One Platform. Every Lead You Need.",
+      "subtitle": "IndustryDB gives you verified, industry-specific business data at a fraction of the cost. Search, filter, export. Done.",
+      "targeted": {
+        "title": "Industry-Specific",
+        "desc": "Not a generic directory. Purpose-built data for 20 industries — from tattoo studios to law firms."
+      },
       "verified": {
-        "title": "Verified Data",
-        "description": "All business information is verified and regularly updated"
+        "title": "Verified & Updated",
+        "desc": "Every lead is verified with real addresses, phone numbers, and business details you can trust."
       },
-      "affordable": {
-        "title": "Affordable Pricing",
-        "description": "Plans starting at just $49/month with flexible options"
+      "instant": {
+        "title": "Instant Export",
+        "desc": "Search, filter by country and city, and export to CSV in seconds. No waiting, no sales calls."
+      }
+    },
+    "value": {
+      "title": "Here's Everything You Get",
+      "subtitle": "Every plan includes access to our full database with all these data points.",
+      "items": {
+        "data": {
+          "title": "82,740+ Businesses",
+          "desc": "— verified and growing"
+        },
+        "phone": {
+          "title": "Phone Numbers",
+          "desc": "— direct business lines"
+        },
+        "email": {
+          "title": "Email Addresses",
+          "desc": "— on Pro and Business plans"
+        },
+        "website": {
+          "title": "Website URLs",
+          "desc": "— verified and active"
+        },
+        "address": {
+          "title": "Full Addresses",
+          "desc": "— with geolocation data"
+        },
+        "quality": {
+          "title": "Quality Scores",
+          "desc": "— prioritize the best leads"
+        },
+        "export": {
+          "title": "CSV & Excel Export",
+          "desc": "— download instantly"
+        },
+        "industries": {
+          "title": "20 Industries",
+          "desc": "— in 184 countries"
+        }
+      }
+    },
+    "industries": {
+      "title": "20 Industries. One Platform.",
+      "subtitle": "Whether you sell to restaurants or recruit for law firms, we have the data you need.",
+      "list": {
+        "tattoo": "Tattoo Studios",
+        "beauty": "Beauty Salons",
+        "barber": "Barber Shops",
+        "spa": "Spas & Wellness",
+        "gym": "Gyms & Fitness",
+        "dentist": "Dentists",
+        "restaurant": "Restaurants",
+        "cafe": "Cafes & Coffee",
+        "bar": "Bars & Pubs",
+        "bakery": "Bakeries",
+        "car_repair": "Car Repair",
+        "car_wash": "Car Wash",
+        "pharmacy": "Pharmacies",
+        "massage": "Massage Therapy",
+        "clothing": "Clothing Stores",
+        "convenience": "Convenience Stores",
+        "lawyer": "Lawyers",
+        "accountant": "Accountants",
+        "nail_salon": "Nail Salons",
+        "car_dealer": "Car Dealers"
+      }
+    },
+    "comparison": {
+      "title": "IndustryDB vs. The Competition",
+      "subtitle": "See why businesses switch to IndustryDB after trying traditional lead providers.",
+      "others": {
+        "title": "Traditional Lead Providers",
+        "price": "$0.50 - $2.00 per lead. 500 leads = $250-$1,000/month",
+        "data": "Generic, unverified data with high bounce rates",
+        "contracts": "Annual contracts and long-term commitments required",
+        "industries": "One-size-fits-all with no industry specialization"
       },
-      "easy": {
-        "title": "Easy to Use",
-        "description": "Search, filter, and export leads in minutes"
-      },
-      "instantAccess": {
-        "title": "Instant Access",
-        "description": "Search and export data instantly. No waiting, no delays"
-      },
-      "industryFocus": {
-        "title": "Industry Focus",
-        "description": "Specialized data for tattoo, beauty, fitness, and hospitality industries"
+      "us": {
+        "title": "The IndustryDB Way",
+        "price": "Starting at $0.035 per lead. 500 leads = just $49/month",
+        "data": "Verified data with addresses, phones, emails, and quality scores",
+        "contracts": "No contracts. Cancel anytime. Start with a free plan.",
+        "industries": "20 specialized industries with targeted filters and sub-niches"
       }
     },
     "pricing": {
-      "title": "Simple, transparent pricing",
-      "subtitle": "Choose the plan that fits your needs",
+      "title": "Invest Less. Get More Leads.",
+      "subtitle": "Every plan pays for itself with just one new client.",
       "free": {
         "name": "Free",
         "price": "$0",
@@ -219,22 +324,45 @@
         ]
       }
     },
-    "freeLeadsNote": "50 free leads per month. No credit card required.",
+    "freeLeadsNote": "Start free. 50 leads/month. No credit card required.",
     "mostPopular": "Most Popular",
     "leadsPerMonth": "leads/month",
+    "costPer": "Cost",
+    "lead": "lead",
     "viewFullPricing": "View full pricing details",
     "privacyPolicy": "Privacy Policy",
     "termsOfService": "Terms of Service",
-    "cta": {
-      "title": "Ready to find your next customers?",
-      "subtitle": "Join thousands of businesses using IndustryDB",
-      "button": "Get Started Free"
+    "guarantee": {
+      "title": "Zero Risk. Cancel Anytime.",
+      "desc": "Start with our free plan — no credit card needed. Upgrade only when you're ready. No contracts, no commitments, no hidden fees. If it doesn't work for you, you don't pay."
     },
-    "stats": {
-      "leads": "Verified Leads",
-      "countries": "Countries Covered",
-      "industries": "Industries",
-      "users": "Happy Users"
+    "cta": {
+      "title": "Your Next 50 Leads Are Free.",
+      "subtitle": "Stop guessing. Start closing. Get verified business data in 30 seconds.",
+      "button": "Get Your Free Leads Now"
+    },
+    "features": {
+      "title": "Everything you need to find quality leads",
+      "verified": {
+        "title": "Verified Data",
+        "description": "All business information is verified and regularly updated"
+      },
+      "affordable": {
+        "title": "Affordable Pricing",
+        "description": "Plans starting at just $49/month with flexible options"
+      },
+      "easy": {
+        "title": "Easy to Use",
+        "description": "Search, filter, and export leads in minutes"
+      },
+      "instantAccess": {
+        "title": "Instant Access",
+        "description": "Search and export data instantly. No waiting, no delays"
+      },
+      "industryFocus": {
+        "title": "Industry Focus",
+        "description": "Specialized data for tattoo, beauty, fitness, and hospitality industries"
+      }
     }
   },
   "dashboard": {

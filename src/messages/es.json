@@ -144,55 +144,160 @@
   },
   "landing": {
     "hero": {
-      "title": "Datos empresariales por industria",
-      "subtitle": "Accede a prospectos verificados de estudios de tatuajes, salones de belleza, gimnasios y más",
-      "cta": "Comenzar prueba gratuita",
-      "secondary": "Ver precios"
+      "badge": "82,740+ prospectos verificados",
+      "title": "Deja de Perder Tiempo Buscando Prospectos.",
+      "titleHighlight": "Ya Los Encontramos Por Ti.",
+      "subtitle": "Accede al instante a 82,740+ negocios locales verificados en 20 industrias y 184 paises. Nombres, telefonos, emails, direcciones — todo listo para descargar.",
+      "subtext": "Otros proveedores cobran $0.50-$2.00 por prospecto. Nosotros empezamos en $0.035. Haz las cuentas.",
+      "cta": "Obtener Prospectos Ahora",
+      "secondary": "Ver Precios"
     },
-    "features": {
-      "title": "Todo lo que necesitas para encontrar prospectos de calidad",
+    "stats": {
+      "leads": "Prospectos Verificados",
+      "countries": "Paises Cubiertos",
+      "industries": "Industrias",
+      "costPerLead": "Menor Costo por Prospecto"
+    },
+    "problem": {
+      "title": "Encontrar Prospectos de Calidad No Deberia Ser Tan Dificil",
+      "subtitle": "Si todavia haces alguna de estas cosas, estas dejando dinero sobre la mesa.",
+      "manual": {
+        "title": "Buscando negocios uno por uno en Google",
+        "desc": "Pasando horas copiando nombres y numeros de Google Maps. Tiempo que nunca recuperaras."
+      },
+      "expensive": {
+        "title": "Pagando de mas por bases de datos",
+        "desc": "La mayoria de proveedores cobran $0.50-$2.00 por prospecto. Por 500 prospectos, eso es $250-$1,000. Cada mes."
+      },
+      "outdated": {
+        "title": "Trabajando con datos obsoletos",
+        "desc": "Compraste una lista el ano pasado? La mitad de esos negocios cambiaron su telefono o cerraron."
+      },
+      "generic": {
+        "title": "Usando directorios genericos",
+        "desc": "Las Paginas Amarillas no te dicen que estudios de tatuaje tienen Instagram o que gimnasios tienen web."
+      }
+    },
+    "solution": {
+      "badge": "La solucion",
+      "title": "Una Plataforma. Todos los Prospectos que Necesitas.",
+      "subtitle": "IndustryDB te da datos verificados y especificos por industria a una fraccion del costo. Busca, filtra, exporta. Listo.",
+      "targeted": {
+        "title": "Especifico por Industria",
+        "desc": "No es un directorio generico. Datos creados a proposito para 20 industrias — desde estudios de tatuaje hasta bufetes de abogados."
+      },
       "verified": {
-        "title": "Datos verificados",
-        "description": "Toda la información empresarial está verificada y actualizada regularmente"
+        "title": "Verificado y Actualizado",
+        "desc": "Cada prospecto esta verificado con direcciones reales, telefonos y datos de negocio en los que puedes confiar."
       },
-      "affordable": {
-        "title": "Precios asequibles",
-        "description": "Planes desde solo $49/mes con opciones flexibles"
+      "instant": {
+        "title": "Exportacion Instantanea",
+        "desc": "Busca, filtra por pais y ciudad, y exporta a CSV en segundos. Sin esperas, sin llamadas de ventas."
+      }
+    },
+    "value": {
+      "title": "Esto es Todo lo que Obtienes",
+      "subtitle": "Cada plan incluye acceso a nuestra base de datos completa con todos estos datos.",
+      "items": {
+        "data": {
+          "title": "82,740+ Negocios",
+          "desc": "— verificados y creciendo"
+        },
+        "phone": {
+          "title": "Numeros de Telefono",
+          "desc": "— lineas directas de negocio"
+        },
+        "email": {
+          "title": "Direcciones de Email",
+          "desc": "— en planes Pro y Business"
+        },
+        "website": {
+          "title": "URLs de Sitios Web",
+          "desc": "— verificados y activos"
+        },
+        "address": {
+          "title": "Direcciones Completas",
+          "desc": "— con datos de geolocalizacion"
+        },
+        "quality": {
+          "title": "Puntuaciones de Calidad",
+          "desc": "— prioriza los mejores prospectos"
+        },
+        "export": {
+          "title": "Exportacion CSV y Excel",
+          "desc": "— descarga al instante"
+        },
+        "industries": {
+          "title": "20 Industrias",
+          "desc": "— en 184 paises"
+        }
+      }
+    },
+    "industries": {
+      "title": "20 Industrias. Una Plataforma.",
+      "subtitle": "Ya sea que vendas a restaurantes o reclutes para bufetes, tenemos los datos que necesitas.",
+      "list": {
+        "tattoo": "Estudios de Tatuaje",
+        "beauty": "Salones de Belleza",
+        "barber": "Barberias",
+        "spa": "Spas y Bienestar",
+        "gym": "Gimnasios y Fitness",
+        "dentist": "Dentistas",
+        "restaurant": "Restaurantes",
+        "cafe": "Cafeterias",
+        "bar": "Bares y Pubs",
+        "bakery": "Panaderias",
+        "car_repair": "Talleres Mecanicos",
+        "car_wash": "Lavaderos de Autos",
+        "pharmacy": "Farmacias",
+        "massage": "Terapia de Masaje",
+        "clothing": "Tiendas de Ropa",
+        "convenience": "Tiendas de Conveniencia",
+        "lawyer": "Abogados",
+        "accountant": "Contadores",
+        "nail_salon": "Salones de Unas",
+        "car_dealer": "Concesionarios de Autos"
+      }
+    },
+    "comparison": {
+      "title": "IndustryDB vs. La Competencia",
+      "subtitle": "Descubre por que los negocios se cambian a IndustryDB despues de probar proveedores tradicionales.",
+      "others": {
+        "title": "Proveedores Tradicionales",
+        "price": "$0.50 - $2.00 por prospecto. 500 prospectos = $250-$1,000/mes",
+        "data": "Datos genericos y sin verificar con altas tasas de rebote",
+        "contracts": "Contratos anuales y compromisos a largo plazo requeridos",
+        "industries": "Talla unica sin especializacion por industria"
       },
-      "easy": {
-        "title": "Fácil de usar",
-        "description": "Busca, filtra y exporta prospectos en minutos"
-      },
-      "instantAccess": {
-        "title": "Acceso instantáneo",
-        "description": "Busca y exporta datos al instante. Sin esperas, sin demoras"
-      },
-      "industryFocus": {
-        "title": "Enfoque por industria",
-        "description": "Datos especializados para tatuajes, belleza, fitness y hostelería"
+      "us": {
+        "title": "El Metodo IndustryDB",
+        "price": "Desde $0.035 por prospecto. 500 prospectos = solo $49/mes",
+        "data": "Datos verificados con direcciones, telefonos, emails y puntuaciones de calidad",
+        "contracts": "Sin contratos. Cancela cuando quieras. Empieza con un plan gratis.",
+        "industries": "20 industrias especializadas con filtros dirigidos y sub-nichos"
       }
     },
     "pricing": {
-      "title": "Precios simples y transparentes",
-      "subtitle": "Elige el plan que se ajuste a tus necesidades",
+      "title": "Invierte Menos. Obtén Mas Prospectos.",
+      "subtitle": "Cada plan se paga solo con un solo nuevo cliente.",
       "free": {
         "name": "Gratis",
         "price": "$0",
         "description": "Perfecto para probar IndustryDB",
         "features": [
           "50 prospectos por mes",
-          "Filtros básicos",
-          "Exportación CSV"
+          "Filtros basicos",
+          "Exportacion CSV"
         ]
       },
       "starter": {
         "name": "Inicial",
         "price": "$49",
-        "description": "Para equipos pequeños e individuos",
+        "description": "Para equipos pequenos e individuos",
         "features": [
           "500 prospectos por mes",
           "Filtros avanzados",
-          "Números de teléfono",
+          "Numeros de telefono",
           "Soporte por correo"
         ]
       },
@@ -219,22 +324,45 @@
         ]
       }
     },
-    "freeLeadsNote": "50 prospectos gratis por mes. Sin tarjeta de crédito.",
-    "mostPopular": "Más popular",
+    "freeLeadsNote": "Empieza gratis. 50 prospectos/mes. Sin tarjeta de credito.",
+    "mostPopular": "Mas Popular",
     "leadsPerMonth": "prospectos/mes",
+    "costPer": "Costo",
+    "lead": "prospecto",
     "viewFullPricing": "Ver todos los detalles de precios",
-    "privacyPolicy": "Política de privacidad",
-    "termsOfService": "Términos de servicio",
-    "cta": {
-      "title": "¿Listo para encontrar tus próximos clientes?",
-      "subtitle": "Únete a miles de negocios que usan IndustryDB",
-      "button": "Comenzar gratis"
+    "privacyPolicy": "Politica de Privacidad",
+    "termsOfService": "Terminos de Servicio",
+    "guarantee": {
+      "title": "Cero Riesgo. Cancela Cuando Quieras.",
+      "desc": "Empieza con nuestro plan gratis — sin tarjeta de credito. Mejora solo cuando estes listo. Sin contratos, sin compromisos, sin cargos ocultos. Si no funciona para ti, no pagas."
     },
-    "stats": {
-      "leads": "Prospectos Verificados",
-      "countries": "Países Cubiertos",
-      "industries": "Industrias",
-      "users": "Usuarios Satisfechos"
+    "cta": {
+      "title": "Tus Proximos 50 Prospectos Son Gratis.",
+      "subtitle": "Deja de adivinar. Empieza a cerrar. Obtén datos de negocios verificados en 30 segundos.",
+      "button": "Obtener Prospectos Gratis Ahora"
+    },
+    "features": {
+      "title": "Todo lo que necesitas para encontrar prospectos de calidad",
+      "verified": {
+        "title": "Datos verificados",
+        "description": "Toda la informacion empresarial esta verificada y actualizada regularmente"
+      },
+      "affordable": {
+        "title": "Precios asequibles",
+        "description": "Planes desde solo $49/mes con opciones flexibles"
+      },
+      "easy": {
+        "title": "Facil de usar",
+        "description": "Busca, filtra y exporta prospectos en minutos"
+      },
+      "instantAccess": {
+        "title": "Acceso instantaneo",
+        "description": "Busca y exporta datos al instante. Sin esperas, sin demoras"
+      },
+      "industryFocus": {
+        "title": "Enfoque por industria",
+        "description": "Datos especializados para tatuajes, belleza, fitness y hosteleria"
+      }
     }
   },
   "dashboard": {
