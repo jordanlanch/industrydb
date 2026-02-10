@@ -49,7 +49,7 @@ class IndustriesService {
    */
   async getIndustriesList(): Promise<Industry[]> {
     const response = await this.getAllIndustries()
-    return response.categories.flatMap((category) => category.industries)
+    return response?.categories?.flatMap((category) => category.industries ?? []) ?? []
   }
 
   /**

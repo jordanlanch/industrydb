@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils'
 interface FieldPresenceIconsProps {
   lead: Lead
   className?: string
+  size?: 'sm' | 'md' | 'lg'
 }
 
 export function FieldPresenceIcons({ lead, className }: FieldPresenceIconsProps) {

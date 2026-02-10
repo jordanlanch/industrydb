@@ -6,9 +6,10 @@ interface QualityBadgeProps {
   score: number
   className?: string
   showScore?: boolean
+  size?: 'sm' | 'md' | 'lg'
 }
 
-export function QualityBadge({ score, className, showScore = true }: QualityBadgeProps) {
+export function QualityBadge({ score, className, showScore = true, size: _size }: QualityBadgeProps) {
   const tier = getQualityTier(score)
   const config = getQualityTierConfig(tier)
 

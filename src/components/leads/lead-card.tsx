@@ -224,14 +224,6 @@ export const LeadCard = React.memo(function LeadCard({
       </div>
     </div>
   )
-}, (prevProps, nextProps) => {
-  // Custom comparison: only re-render if lead data actually changed
-  return (
-    prevProps.lead.id === nextProps.lead.id &&
-    prevProps.lead.quality_score === nextProps.lead.quality_score &&
-    prevProps.lead.verified === nextProps.lead.verified &&
-    prevProps.variant === nextProps.variant
-  )
 })
 
 // Group header component for grouped views

@@ -106,7 +106,10 @@ export function CountrySelector({
         })
 
       return {
-        ...region,
+        id: region.code,
+        name: region.name,
+        code: region.code,
+        icon: '🌍',
         countries,
       }
     }).filter((region) => region.countries.length > 0) // Only show regions with countries

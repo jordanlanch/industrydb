@@ -31,9 +31,7 @@ export function LanguageSwitcher() {
     <Select value={locale} onValueChange={handleLocaleChange}>
       <SelectTrigger className="w-[140px]">
         <Globe className="h-4 w-4 mr-2" />
-        <SelectValue>
-          {localeFlags[locale as keyof typeof localeFlags]} {localeNames[locale as keyof typeof localeNames]}
-        </SelectValue>
+        <SelectValue placeholder={`${localeFlags[locale as keyof typeof localeFlags]} ${localeNames[locale as keyof typeof localeNames]}`} />
       </SelectTrigger>
       <SelectContent>
         {locales.map((loc) => (

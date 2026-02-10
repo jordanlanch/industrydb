@@ -142,7 +142,7 @@ export function IndustrySelectorV2({
   }
 
   // Check if at max selections
-  const isAtMaxSelections = maxSelections && selections.length >= maxSelections
+  const isAtMaxSelections = Boolean(maxSelections && selections.length >= maxSelections)
 
   // Handle selection toggle
   const handleToggle = (

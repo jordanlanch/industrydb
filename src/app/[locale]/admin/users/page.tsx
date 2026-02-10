@@ -261,7 +261,7 @@ export default function AdminUsersPage() {
                           <TableCell>{user.email}</TableCell>
                           <TableCell>
                             <Badge
-                              className={getTierBadgeColor(user.subscription_tier)}
+                              className={getTierBadgeColor(user.subscription_tier ?? 'free')}
                             >
                               {user.subscription_tier}
                             </Badge>

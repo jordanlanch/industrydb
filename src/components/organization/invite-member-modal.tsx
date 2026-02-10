@@ -109,10 +109,12 @@ export function InviteMemberModal({
     }
   };
 
-  const handleRoleChange = (value: 'admin' | 'member' | 'viewer') => {
-    setFormData({ ...formData, role: value });
-    if (errors.role) {
-      setErrors({ ...errors, role: undefined });
+  const handleRoleChange = (value: string) => {
+    if (value === 'admin' || value === 'member' || value === 'viewer') {
+      setFormData({ ...formData, role: value });
+      if (errors.role) {
+        setErrors({ ...errors, role: undefined });
+      }
     }
   };
 

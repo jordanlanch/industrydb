@@ -137,7 +137,7 @@ describe('Sidebar', () => {
     });
 
     test('highlights nested routes as active', () => {
-      mockPathname.mockReturnValue('/dashboard/settings/billing');
+      mockPathname.mockReturnValue('/dashboard/settings');
       render(<Sidebar {...defaultProps} />);
 
       const settingsLink = screen.getByLabelText('Settings page');

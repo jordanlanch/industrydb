@@ -262,8 +262,8 @@ export function AdvancedFilterPanel({
                   <Checkbox
                     id="has-email"
                     checked={filters.hasEmail || false}
-                    onCheckedChange={(checked) =>
-                      updateFilters({ hasEmail: !!checked })
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      updateFilters({ hasEmail: e.target.checked })
                     }
                   />
                   <label
@@ -278,8 +278,8 @@ export function AdvancedFilterPanel({
                   <Checkbox
                     id="has-phone"
                     checked={filters.hasPhone || false}
-                    onCheckedChange={(checked) =>
-                      updateFilters({ hasPhone: !!checked })
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      updateFilters({ hasPhone: e.target.checked })
                     }
                   />
                   <label
@@ -294,8 +294,8 @@ export function AdvancedFilterPanel({
                   <Checkbox
                     id="has-website"
                     checked={filters.hasWebsite || false}
-                    onCheckedChange={(checked) =>
-                      updateFilters({ hasWebsite: !!checked })
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      updateFilters({ hasWebsite: e.target.checked })
                     }
                   />
                   <label
@@ -310,8 +310,8 @@ export function AdvancedFilterPanel({
                   <Checkbox
                     id="verified"
                     checked={filters.verified || false}
-                    onCheckedChange={(checked) =>
-                      updateFilters({ verified: !!checked })
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      updateFilters({ verified: e.target.checked })
                     }
                   />
                   <label
