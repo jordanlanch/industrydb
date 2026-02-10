@@ -20,6 +20,7 @@ export interface SelectValueProps {
 
 export interface SelectContentProps {
   children: React.ReactNode;
+  className?: string;
 }
 
 export interface SelectItemProps {
@@ -82,7 +83,7 @@ export function SelectValue({ placeholder }: SelectValueProps) {
   return <span>{context.value || placeholder}</span>;
 }
 
-export function SelectContent({ children }: SelectContentProps) {
+export function SelectContent({ children, className }: SelectContentProps) {
   const context = React.useContext(SelectContext);
   if (!context) throw new Error('SelectContent must be used within Select');
 
@@ -94,7 +95,7 @@ export function SelectContent({ children }: SelectContentProps) {
         className="fixed inset-0 z-50"
         onClick={() => context.setIsOpen(false)}
       />
-      <div className="absolute z-50 mt-1 w-full min-w-[8rem] overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md animate-in fade-in-80">
+      <div className={cn("absolute z-50 mt-1 w-full min-w-[8rem] overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md animate-in fade-in-80", className)}>
         <div className="p-1">{children}</div>
       </div>
     </>

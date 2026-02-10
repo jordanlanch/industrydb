@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Database, Zap, Shield, Globe, Building2, Users, Check, ArrowRight, X, Target, Download, Mail, Phone, MapPin, Star } from 'lucide-react'
 import { CookieConsentBanner } from '@/components/cookie-consent-i18n'
+import { LanguageSwitcher } from '@/components/language-switcher'
 
 const pricingTiers = [
   { id: 'free', price: '$0', leads: '50', popular: false, costPerLead: '$0' },
@@ -60,6 +61,7 @@ export default function HomePage() {
               <span className="ml-2 text-xl font-bold text-white">IndustryDB</span>
             </div>
             <div className="hidden md:flex items-center gap-6">
+              <LanguageSwitcher variant="dark" />
               <Link href="/pricing" className="text-sm text-gray-400 hover:text-white transition-colors">
                 {tNav('pricing')}
               </Link>
@@ -71,6 +73,7 @@ export default function HomePage() {
               </Link>
             </div>
             <div className="md:hidden flex gap-2">
+              <LanguageSwitcher variant="dark" />
               <Link href="/login">
                 <Button variant="ghost" size="sm" className="text-gray-300">{tNav('login')}</Button>
               </Link>

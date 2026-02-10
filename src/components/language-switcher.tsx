@@ -12,7 +12,11 @@ import {
 import { Globe } from 'lucide-react';
 import { locales, localeNames, localeFlags } from '@/i18n';
 
-export function LanguageSwitcher() {
+interface LanguageSwitcherProps {
+  variant?: 'light' | 'dark';
+}
+
+export function LanguageSwitcher({ variant = 'light' }: LanguageSwitcherProps) {
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
@@ -29,11 +33,11 @@ export function LanguageSwitcher() {
 
   return (
     <Select value={locale} onValueChange={handleLocaleChange}>
-      <SelectTrigger className="w-[140px]">
+      <SelectTrigger className={`w-[140px] ${variant === 'dark' ? 'border-gray-700 bg-gray-800 text-gray-200' : ''}`}>
         <Globe className="h-4 w-4 mr-2" />
         <SelectValue placeholder={`${localeFlags[locale as keyof typeof localeFlags]} ${localeNames[locale as keyof typeof localeNames]}`} />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent className={variant === 'dark' ? 'border-gray-700 bg-gray-800' : ''}>
         {locales.map((loc) => (
           <SelectItem key={loc} value={loc}>
             <div className="flex items-center gap-2">

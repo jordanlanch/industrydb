@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { Database } from 'lucide-react';
+import { LanguageSwitcher } from '@/components/language-switcher';
 
 export function LandingFooter() {
   const t = useTranslations('footer');
@@ -94,10 +95,11 @@ export function LandingFooter() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-12 pt-8 border-t border-gray-800">
-          <p className="text-sm text-gray-400 text-center">
+        <div className="mt-12 pt-8 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-sm text-gray-400">
             © {currentYear} IndustryDB. {t('allRightsReserved')}
           </p>
+          <LanguageSwitcher variant="dark" />
         </div>
       </div>
     </footer>

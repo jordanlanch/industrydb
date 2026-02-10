@@ -1,16 +1,18 @@
-import type { Metadata } from 'next'
+'use client'
 
-export const metadata: Metadata = {
-  robots: {
-    index: true,
-    follow: true,
-  },
-}
+import { LanguageSwitcher } from '@/components/language-switcher'
 
 export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  return children
+  return (
+    <div className="relative min-h-screen">
+      <div className="absolute top-4 right-4 z-50">
+        <LanguageSwitcher variant="dark" />
+      </div>
+      {children}
+    </div>
+  )
 }
