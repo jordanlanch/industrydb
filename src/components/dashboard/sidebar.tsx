@@ -36,7 +36,7 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
   return (
     <aside
       className={cn(
-        "relative flex h-screen flex-col border-r bg-gray-50 transition-all duration-300 ease-in-out",
+        "relative flex h-full flex-col border-r bg-gray-50 transition-all duration-300 ease-in-out",
         isOpen ? "w-[200px]" : "w-16"
       )}
       aria-label="Main navigation"
