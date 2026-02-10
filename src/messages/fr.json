@@ -35,7 +35,14 @@
     "admin": "Administrateur",
     "logout": "Se déconnecter",
     "login": "Se connecter",
-    "register": "S'inscrire"
+    "register": "S'inscrire",
+    "organizations": "Organisations",
+    "apiKeys": "Clés API",
+    "apiDocs": "Docs API",
+    "adminPanel": "Panneau Admin",
+    "plan": "Plan {tier}",
+    "collapseSidebar": "Réduire la barre latérale",
+    "expandSidebar": "Développer la barre latérale"
   },
   "auth": {
     "login": {
@@ -140,6 +147,15 @@
       "accessDenied": "L'accès a été refusé. Veuillez réessayer.",
       "genericError": "Une erreur s'est produite. Veuillez réessayer.",
       "backToLogin": "Retour à la connexion"
+    },
+    "verification": {
+      "pleaseVerify": "Veuillez vérifier votre adresse e-mail",
+      "sentLink": "Nous avons envoyé un lien de vérification à {email}. Vérifiez votre boîte de réception et cliquez sur le lien pour vérifier votre compte.",
+      "resendEmail": "Renvoyer l'E-mail",
+      "sending": "Envoi...",
+      "sent": "E-mail de vérification envoyé ! Veuillez vérifier votre boîte de réception.",
+      "failed": "Échec de l'envoi de l'e-mail. Veuillez réessayer.",
+      "dismiss": "Fermer la bannière de vérification d'e-mail"
     }
   },
   "landing": {
@@ -486,6 +502,74 @@
       "phone": "Téléphone",
       "website": "Site web",
       "quality": "Qualité"
+    },
+    "searchState": {
+      "title": "Rechercher des Prospects",
+      "subtitle": "Appliquez des filtres et cliquez sur Rechercher pour découvrir des prospects vérifiés dans votre secteur cible.",
+      "howItWorks": "Comment ça marche",
+      "step1Title": "Sélectionnez vos Filtres",
+      "step1Desc": "Choisissez le secteur, l'emplacement et les préférences de qualité des données",
+      "step2Title": "Cliquez sur Rechercher",
+      "step2Desc": "Chaque recherche utilise 1 crédit de votre allocation mensuelle",
+      "step3Title": "Parcourez et Exportez",
+      "step3Desc": "Consultez les résultats, naviguez librement et exportez sans frais supplémentaires",
+      "oneCredit": "1 Recherche = 1 Crédit",
+      "oneCreditDesc": "Tarification simple et transparente",
+      "paginationFree": "Pagination Gratuite",
+      "paginationFreeDesc": "Parcourez tous les résultats sans frais supplémentaires",
+      "verifiedData": "Données Vérifiées",
+      "verifiedDataDesc": "Prospects de haute qualité et à jour",
+      "searchesRemaining": "Recherches Restantes",
+      "remainingOf": "{remaining} sur {limit} restantes",
+      "noSearchesLeft": "Plus de recherches ce mois-ci",
+      "runningLow": "Presque épuisé - {remaining} recherches restantes",
+      "searchesAvailable": "{remaining} recherches disponibles",
+      "resetsOn": "Renouvellement le {date}",
+      "quickStart": "Exemples Rapides",
+      "tattooUSA": "Studios de Tatouage aux USA",
+      "beautyUK": "Salons de Beauté au Royaume-Uni",
+      "gymsSpain": "Salles de Sport en Espagne",
+      "restaurantsGermany": "Restaurants en Allemagne"
+    },
+    "search": {
+      "searching": "Recherche en cours...",
+      "noCredits": "Aucun Crédit",
+      "noCreditsRemaining": "Plus de Crédits",
+      "searchLeads": "Rechercher",
+      "selectFilters": "Sélectionnez des filtres pour rechercher",
+      "outOfCredits": "Plus de crédits.",
+      "upgrade": "Améliorer",
+      "lowCredits": "Crédits faibles ({remaining} restants)",
+      "upgradeToSearch": "Améliorez votre plan pour continuer à rechercher",
+      "onlyLeft": "Seulement {remaining} recherches restantes ce mois-ci",
+      "matchingFilters": "Rechercher des prospects correspondant à vos filtres"
+    },
+    "activeFilters": {
+      "title": "Filtres Actifs",
+      "clearAll": "Tout Effacer",
+      "industry": "Secteur",
+      "country": "Pays",
+      "city": "Ville",
+      "hasEmail": "A un E-mail",
+      "hasPhone": "A un Téléphone",
+      "verified": "Vérifié",
+      "yes": "Oui",
+      "removeFilter": "Supprimer le filtre {label}"
+    },
+    "creditDialog": {
+      "title": "Confirmer la Recherche",
+      "useOneCredit": "Cette recherche utilisera 1 crédit de votre allocation mensuelle.",
+      "creditsRemaining": "Crédits Restants :",
+      "runningLow": "Crédits Presque Épuisés",
+      "runningLowDesc": "Il ne vous restera que {count} recherches après celle-ci. Envisagez d'améliorer votre plan pour éviter les interruptions.",
+      "lastSearch": "Dernière Recherche",
+      "lastSearchDesc": "C'est votre dernière recherche disponible ce mois-ci. Vous devrez améliorer votre plan ou attendre le {date} pour plus de crédits.",
+      "needMore": "Besoin de Plus de Recherches ?",
+      "upgradeDesc": "Passez à Débutant pour 500 recherches/mois ou Pro pour 2 000 recherches/mois.",
+      "viewPlans": "Voir les Plans",
+      "note": "La pagination et l'exportation ne consomment pas de crédits supplémentaires. Seules les nouvelles recherches le font.",
+      "cancel": "Annuler",
+      "searchAnyway": "Rechercher Quand Même"
     }
   },
   "exports": {

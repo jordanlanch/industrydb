@@ -9,16 +9,7 @@ import { useAuthStore } from '@/store/auth.store'
 import { useRouter } from 'next/navigation'
 import { OrganizationSwitcher } from '@/components/organization/organization-switcher'
 import { LanguageSwitcher } from '@/components/language-switcher'
-
-const navigation = [
-  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-  { name: 'Leads', href: '/dashboard/leads', icon: Database },
-  { name: 'Exports', href: '/dashboard/exports', icon: FileDown },
-  { name: 'Analytics', href: '/dashboard/analytics', icon: Activity },
-  { name: 'Organizations', href: '/dashboard/organizations', icon: Building2 },
-  { name: 'API Keys', href: '/dashboard/api-keys', icon: Key },
-  { name: 'Settings', href: '/dashboard/settings', icon: Settings },
-]
+import { useTranslations } from 'next-intl'
 
 interface SidebarProps {
   isOpen: boolean
@@ -29,6 +20,17 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
   const pathname = usePathname()
   const router = useRouter()
   const { user, logout } = useAuthStore()
+  const t = useTranslations('nav')
+
+  const navigation = [
+    { name: t('dashboard'), href: '/dashboard', icon: LayoutDashboard },
+    { name: t('leads'), href: '/dashboard/leads', icon: Database },
+    { name: t('exports'), href: '/dashboard/exports', icon: FileDown },
+    { name: t('analytics'), href: '/dashboard/analytics', icon: Activity },
+    { name: t('organizations'), href: '/dashboard/organizations', icon: Building2 },
+    { name: t('apiKeys'), href: '/dashboard/api-keys', icon: Key },
+    { name: t('settings'), href: '/dashboard/settings', icon: Settings },
+  ]
 
   const handleLogout = () => {
     logout()
@@ -47,8 +49,8 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
       <button
         onClick={onToggle}
         className="absolute -right-3 top-6 z-10 h-6 w-6 rounded-full bg-white border shadow-md hover:shadow-lg transition-shadow focus:outline-none focus:ring-2 focus:ring-primary"
-        aria-label={isOpen ? "Collapse sidebar" : "Expand sidebar"}
-        title={isOpen ? "Collapse sidebar (⌘B)" : "Expand sidebar (⌘B)"}
+        aria-label={isOpen ? t('collapseSidebar') : t('expandSidebar')}
+        title={isOpen ? `${t('collapseSidebar')} (⌘B)` : `${t('expandSidebar')} (⌘B)`}
       >
         {isOpen ? (
           <ChevronLeft className="h-4 w-4 m-auto" />
@@ -90,7 +92,7 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
             : pathname === item.href || pathname?.startsWith(item.href + '/')
           return (
             <Link
-              key={item.name}
+              key={item.href}
               href={item.href}
               aria-current={isActive ? 'page' : undefined}
               aria-label={`${item.name} page`}
@@ -116,8 +118,8 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
             <Link
               href="/admin"
               aria-current={pathname?.startsWith('/admin') ? 'page' : undefined}
-              aria-label="Admin Panel"
-              title={!isOpen ? 'Admin Panel' : undefined}
+              aria-label={t('adminPanel')}
+              title={!isOpen ? t('adminPanel') : undefined}
               className={cn(
                 'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2',
                 pathname?.startsWith('/admin')
@@ -127,7 +129,7 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
               )}
             >
               <Shield className="h-5 w-5 shrink-0" aria-hidden="true" />
-              {isOpen && <span className="truncate">Admin Panel</span>}
+              {isOpen && <span className="truncate">{t('adminPanel')}</span>}
             </Link>
           </>
         )}
@@ -140,8 +142,8 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
               href={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:7890'}/swagger/index.html`}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="API Documentation (opens in new tab)"
-              title={!isOpen ? 'API Docs' : undefined}
+              aria-label={`${t('apiDocs')} (opens in new tab)`}
+              title={!isOpen ? t('apiDocs') : undefined}
               className={cn(
                 'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2',
                 'text-muted-foreground hover:bg-gray-100 hover:text-foreground',
@@ -149,7 +151,7 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
               )}
             >
               <BookOpen className="h-5 w-5 shrink-0" aria-hidden="true" />
-              {isOpen && <span className="truncate">API Docs</span>}
+              {isOpen && <span className="truncate">{t('apiDocs')}</span>}
             </a>
           </>
         )}
@@ -162,7 +164,7 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
             <p className="text-sm font-medium truncate">{user?.name}</p>
             <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
             <p className="mt-1 text-xs">
-              <span className="font-medium capitalize">{user?.subscription_tier}</span> plan
+              <span className="font-medium capitalize">{t('plan', { tier: user?.subscription_tier })}</span>
             </p>
           </div>
           <div className="mb-3 px-3">
@@ -172,10 +174,10 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
             variant="ghost"
             className="w-full justify-start"
             onClick={handleLogout}
-            aria-label="Logout from account"
+            aria-label={t('logout')}
           >
             <LogOut className="mr-2 h-4 w-4" aria-hidden="true" />
-            Logout
+            {t('logout')}
           </Button>
         </div>
       )}
@@ -190,8 +192,8 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
             variant="ghost"
             className="w-full p-2"
             onClick={handleLogout}
-            aria-label="Logout from account"
-            title="Logout"
+            aria-label={t('logout')}
+            title={t('logout')}
           >
             <LogOut className="h-5 w-5" aria-hidden="true" />
           </Button>

@@ -35,7 +35,14 @@
     "admin": "Admin",
     "logout": "Logout",
     "login": "Login",
-    "register": "Sign Up"
+    "register": "Sign Up",
+    "organizations": "Organizations",
+    "apiKeys": "API Keys",
+    "apiDocs": "API Docs",
+    "adminPanel": "Admin Panel",
+    "plan": "{tier} plan",
+    "collapseSidebar": "Collapse sidebar",
+    "expandSidebar": "Expand sidebar"
   },
   "auth": {
     "login": {
@@ -140,6 +147,15 @@
       "accessDenied": "Access was denied. Please try again.",
       "genericError": "Something went wrong. Please try again.",
       "backToLogin": "Back to Login"
+    },
+    "verification": {
+      "pleaseVerify": "Please verify your email address",
+      "sentLink": "We sent a verification link to {email}. Check your inbox and click the link to verify your account.",
+      "resendEmail": "Resend Email",
+      "sending": "Sending...",
+      "sent": "Verification email sent! Please check your inbox.",
+      "failed": "Failed to send email. Please try again.",
+      "dismiss": "Dismiss email verification banner"
     }
   },
   "landing": {
@@ -486,6 +502,74 @@
       "phone": "Phone",
       "website": "Website",
       "quality": "Quality"
+    },
+    "searchState": {
+      "title": "Search for Business Leads",
+      "subtitle": "Apply filters and click Search to discover verified business leads in your target industry.",
+      "howItWorks": "How it works",
+      "step1Title": "Select Your Filters",
+      "step1Desc": "Choose industry, location, and data quality preferences",
+      "step2Title": "Click Search",
+      "step2Desc": "Each search uses 1 credit from your monthly allowance",
+      "step3Title": "Browse & Export",
+      "step3Desc": "View results, paginate freely, and export without extra charges",
+      "oneCredit": "1 Search = 1 Credit",
+      "oneCreditDesc": "Simple, transparent pricing",
+      "paginationFree": "Pagination is Free",
+      "paginationFreeDesc": "Browse all results without extra charges",
+      "verifiedData": "Verified Data",
+      "verifiedDataDesc": "High-quality, up-to-date leads",
+      "searchesRemaining": "Searches Remaining",
+      "remainingOf": "{remaining} of {limit} left",
+      "noSearchesLeft": "No searches left this month",
+      "runningLow": "Running low - {remaining} searches left",
+      "searchesAvailable": "{remaining} searches available",
+      "resetsOn": "Resets {date}",
+      "quickStart": "Quick Start Examples",
+      "tattooUSA": "Tattoo Studios in USA",
+      "beautyUK": "Beauty Salons in UK",
+      "gymsSpain": "Gyms in Spain",
+      "restaurantsGermany": "Restaurants in Germany"
+    },
+    "search": {
+      "searching": "Searching...",
+      "noCredits": "No Credits",
+      "noCreditsRemaining": "No Credits Remaining",
+      "searchLeads": "Search",
+      "selectFilters": "Select filters to search",
+      "outOfCredits": "Out of credits.",
+      "upgrade": "Upgrade",
+      "lowCredits": "Low credits ({remaining} left)",
+      "upgradeToSearch": "Upgrade your plan to continue searching",
+      "onlyLeft": "Only {remaining} searches left this month",
+      "matchingFilters": "Search for leads matching your filters"
+    },
+    "activeFilters": {
+      "title": "Active Filters",
+      "clearAll": "Clear All",
+      "industry": "Industry",
+      "country": "Country",
+      "city": "City",
+      "hasEmail": "Has Email",
+      "hasPhone": "Has Phone",
+      "verified": "Verified",
+      "yes": "Yes",
+      "removeFilter": "Remove {label} filter"
+    },
+    "creditDialog": {
+      "title": "Confirm Search",
+      "useOneCredit": "This search will use 1 credit from your monthly allowance.",
+      "creditsRemaining": "Credits Remaining:",
+      "runningLow": "Running Low on Credits",
+      "runningLowDesc": "You'll have only {count} searches left after this one. Consider upgrading your plan to avoid interruptions.",
+      "lastSearch": "Last Search",
+      "lastSearchDesc": "This is your last available search for this month. You'll need to upgrade or wait until {date} for more credits.",
+      "needMore": "Need More Searches?",
+      "upgradeDesc": "Upgrade to Starter for 500 searches/month or Pro for 2,000 searches/month.",
+      "viewPlans": "View Plans",
+      "note": "Pagination and export don't consume additional credits. Only new searches do.",
+      "cancel": "Cancel",
+      "searchAnyway": "Search Anyway"
     }
   },
   "exports": {

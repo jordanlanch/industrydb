@@ -3,7 +3,8 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Search, MapPin, Building2, Shield, TrendingUp, Sparkles } from 'lucide-react'
+import { Search, Building2, Shield, TrendingUp, Sparkles } from 'lucide-react'
+import { useTranslations, useLocale } from 'next-intl'
 import type { UsageInfo } from '@/types'
 
 interface EmptySearchStateProps {
@@ -12,11 +13,14 @@ interface EmptySearchStateProps {
 }
 
 export function EmptySearchState({ usage, onQuickSearch }: EmptySearchStateProps) {
+  const t = useTranslations('leads.searchState')
+  const locale = useLocale()
+
   const quickSearchExamples = [
-    { industry: 'tattoo', country: 'US', label: '🎨 Tattoo Studios in USA' },
-    { industry: 'beauty', country: 'GB', label: '💅 Beauty Salons in UK' },
-    { industry: 'gym', country: 'ES', label: '💪 Gyms in Spain' },
-    { industry: 'restaurant', country: 'DE', label: '🍽️ Restaurants in Germany' },
+    { industry: 'tattoo', country: 'US', label: `🎨 ${t('tattooUSA')}` },
+    { industry: 'beauty', country: 'GB', label: `💅 ${t('beautyUK')}` },
+    { industry: 'gym', country: 'ES', label: `💪 ${t('gymsSpain')}` },
+    { industry: 'restaurant', country: 'DE', label: `🍽️ ${t('restaurantsGermany')}` },
   ]
 
   return (
@@ -27,9 +31,9 @@ export function EmptySearchState({ usage, onQuickSearch }: EmptySearchStateProps
       </div>
 
       {/* Title */}
-      <h2 className="text-2xl font-bold mb-2">Search for Business Leads</h2>
+      <h2 className="text-2xl font-bold mb-2">{t('title')}</h2>
       <p className="text-muted-foreground text-center mb-8 max-w-md">
-        Apply filters and click <strong>Search</strong> to discover verified business leads in your target industry.
+        {t('subtitle')}
       </p>
 
       {/* How It Works */}
@@ -37,7 +41,7 @@ export function EmptySearchState({ usage, onQuickSearch }: EmptySearchStateProps
         <CardContent className="p-6">
           <h3 className="font-semibold mb-4 flex items-center gap-2">
             <Sparkles className="h-5 w-5 text-primary" />
-            How it works
+            {t('howItWorks')}
           </h3>
           <div className="space-y-4">
             <div className="flex items-start gap-3">
@@ -45,8 +49,8 @@ export function EmptySearchState({ usage, onQuickSearch }: EmptySearchStateProps
                 <span className="text-sm font-semibold text-primary">1</span>
               </div>
               <div>
-                <p className="font-medium text-sm">Select Your Filters</p>
-                <p className="text-xs text-muted-foreground">Choose industry, location, and data quality preferences</p>
+                <p className="font-medium text-sm">{t('step1Title')}</p>
+                <p className="text-xs text-muted-foreground">{t('step1Desc')}</p>
               </div>
             </div>
             <div className="flex items-start gap-3">
@@ -54,8 +58,8 @@ export function EmptySearchState({ usage, onQuickSearch }: EmptySearchStateProps
                 <span className="text-sm font-semibold text-primary">2</span>
               </div>
               <div>
-                <p className="font-medium text-sm">Click Search</p>
-                <p className="text-xs text-muted-foreground">Each search uses <strong>1 credit</strong> from your monthly allowance</p>
+                <p className="font-medium text-sm">{t('step2Title')}</p>
+                <p className="text-xs text-muted-foreground">{t('step2Desc')}</p>
               </div>
             </div>
             <div className="flex items-start gap-3">
@@ -63,8 +67,8 @@ export function EmptySearchState({ usage, onQuickSearch }: EmptySearchStateProps
                 <span className="text-sm font-semibold text-primary">3</span>
               </div>
               <div>
-                <p className="font-medium text-sm">Browse & Export</p>
-                <p className="text-xs text-muted-foreground">View results, paginate freely, and export without extra charges</p>
+                <p className="font-medium text-sm">{t('step3Title')}</p>
+                <p className="text-xs text-muted-foreground">{t('step3Desc')}</p>
               </div>
             </div>
           </div>
@@ -78,8 +82,8 @@ export function EmptySearchState({ usage, onQuickSearch }: EmptySearchStateProps
             <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-2">
               <TrendingUp className="h-5 w-5 text-green-600" />
             </div>
-            <p className="text-sm font-medium mb-1">1 Search = 1 Credit</p>
-            <p className="text-xs text-muted-foreground">Simple, transparent pricing</p>
+            <p className="text-sm font-medium mb-1">{t('oneCredit')}</p>
+            <p className="text-xs text-muted-foreground">{t('oneCreditDesc')}</p>
           </CardContent>
         </Card>
 
@@ -88,8 +92,8 @@ export function EmptySearchState({ usage, onQuickSearch }: EmptySearchStateProps
             <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-2">
               <Shield className="h-5 w-5 text-blue-600" />
             </div>
-            <p className="text-sm font-medium mb-1">Pagination is Free</p>
-            <p className="text-xs text-muted-foreground">Browse all results without extra charges</p>
+            <p className="text-sm font-medium mb-1">{t('paginationFree')}</p>
+            <p className="text-xs text-muted-foreground">{t('paginationFreeDesc')}</p>
           </CardContent>
         </Card>
 
@@ -98,8 +102,8 @@ export function EmptySearchState({ usage, onQuickSearch }: EmptySearchStateProps
             <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-2">
               <Building2 className="h-5 w-5 text-purple-600" />
             </div>
-            <p className="text-sm font-medium mb-1">Verified Data</p>
-            <p className="text-xs text-muted-foreground">High-quality, up-to-date leads</p>
+            <p className="text-sm font-medium mb-1">{t('verifiedData')}</p>
+            <p className="text-xs text-muted-foreground">{t('verifiedDataDesc')}</p>
           </CardContent>
         </Card>
       </div>
@@ -108,9 +112,9 @@ export function EmptySearchState({ usage, onQuickSearch }: EmptySearchStateProps
       {usage && (
         <div className="w-full p-4 rounded-lg bg-gray-50 border mb-6">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium">Searches Remaining</span>
+            <span className="text-sm font-medium">{t('searchesRemaining')}</span>
             <Badge variant={usage.remaining <= 10 ? 'destructive' : usage.remaining <= 20 ? 'default' : 'secondary'}>
-              {usage.remaining} of {usage.usage_limit} left
+              {t('remainingOf', { remaining: usage.remaining, limit: usage.usage_limit })}
             </Badge>
           </div>
           <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
@@ -125,22 +129,21 @@ export function EmptySearchState({ usage, onQuickSearch }: EmptySearchStateProps
                   : 'bg-green-500'
               }`}
               style={{ width: `${(usage.remaining / usage.usage_limit) * 100}%` }}
-              title={`${usage.remaining} searches remaining`}
             />
           </div>
           <div className="flex items-center justify-between mt-2">
             <p className="text-xs text-muted-foreground">
               {usage.remaining === 0 ? (
-                'No searches left this month'
+                t('noSearchesLeft')
               ) : usage.remaining <= 10 ? (
-                `⚠️ Running low - ${usage.remaining} searches left`
+                t('runningLow', { remaining: usage.remaining })
               ) : (
-                `${usage.remaining} searches available`
+                t('searchesAvailable', { remaining: usage.remaining })
               )}
             </p>
             {usage.reset_at && (
               <p className="text-xs text-muted-foreground">
-                Resets {new Date(usage.reset_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                {t('resetsOn', { date: new Date(usage.reset_at).toLocaleDateString(locale, { month: 'short', day: 'numeric' }) })}
               </p>
             )}
           </div>
@@ -150,7 +153,7 @@ export function EmptySearchState({ usage, onQuickSearch }: EmptySearchStateProps
       {/* Quick Search Examples */}
       {onQuickSearch && (
         <div className="w-full">
-          <p className="text-sm font-medium mb-3 text-center">Quick Start Examples</p>
+          <p className="text-sm font-medium mb-3 text-center">{t('quickStart')}</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
             {quickSearchExamples.map((example) => (
               <Button

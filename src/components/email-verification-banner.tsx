@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { AlertCircle, X } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import axios from 'axios';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:7890/api/v1';
@@ -13,6 +14,7 @@ interface EmailVerificationBannerProps {
 }
 
 export function EmailVerificationBanner({ email, onDismiss }: EmailVerificationBannerProps) {
+  const t = useTranslations('auth.verification');
   const [sending, setSending] = useState(false);
   const [dismissed, setDismissed] = useState(false);
   const [message, setMessage] = useState('');
@@ -35,10 +37,10 @@ export function EmailVerificationBanner({ email, onDismiss }: EmailVerificationB
         }
       );
 
-      setMessage('✓ Verification email sent! Please check your inbox.');
+      setMessage(`✓ ${t('sent')}`);
     } catch (error: any) {
       setMessage(
-        '✗ ' + (error.response?.data?.message || 'Failed to send email. Please try again.')
+        `✗ ${error.response?.data?.message || t('failed')}`
       );
     } finally {
       setSending(false);
@@ -63,11 +65,10 @@ export function EmailVerificationBanner({ email, onDismiss }: EmailVerificationB
             <AlertCircle className="h-5 w-5 text-yellow-600 mt-0.5 flex-shrink-0" aria-hidden="true" />
             <div className="flex-1">
               <p className="text-sm font-medium text-yellow-800">
-                Please verify your email address
+                {t('pleaseVerify')}
               </p>
               <p className="text-sm text-yellow-700 mt-1">
-                We sent a verification link to <strong>{email}</strong>.
-                Check your inbox and click the link to verify your account.
+                {t('sentLink', { email })}
               </p>
               {message && (
                 <p
@@ -88,14 +89,14 @@ export function EmailVerificationBanner({ email, onDismiss }: EmailVerificationB
               variant="outline"
               size="sm"
               className="whitespace-nowrap"
-              aria-label={sending ? 'Sending verification email' : 'Resend verification email'}
+              aria-label={sending ? t('sending') : t('resendEmail')}
             >
-              {sending ? 'Sending...' : 'Resend Email'}
+              {sending ? t('sending') : t('resendEmail')}
             </Button>
             <button
               onClick={handleDismiss}
               className="text-yellow-600 hover:text-yellow-800 focus:outline-none focus:ring-2 focus:ring-yellow-600 rounded p-1"
-              aria-label="Dismiss email verification banner"
+              aria-label={t('dismiss')}
             >
               <X className="h-5 w-5" aria-hidden="true" />
             </button>

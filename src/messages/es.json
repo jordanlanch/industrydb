@@ -35,7 +35,14 @@
     "admin": "Administrador",
     "logout": "Cerrar sesión",
     "login": "Iniciar sesión",
-    "register": "Registrarse"
+    "register": "Registrarse",
+    "organizations": "Organizaciones",
+    "apiKeys": "Claves API",
+    "apiDocs": "Docs API",
+    "adminPanel": "Panel Admin",
+    "plan": "Plan {tier}",
+    "collapseSidebar": "Contraer barra lateral",
+    "expandSidebar": "Expandir barra lateral"
   },
   "auth": {
     "login": {
@@ -140,6 +147,15 @@
       "accessDenied": "El acceso fue denegado. Por favor intenta de nuevo.",
       "genericError": "Algo salió mal. Por favor intenta de nuevo.",
       "backToLogin": "Volver al inicio de sesión"
+    },
+    "verification": {
+      "pleaseVerify": "Por favor verifica tu dirección de correo electrónico",
+      "sentLink": "Enviamos un enlace de verificación a {email}. Revisa tu bandeja de entrada y haz clic en el enlace para verificar tu cuenta.",
+      "resendEmail": "Reenviar Correo",
+      "sending": "Enviando...",
+      "sent": "¡Correo de verificación enviado! Por favor revisa tu bandeja de entrada.",
+      "failed": "Error al enviar el correo. Por favor intenta de nuevo.",
+      "dismiss": "Cerrar banner de verificación de correo"
     }
   },
   "landing": {
@@ -486,6 +502,74 @@
       "phone": "Teléfono",
       "website": "Sitio web",
       "quality": "Calidad"
+    },
+    "searchState": {
+      "title": "Buscar Prospectos de Negocios",
+      "subtitle": "Aplica filtros y haz clic en Buscar para descubrir prospectos verificados en tu industria objetivo.",
+      "howItWorks": "Cómo funciona",
+      "step1Title": "Selecciona tus Filtros",
+      "step1Desc": "Elige industria, ubicación y preferencias de calidad de datos",
+      "step2Title": "Haz clic en Buscar",
+      "step2Desc": "Cada búsqueda usa 1 crédito de tu asignación mensual",
+      "step3Title": "Explora y Exporta",
+      "step3Desc": "Ve resultados, navega libremente y exporta sin cargos adicionales",
+      "oneCredit": "1 Búsqueda = 1 Crédito",
+      "oneCreditDesc": "Precios simples y transparentes",
+      "paginationFree": "Paginación Gratuita",
+      "paginationFreeDesc": "Navega todos los resultados sin cargos adicionales",
+      "verifiedData": "Datos Verificados",
+      "verifiedDataDesc": "Prospectos de alta calidad y actualizados",
+      "searchesRemaining": "Búsquedas Restantes",
+      "remainingOf": "{remaining} de {limit} restantes",
+      "noSearchesLeft": "No quedan búsquedas este mes",
+      "runningLow": "Quedan pocas - {remaining} búsquedas restantes",
+      "searchesAvailable": "{remaining} búsquedas disponibles",
+      "resetsOn": "Se renueva el {date}",
+      "quickStart": "Ejemplos Rápidos",
+      "tattooUSA": "Estudios de Tatuaje en EE.UU.",
+      "beautyUK": "Salones de Belleza en Reino Unido",
+      "gymsSpain": "Gimnasios en España",
+      "restaurantsGermany": "Restaurantes en Alemania"
+    },
+    "search": {
+      "searching": "Buscando...",
+      "noCredits": "Sin Créditos",
+      "noCreditsRemaining": "No Quedan Créditos",
+      "searchLeads": "Buscar",
+      "selectFilters": "Selecciona filtros para buscar",
+      "outOfCredits": "Sin créditos.",
+      "upgrade": "Mejorar",
+      "lowCredits": "Pocos créditos ({remaining} restantes)",
+      "upgradeToSearch": "Mejora tu plan para seguir buscando",
+      "onlyLeft": "Solo quedan {remaining} búsquedas este mes",
+      "matchingFilters": "Buscar prospectos que coincidan con tus filtros"
+    },
+    "activeFilters": {
+      "title": "Filtros Activos",
+      "clearAll": "Limpiar Todo",
+      "industry": "Industria",
+      "country": "País",
+      "city": "Ciudad",
+      "hasEmail": "Tiene Correo",
+      "hasPhone": "Tiene Teléfono",
+      "verified": "Verificado",
+      "yes": "Sí",
+      "removeFilter": "Eliminar filtro {label}"
+    },
+    "creditDialog": {
+      "title": "Confirmar Búsqueda",
+      "useOneCredit": "Esta búsqueda usará 1 crédito de tu asignación mensual.",
+      "creditsRemaining": "Créditos Restantes:",
+      "runningLow": "Quedan Pocos Créditos",
+      "runningLowDesc": "Te quedarán solo {count} búsquedas después de esta. Considera mejorar tu plan para evitar interrupciones.",
+      "lastSearch": "Última Búsqueda",
+      "lastSearchDesc": "Esta es tu última búsqueda disponible este mes. Necesitarás mejorar tu plan o esperar hasta el {date} para más créditos.",
+      "needMore": "¿Necesitas Más Búsquedas?",
+      "upgradeDesc": "Mejora a Inicial para 500 búsquedas/mes o Pro para 2,000 búsquedas/mes.",
+      "viewPlans": "Ver Planes",
+      "note": "La paginación y exportación no consumen créditos adicionales. Solo las nuevas búsquedas lo hacen.",
+      "cancel": "Cancelar",
+      "searchAnyway": "Buscar de Todas Formas"
     }
   },
   "exports": {
