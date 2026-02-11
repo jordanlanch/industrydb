@@ -5,7 +5,6 @@ import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Database, Zap, Shield, Globe, Building2, Users, Check, ArrowRight, X, Target, Download, Mail, Phone, MapPin, Star } from 'lucide-react'
-import { CookieConsentBanner } from '@/components/cookie-consent-i18n'
 import { LanguageSwitcher } from '@/components/language-switcher'
 
 const pricingTiers = [
@@ -46,7 +45,7 @@ export default function HomePage() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white">
+    <div className="min-h-screen bg-gray-950 text-white overflow-x-hidden">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
@@ -75,10 +74,10 @@ export default function HomePage() {
             <div className="md:hidden flex items-center gap-1 sm:gap-2">
               <LanguageSwitcher variant="dark" compact />
               <Link href="/login">
-                <Button variant="ghost" size="sm" className="text-gray-300 px-2 sm:px-3">{tNav('login')}</Button>
+                <Button variant="ghost" size="sm" className="text-gray-300 px-2 sm:px-3 text-xs sm:text-sm">{tNav('login')}</Button>
               </Link>
               <Link href="/register">
-                <Button size="sm" className="bg-yellow-400 text-gray-950 hover:bg-yellow-300 font-bold px-2 sm:px-3 text-xs sm:text-sm">{t('hero.cta')}</Button>
+                <Button size="sm" className="bg-yellow-400 text-gray-950 hover:bg-yellow-300 font-bold px-2 sm:px-3 text-xs sm:text-sm whitespace-nowrap">{tCommon('getStarted')}</Button>
               </Link>
             </div>
           </div>
@@ -247,7 +246,7 @@ export default function HomePage() {
             <p className="text-center text-gray-400 mb-12 max-w-2xl mx-auto">
               {t('value.subtitle')}
             </p>
-            <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 md:p-10">
+            <div className="bg-gray-900 border border-gray-800 rounded-2xl p-4 sm:p-8 md:p-10">
               <div className="grid sm:grid-cols-2 gap-4">
                 {[
                   { icon: Database, key: 'data' },
@@ -264,8 +263,8 @@ export default function HomePage() {
                       <Icon className="h-4 w-4 text-yellow-400" aria-hidden="true" />
                     </div>
                     <div>
-                      <span className="font-semibold text-white">{t(`value.items.${key}.title`)}</span>
-                      <span className="text-gray-400 text-sm ml-2">{t(`value.items.${key}.desc`)}</span>
+                      <span className="font-semibold text-white block">{t(`value.items.${key}.title`)}</span>
+                      <span className="text-gray-400 text-sm">{t(`value.items.${key}.desc`)}</span>
                     </div>
                   </div>
                 ))}
@@ -307,7 +306,7 @@ export default function HomePage() {
             </p>
             <div className="grid md:grid-cols-2 gap-6">
               {/* Others */}
-              <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8">
+              <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5 sm:p-8">
                 <h3 className="text-lg font-bold text-red-400 mb-6">{t('comparison.others.title')}</h3>
                 <ul className="space-y-4">
                   {(['price', 'data', 'contracts', 'industries'] as const).map((key) => (
@@ -319,7 +318,7 @@ export default function HomePage() {
                 </ul>
               </div>
               {/* IndustryDB */}
-              <div className="bg-gray-900 border border-yellow-400/30 rounded-2xl p-8 relative">
+              <div className="bg-gray-900 border border-yellow-400/30 rounded-2xl p-5 sm:p-8 relative">
                 <div className="absolute -top-3 left-6">
                   <span className="bg-yellow-400 text-gray-950 text-xs font-bold px-3 py-1 rounded-full uppercase">
                     IndustryDB
@@ -354,7 +353,7 @@ export default function HomePage() {
                   key={tier.id}
                   className={`relative bg-gray-950 rounded-2xl p-6 border ${
                     tier.popular
-                      ? 'border-yellow-400 shadow-lg shadow-yellow-400/10 scale-[1.02]'
+                      ? 'border-yellow-400 shadow-lg shadow-yellow-400/20 ring-1 ring-yellow-400/50'
                       : 'border-gray-800'
                   }`}
                 >
@@ -521,7 +520,6 @@ export default function HomePage() {
         </div>
       </footer>
 
-      <CookieConsentBanner />
     </div>
   )
 }

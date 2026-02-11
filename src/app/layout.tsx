@@ -124,7 +124,7 @@ export default function RootLayout({
           </>
         )}
       </head>
-      <body className={`${inter.className} flex flex-col min-h-screen`}>
+      <body className={`${inter.className} flex flex-col min-h-screen overflow-x-hidden`}>
         <SkipLink />
         <ErrorBoundary>
           <ToastProvider>
