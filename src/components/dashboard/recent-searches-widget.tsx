@@ -5,12 +5,11 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, Link } from '@/i18n/routing'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Clock, Search, ArrowRight, Bookmark } from 'lucide-react'
-import Link from 'next/link'
 
 interface RecentSearch {
   id: string

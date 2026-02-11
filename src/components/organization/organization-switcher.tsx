@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Building2, Loader2, Plus } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/i18n/routing';
 import { useOrganization } from '@/contexts/organization.context';
 
 interface OrganizationSwitcherProps {

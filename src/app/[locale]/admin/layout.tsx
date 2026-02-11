@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/i18n/routing'
 import { useAuthStore } from '@/store/auth.store'
 import { AdminSidebar } from '@/components/dashboard/admin-sidebar'
 import { DashboardErrorBoundary } from '@/components/error-boundary'

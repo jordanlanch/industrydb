@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Building2, Mail, Shield, Check, X, Loader2 } from 'lucide-react';
 import { useToast } from '@/components/toast-provider';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/i18n/routing';
 import organizationService, { PendingInvite } from '@/services/organization.service';
 
 export default function OrganizationInvitesPage() {

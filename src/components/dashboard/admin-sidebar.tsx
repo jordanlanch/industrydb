@@ -1,7 +1,6 @@
 'use client'
 
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { Link, usePathname, useRouter } from '@/i18n/routing'
 import { cn } from '@/lib/utils'
 import {
   LayoutDashboard,
@@ -14,7 +13,6 @@ import {
   Shield
 } from 'lucide-react'
 import { useAuthStore } from '@/store/auth.store'
-import { useRouter } from 'next/navigation'
 
 const navigation = [
   { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },

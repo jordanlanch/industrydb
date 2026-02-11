@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/i18n/routing'
 import { Menu } from 'lucide-react'
 import { Sidebar } from '@/components/dashboard/sidebar'
 import { EmailVerificationBanner } from '@/components/email-verification-banner'

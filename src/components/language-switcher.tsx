@@ -1,7 +1,7 @@
 'use client';
 
 import { useLocale } from 'next-intl';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter, usePathname } from '@/i18n/routing';
 import {
   Select,
   SelectContent,
@@ -23,13 +23,9 @@ export function LanguageSwitcher({ variant = 'light', compact = false }: Languag
   const pathname = usePathname();
 
   const handleLocaleChange = (newLocale: string) => {
-    // Remove current locale from pathname
-    const pathWithoutLocale = pathname.replace(/^\/(en|es|fr)/, '');
-
-    // Navigate to new locale
-    // If path is empty, default to root
-    const newPath = `/${newLocale}${pathWithoutLocale || ''}`;
-    router.push(newPath);
+    // usePathname from @/i18n/routing already strips locale prefix
+    // useRouter from @/i18n/routing accepts a locale option
+    router.replace(pathname || '/', { locale: newLocale as any });
   };
 
   return (

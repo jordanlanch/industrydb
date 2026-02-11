@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter, useParams } from 'next/navigation'
-import Link from 'next/link'
+import { useRouter, Link } from '@/i18n/routing'
+import { useParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -90,7 +90,7 @@ export default function RegisterPage() {
 
       login(response.token, response.user)
 
-      router.push(`/${locale}/dashboard`)
+      router.push('/dashboard')
     } catch (err: any) {
       setApiError(err.response?.data?.message || t('error'))
     } finally {
