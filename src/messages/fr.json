@@ -76,6 +76,8 @@
       "acceptTerms": "J'accepte les {terms} et la {privacy}",
       "terms": "Conditions d'utilisation",
       "privacy": "Politique de confidentialité",
+      "agreeToTermsPrefix": "J'accepte les",
+      "agreeToTermsAnd": "et la",
       "submit": "Créer un compte",
       "submitting": "Création du compte...",
       "hasAccount": "Vous avez déjà un compte?",

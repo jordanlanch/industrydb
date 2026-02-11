@@ -237,7 +237,7 @@ export default function RegisterPage() {
                   htmlFor="terms"
                   className="text-sm text-muted-foreground leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
-                  I agree to the{' '}
+                  {t('agreeToTermsPrefix')}{' '}
                   <Link
                     href="/terms"
                     className="text-primary hover:underline font-medium"
@@ -246,7 +246,7 @@ export default function RegisterPage() {
                   >
                     {t('terms')}
                   </Link>{' '}
-                  and{' '}
+                  {t('agreeToTermsAnd')}{' '}
                   <Link
                     href="/privacy"
                     className="text-primary hover:underline font-medium"

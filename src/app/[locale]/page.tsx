@@ -1,10 +1,11 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { Database, Zap, Shield, Globe, Building2, Users, Check, ArrowRight, X, Target, Download, Mail, Phone, MapPin, Star } from 'lucide-react'
+import { Database, Zap, Shield, Globe, Building2, Users, Check, ArrowRight, X, Target, Download, Mail, Phone, MapPin, Star, Menu } from 'lucide-react'
 import { LanguageSwitcher } from '@/components/language-switcher'
 
 const pricingTiers = [
@@ -42,6 +43,7 @@ export default function HomePage() {
     }
   };
 
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const currentYear = new Date().getFullYear();
 
   return (
@@ -71,17 +73,37 @@ export default function HomePage() {
                 <Button className="bg-yellow-400 text-gray-950 hover:bg-yellow-300 font-bold">{t('hero.cta')}</Button>
               </Link>
             </div>
-            <div className="md:hidden flex items-center gap-1 sm:gap-2">
-              <LanguageSwitcher variant="dark" compact />
-              <Link href="/login">
-                <Button variant="ghost" size="sm" className="text-gray-300 px-2 sm:px-3 text-xs sm:text-sm">{tNav('login')}</Button>
-              </Link>
+            <div className="md:hidden flex items-center gap-2">
               <Link href="/register">
-                <Button size="sm" className="bg-yellow-400 text-gray-950 hover:bg-yellow-300 font-bold px-2 sm:px-3 text-xs sm:text-sm whitespace-nowrap">{tCommon('getStarted')}</Button>
+                <Button size="sm" className="bg-yellow-400 text-gray-950 hover:bg-yellow-300 font-bold px-3 text-xs sm:text-sm whitespace-nowrap">
+                  {tCommon('getStarted')}
+                </Button>
               </Link>
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="p-2 text-gray-300 hover:text-white"
+                aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+              >
+                {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              </button>
             </div>
           </div>
         </div>
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t border-gray-800 bg-gray-950 px-4 py-3 space-y-3">
+            <div className="flex items-center justify-between">
+              <LanguageSwitcher variant="dark" compact />
+              <div className="flex items-center gap-2">
+                <Link href="/pricing" onClick={() => setMobileMenuOpen(false)}>
+                  <span className="text-sm text-gray-400 hover:text-white transition-colors">{tNav('pricing')}</span>
+                </Link>
+                <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
+                  <Button variant="ghost" size="sm" className="text-gray-300">{tNav('login')}</Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
       </nav>
 
       <main role="main">

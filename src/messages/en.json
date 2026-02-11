@@ -76,6 +76,8 @@
       "acceptTerms": "I agree to the {terms} and {privacy}",
       "terms": "Terms of Service",
       "privacy": "Privacy Policy",
+      "agreeToTermsPrefix": "I agree to the",
+      "agreeToTermsAnd": "and",
       "submit": "Create account",
       "submitting": "Creating account...",
       "hasAccount": "Already have an account?",
