@@ -10,8 +10,8 @@ import { LanguageSwitcher } from '@/components/language-switcher'
 
 const pricingTiers = [
   { id: 'free', price: '$0', leads: '50', popular: false, costPerLead: '$0' },
-  { id: 'starter', price: '$49', leads: '500', popular: true, costPerLead: '$0.098' },
-  { id: 'pro', price: '$149', leads: '2,000', popular: false, costPerLead: '$0.075' },
+  { id: 'starter', price: '$49', leads: '500', popular: false, costPerLead: '$0.098' },
+  { id: 'pro', price: '$149', leads: '2,000', popular: true, costPerLead: '$0.075' },
   { id: 'business', price: '$349', leads: '10,000', popular: false, costPerLead: '$0.035' },
 ];
 

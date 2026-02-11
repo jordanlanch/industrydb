@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { useTranslations } from 'next-intl';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -10,31 +11,15 @@ import analyticsService, {
   ActionBreakdown
 } from '@/services/analytics.service';
 import { TrendingUp, Search, FileDown, Activity, Calendar } from 'lucide-react';
-import { Line, Doughnut } from 'react-chartjs-2';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  ArcElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler,
-} from 'chart.js';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  ArcElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler
-);
+const AnalyticsLineChart = dynamic(() => import('@/components/analytics-line-chart').then(m => ({ default: m.AnalyticsLineChart })), {
+  ssr: false,
+  loading: () => <div className="h-full bg-gray-50 rounded-lg border border-gray-200 animate-pulse" />,
+});
+const AnalyticsDoughnutChart = dynamic(() => import('@/components/analytics-doughnut-chart').then(m => ({ default: m.AnalyticsDoughnutChart })), {
+  ssr: false,
+  loading: () => <div className="h-full bg-gray-50 rounded-lg border border-gray-200 animate-pulse" />,
+});
 
 export default function AnalyticsPage() {
   const t = useTranslations('analytics');
@@ -276,7 +261,7 @@ export default function AnalyticsPage() {
           </CardHeader>
           <CardContent>
             <div className="h-[250px] sm:h-[350px] lg:h-[400px]">
-              <Line data={lineChartData} options={lineChartOptions} />
+              <AnalyticsLineChart data={lineChartData} options={lineChartOptions} />
             </div>
           </CardContent>
         </Card>
@@ -291,7 +276,7 @@ export default function AnalyticsPage() {
           </CardHeader>
           <CardContent>
             <div className="h-[250px] sm:h-[350px] lg:h-[400px]">
-              <Doughnut data={doughnutChartData} options={doughnutChartOptions} />
+              <AnalyticsDoughnutChart data={doughnutChartData} options={doughnutChartOptions} />
             </div>
 
             {/* Fallback: Show breakdown as list */}

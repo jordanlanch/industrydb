@@ -13,9 +13,10 @@ import { userService } from '@/services/user.service'
 import analyticsService from '@/services/analytics.service'
 import { useAuthStore } from '@/store/auth.store'
 import type { PricingTier } from '@/types'
+import dynamic from 'next/dynamic'
 import { CreditCard, User, Check, Download, Shield, AlertTriangle, BarChart3, TrendingUp, Activity, RefreshCw } from 'lucide-react'
-import { UsageChart, UsageDataPoint } from '@/components/usage-chart'
-import { UsageBreakdownChart, UsageBreakdown } from '@/components/usage-breakdown-chart'
+import type { UsageDataPoint } from '@/components/usage-chart'
+import type { UsageBreakdown } from '@/components/usage-breakdown-chart'
 import {
   Dialog,
   DialogContent,
@@ -26,6 +27,15 @@ import {
 } from '@/components/ui/dialog'
 import { useRouter } from 'next/navigation'
 import { useToast } from '@/components/toast-provider'
+
+const UsageChart = dynamic(() => import('@/components/usage-chart').then(m => ({ default: m.UsageChart })), {
+  ssr: false,
+  loading: () => <div className="h-[300px] bg-gray-50 rounded-lg border border-gray-200 animate-pulse" />,
+})
+const UsageBreakdownChart = dynamic(() => import('@/components/usage-breakdown-chart').then(m => ({ default: m.UsageBreakdownChart })), {
+  ssr: false,
+  loading: () => <div className="h-[300px] bg-gray-50 rounded-lg border border-gray-200 animate-pulse" />,
+})
 
 export default function SettingsPage() {
   const { toast } = useToast()

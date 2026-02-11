@@ -10,6 +10,7 @@ import { ToastProvider } from "@/components/toast-provider"
 import { Toaster } from "@/components/toaster"
 import { SkipLink } from "@/components/skip-link"
 import { ErrorBoundary } from "@/components/error-boundary"
+import { WebVitals } from "@/components/web-vitals"
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
 
@@ -67,6 +68,7 @@ export default async function LocaleLayout({
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#0a0a0a" />
 
+        <link rel="dns-prefetch" href="https://api.industrydb.io" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://js.stripe.com" />
@@ -111,6 +113,7 @@ export default async function LocaleLayout({
         )}
       </head>
       <body className={`${inter.className} flex flex-col min-h-screen overflow-x-hidden`}>
+        <WebVitals />
         <SkipLink />
         <ErrorBoundary>
           <NextIntlClientProvider locale={locale} messages={messages}>

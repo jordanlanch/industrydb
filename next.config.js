@@ -1,4 +1,7 @@
 const { withSentryConfig } = require('@sentry/nextjs');
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
 const withNextIntl = require('next-intl/plugin')(
   // Specify the path to the request config
   './src/i18n/request.ts'
@@ -35,7 +38,7 @@ const nextConfig = {
 
   // Experimental features for better performance
   experimental: {
-    optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
+    optimizePackageImports: ['lucide-react', '@radix-ui/react-icons', 'chart.js', 'date-fns'],
   },
 
   // Security headers for all routes + caching headers for static assets
@@ -83,5 +86,5 @@ const sentryWebpackPluginOptions = {
 const configWithIntl = withNextIntl(nextConfig)
 
 module.exports = process.env.NEXT_PUBLIC_SENTRY_DSN
-  ? withSentryConfig(configWithIntl, sentryWebpackPluginOptions)
-  : configWithIntl
+  ? withSentryConfig(withBundleAnalyzer(configWithIntl), sentryWebpackPluginOptions)
+  : withBundleAnalyzer(configWithIntl)

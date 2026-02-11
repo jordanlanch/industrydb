@@ -174,7 +174,7 @@
       "leads": "Prospectos Verificados",
       "countries": "Paises Cubiertos",
       "industries": "Industrias",
-      "costPerLead": "Menor Costo por Prospecto"
+      "costPerLead": "Costo por Lead (vs $0.58 promedio)"
     },
     "problem": {
       "title": "Encontrar Prospectos de Calidad No Deberia Ser Tan Dificil",
@@ -209,45 +209,45 @@
         "desc": "Cada prospecto esta verificado con direcciones reales, telefonos y datos de negocio en los que puedes confiar."
       },
       "instant": {
-        "title": "Exportacion Instantanea",
-        "desc": "Busca, filtra por pais y ciudad, y exporta a CSV en segundos. Sin esperas, sin llamadas de ventas."
+        "title": "Exportaci\u00f3n Instant\u00e1nea",
+        "desc": "Busca, filtra por pa\u00eds y ciudad, y exporta a CSV en segundos. Sin esperas, sin llamadas de ventas."
       }
     },
     "value": {
-      "title": "Esto es Todo lo que Obtienes",
-      "subtitle": "Cada plan incluye acceso a nuestra base de datos completa con todos estos datos.",
+      "title": "Tus Pr\u00f3ximos 500 Clientes Ya Est\u00e1n en Nuestra Base de Datos",
+      "subtitle": "Datos verificados para llamar, escribir y cerrar \u2014 no basura scrapeada que te hace perder tiempo.",
       "items": {
         "data": {
-          "title": "82,740+ Negocios",
-          "desc": "— verificados y creciendo"
+          "title": "82,740+ Negocios Verificados",
+          "desc": "\u2014 empresas reales, no enlaces muertos"
         },
         "phone": {
-          "title": "Numeros de Telefono",
-          "desc": "— lineas directas de negocio"
+          "title": "N\u00fameros de Tel\u00e9fono Directos",
+          "desc": "\u2014 llega al due\u00f1o, no a la recepci\u00f3n"
         },
         "email": {
-          "title": "Direcciones de Email",
-          "desc": "— en planes Pro y Business"
+          "title": "Direcciones de Email Empresarial",
+          "desc": "\u2014 en planes Pro y Empresarial"
         },
         "website": {
-          "title": "URLs de Sitios Web",
-          "desc": "— verificados y activos"
+          "title": "URLs de Sitios Web Activos",
+          "desc": "\u2014 verificados y actualizados mensualmente"
         },
         "address": {
-          "title": "Direcciones Completas",
-          "desc": "— con datos de geolocalizacion"
+          "title": "Direcciones F\u00edsicas Completas",
+          "desc": "\u2014 con coordenadas GPS para ventas en campo"
         },
         "quality": {
-          "title": "Puntuaciones de Calidad",
-          "desc": "— prioriza los mejores prospectos"
+          "title": "Puntuaci\u00f3n de Calidad por Lead",
+          "desc": "\u2014 enf\u00f3cate en los que m\u00e1s convierten"
         },
         "export": {
-          "title": "Exportacion CSV y Excel",
-          "desc": "— descarga al instante"
+          "title": "Exportaci\u00f3n Instant\u00e1nea CSV y Excel",
+          "desc": "\u2014 descarga y empieza a llamar en 30 segundos"
         },
         "industries": {
-          "title": "20 Industrias",
-          "desc": "— en 184 paises"
+          "title": "20 Industrias Especializadas",
+          "desc": "\u2014 en 184 pa\u00edses del mundo"
         }
       }
     },
@@ -257,14 +257,14 @@
       "list": {
         "tattoo": "Estudios de Tatuaje",
         "beauty": "Salones de Belleza",
-        "barber": "Barberias",
+        "barber": "Barber\u00edas",
         "spa": "Spas y Bienestar",
         "gym": "Gimnasios y Fitness",
         "dentist": "Dentistas",
         "restaurant": "Restaurantes",
         "cafe": "Cafeterias",
         "bar": "Bares y Pubs",
-        "bakery": "Panaderias",
+        "bakery": "Panader\u00edas",
         "car_repair": "Talleres Mecanicos",
         "car_wash": "Lavaderos de Autos",
         "pharmacy": "Farmacias",
@@ -273,59 +273,62 @@
         "convenience": "Tiendas de Conveniencia",
         "lawyer": "Abogados",
         "accountant": "Contadores",
-        "nail_salon": "Salones de Unas",
+        "nail_salon": "Salones de U\u00f1as",
         "car_dealer": "Concesionarios de Autos"
       }
     },
     "comparison": {
-      "title": "IndustryDB vs. La Competencia",
-      "subtitle": "Descubre por que los negocios se cambian a IndustryDB despues de probar proveedores tradicionales.",
+      "title": "Deja de Pagar de M\u00e1s por Datos Malos",
+      "subtitle": "Las empresas gastan en promedio $198 por lead con canales tradicionales. Eso es absurdo.",
       "others": {
         "title": "Proveedores Tradicionales",
-        "price": "$0.50 - $2.00 por prospecto. 500 prospectos = $250-$1,000/mes",
-        "data": "Datos genericos y sin verificar con altas tasas de rebote",
-        "contracts": "Contratos anuales y compromisos a largo plazo requeridos",
-        "industries": "Talla unica sin especializacion por industria"
+        "price": "ZoomInfo: $15,000+/a\u00f1o. Apollo: $0.20/cr\u00e9dito. UpLead: $0.58/lead",
+        "data": "Datos gen\u00e9ricos con 30-40% de rebote \u2014 pagas por n\u00fameros que no sirven",
+        "contracts": "Contratos anuales, m\u00ednimo de usuarios y cargos ocultos por exceso",
+        "industries": "Listas gen\u00e9ricas sin especializaci\u00f3n por industria"
       },
       "us": {
-        "title": "El Metodo IndustryDB",
-        "price": "Desde $0.035 por prospecto. 500 prospectos = solo $49/mes",
-        "data": "Datos verificados con direcciones, telefonos, emails y puntuaciones de calidad",
-        "contracts": "Sin contratos. Cancela cuando quieras. Empieza con un plan gratis.",
-        "industries": "20 industrias especializadas con filtros dirigidos y sub-nichos"
+        "title": "El M\u00e9todo IndustryDB",
+        "price": "Desde $0.07/lead \u2014 hasta 8x m\u00e1s barato que Apollo o UpLead",
+        "data": "Direcciones, tel\u00e9fonos, emails y scores de calidad verificados \u2014 actualizados mensualmente",
+        "contracts": "Sin contratos. Sin m\u00ednimos. Cancela cuando quieras. Empieza gratis.",
+        "industries": "20 industrias especializadas con sub-nichos en 184 pa\u00edses"
       }
     },
     "pricing": {
-      "title": "Invierte Menos. Obtén Mas Prospectos.",
-      "subtitle": "Cada plan se paga solo con un solo nuevo cliente.",
+      "title": "Un Solo Cliente Nuevo Paga un A\u00f1o Entero",
+      "subtitle": "Mientras la competencia cobra $15,000+/a\u00f1o, t\u00fa obtienes leads verificados desde $49/mes.",
       "free": {
         "name": "Gratis",
         "price": "$0",
-        "description": "Perfecto para probar IndustryDB",
+        "description": "Prueba los datos antes de comprometerte",
         "features": [
           "50 prospectos por mes",
-          "Filtros basicos",
-          "Exportacion CSV"
+          "B\u00fasqueda y filtros b\u00e1sicos",
+          "Exportaci\u00f3n CSV",
+          "Sin tarjeta de cr\u00e9dito"
         ]
       },
       "starter": {
         "name": "Inicial",
         "price": "$49",
-        "description": "Para equipos pequenos e individuos",
+        "description": "500 leads a $0.098 cada uno \u2014 m\u00e1s barato que un caf\u00e9",
         "features": [
           "500 prospectos por mes",
-          "Filtros avanzados",
-          "Numeros de telefono",
+          "Filtros avanzados y sub-nichos",
+          "N\u00fameros de tel\u00e9fono incluidos",
+          "Direcciones completas con GPS",
           "Soporte por correo"
         ]
       },
       "pro": {
         "name": "Pro",
         "price": "$149",
-        "description": "Para negocios en crecimiento",
+        "description": "2,000 leads a $0.075 cada uno \u2014 mejor valor",
         "features": [
           "2,000 prospectos por mes",
-          "Direcciones de correo",
+          "Todo lo de Inicial",
+          "Emails empresariales",
           "Enlaces de redes sociales",
           "Soporte prioritario"
         ]
@@ -333,17 +336,18 @@
       "business": {
         "name": "Empresarial",
         "price": "$349",
-        "description": "Para equipos grandes y agencias",
+        "description": "10,000 leads a $0.035 cada uno \u2014 escala de agencia",
         "features": [
           "10,000 prospectos por mes",
-          "Acceso a API",
-          "Soporte dedicado",
+          "Todo lo de Pro",
+          "Acceso completo a API",
+          "Gerente de cuenta dedicado",
           "Integraciones personalizadas"
         ]
       }
     },
-    "freeLeadsNote": "Empieza gratis. 50 prospectos/mes. Sin tarjeta de credito.",
-    "mostPopular": "Mas Popular",
+    "freeLeadsNote": "Empieza gratis. 50 prospectos/mes. Sin tarjeta de cr\u00e9dito.",
+    "mostPopular": "M\u00e1s Popular",
     "leadsPerMonth": "prospectos/mes",
     "costPer": "Costo",
     "lead": "prospecto",

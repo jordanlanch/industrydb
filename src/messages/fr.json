@@ -174,7 +174,7 @@
       "leads": "Prospects Verifies",
       "countries": "Pays Couverts",
       "industries": "Secteurs",
-      "costPerLead": "Cout le Plus Bas par Prospect"
+      "costPerLead": "Co\u00fbt par Lead (vs 0,58 $ moyenne)"
     },
     "problem": {
       "title": "Trouver des Prospects de Qualite Ne Devrait Pas Etre Si Difficile",
@@ -214,40 +214,40 @@
       }
     },
     "value": {
-      "title": "Voici Tout Ce Que Vous Obtenez",
-      "subtitle": "Chaque plan inclut l'acces a notre base de donnees complete avec tous ces points de donnees.",
+      "title": "Vos 500 Prochains Clients Sont D\u00e9j\u00e0 Dans Notre Base",
+      "subtitle": "Des donn\u00e9es v\u00e9rifi\u00e9es pour appeler, \u00e9crire et conclure \u2014 pas des donn\u00e9es obsol\u00e8tes qui vous font perdre du temps.",
       "items": {
         "data": {
-          "title": "82 740+ Entreprises",
-          "desc": "— verifiees et en croissance"
+          "title": "82 740+ Entreprises V\u00e9rifi\u00e9es",
+          "desc": "\u2014 de vraies entreprises, pas des liens morts"
         },
         "phone": {
-          "title": "Numeros de Telephone",
-          "desc": "— lignes directes d'entreprise"
+          "title": "Num\u00e9ros de T\u00e9l\u00e9phone Directs",
+          "desc": "\u2014 joignez le d\u00e9cideur, pas l'accueil"
         },
         "email": {
-          "title": "Adresses E-mail",
-          "desc": "— sur les plans Pro et Business"
+          "title": "Adresses E-mail Professionnelles",
+          "desc": "\u2014 sur les plans Pro et Entreprise"
         },
         "website": {
-          "title": "URLs de Sites Web",
-          "desc": "— verifies et actifs"
+          "title": "URLs de Sites Web Actifs",
+          "desc": "\u2014 v\u00e9rifi\u00e9s et mis \u00e0 jour mensuellement"
         },
         "address": {
-          "title": "Adresses Completes",
-          "desc": "— avec donnees de geolocalisation"
+          "title": "Adresses Physiques Compl\u00e8tes",
+          "desc": "\u2014 avec coordonn\u00e9es GPS pour la prospection terrain"
         },
         "quality": {
-          "title": "Scores de Qualite",
-          "desc": "— priorisez les meilleurs prospects"
+          "title": "Score de Qualit\u00e9 par Prospect",
+          "desc": "\u2014 concentrez-vous sur ceux qui convertissent le plus"
         },
         "export": {
-          "title": "Export CSV et Excel",
-          "desc": "— telechargez instantanement"
+          "title": "Export Instantan\u00e9 CSV et Excel",
+          "desc": "\u2014 t\u00e9l\u00e9chargez et commencez \u00e0 appeler en 30 secondes"
         },
         "industries": {
-          "title": "20 Secteurs",
-          "desc": "— dans 184 pays"
+          "title": "20 Secteurs Sp\u00e9cialis\u00e9s",
+          "desc": "\u2014 dans 184 pays \u00e0 travers le monde"
         }
       }
     },
@@ -278,67 +278,71 @@
       }
     },
     "comparison": {
-      "title": "IndustryDB vs. La Concurrence",
-      "subtitle": "Decouvrez pourquoi les entreprises passent a IndustryDB apres avoir essaye les fournisseurs traditionnels.",
+      "title": "Arr\u00eatez de Surpayer pour des Donn\u00e9es Obsol\u00e8tes",
+      "subtitle": "Les entreprises d\u00e9pensent en moyenne 198 $ par lead via les canaux traditionnels. C'est absurde.",
       "others": {
         "title": "Fournisseurs Traditionnels",
-        "price": "0,50-2,00 $ par prospect. 500 prospects = 250-1 000 $/mois",
-        "data": "Donnees generiques et non verifiees avec des taux de rebond eleves",
-        "contracts": "Contrats annuels et engagements a long terme requis",
-        "industries": "Taille unique sans specialisation sectorielle"
+        "price": "ZoomInfo : 15 000 $+/an. Apollo : 0,20 $/cr\u00e9dit. UpLead : 0,58 $/lead",
+        "data": "Donn\u00e9es g\u00e9n\u00e9riques avec 30-40 % de rebond \u2014 vous payez pour des num\u00e9ros inutiles",
+        "contracts": "Contrats annuels, minimum d'utilisateurs et frais cach\u00e9s de d\u00e9passement",
+        "industries": "Listes g\u00e9n\u00e9riques sans expertise sectorielle"
       },
       "us": {
-        "title": "La Methode IndustryDB",
-        "price": "A partir de 0,035 $ par prospect. 500 prospects = seulement 49 $/mois",
-        "data": "Donnees verifiees avec adresses, telephones, emails et scores de qualite",
-        "contracts": "Sans contrat. Annulez a tout moment. Commencez avec un plan gratuit.",
-        "industries": "20 secteurs specialises avec filtres cibles et sous-niches"
+        "title": "La M\u00e9thode IndustryDB",
+        "price": "\u00c0 partir de 0,07 $/lead \u2014 jusqu'\u00e0 8x moins cher qu'Apollo ou UpLead",
+        "data": "Adresses, t\u00e9l\u00e9phones, emails et scores de qualit\u00e9 v\u00e9rifi\u00e9s \u2014 mis \u00e0 jour mensuellement",
+        "contracts": "Sans contrat. Sans minimum. Annulez quand vous voulez. Commencez gratuitement.",
+        "industries": "20 secteurs sp\u00e9cialis\u00e9s avec sous-niches dans 184 pays"
       }
     },
     "pricing": {
-      "title": "Investissez Moins. Obtenez Plus de Prospects.",
-      "subtitle": "Chaque plan est rentabilise avec un seul nouveau client.",
+      "title": "Un Seul Nouveau Client Rembourse une Ann\u00e9e Enti\u00e8re",
+      "subtitle": "Alors que les concurrents facturent 15 000 $+/an, vous obtenez des leads v\u00e9rifi\u00e9s \u00e0 partir de 49 $/mois.",
       "free": {
         "name": "Gratuit",
         "price": "0 $",
-        "description": "Parfait pour essayer IndustryDB",
+        "description": "Testez les donn\u00e9es avant de vous engager",
         "features": [
           "50 prospects par mois",
-          "Filtres de base",
-          "Export CSV"
+          "Recherche et filtres de base",
+          "Export CSV",
+          "Sans carte de cr\u00e9dit"
         ]
       },
       "starter": {
-        "name": "Debutant",
+        "name": "D\u00e9butant",
         "price": "49 $",
-        "description": "Pour les petites equipes et les particuliers",
+        "description": "500 leads \u00e0 0,098 $ chacun \u2014 moins cher qu'un caf\u00e9",
         "features": [
           "500 prospects par mois",
-          "Filtres avances",
-          "Numeros de telephone",
+          "Filtres avanc\u00e9s et sous-niches",
+          "Num\u00e9ros de t\u00e9l\u00e9phone inclus",
+          "Adresses compl\u00e8tes avec GPS",
           "Support par e-mail"
         ]
       },
       "pro": {
         "name": "Pro",
         "price": "149 $",
-        "description": "Pour les entreprises en croissance",
+        "description": "2 000 leads \u00e0 0,075 $ chacun \u2014 meilleur rapport qualit\u00e9-prix",
         "features": [
           "2 000 prospects par mois",
-          "Adresses e-mail",
-          "Liens de reseaux sociaux",
+          "Tout de D\u00e9butant",
+          "Adresses e-mail professionnelles",
+          "Liens r\u00e9seaux sociaux",
           "Support prioritaire"
         ]
       },
       "business": {
         "name": "Entreprise",
         "price": "349 $",
-        "description": "Pour les grandes equipes et agences",
+        "description": "10 000 leads \u00e0 0,035 $ chacun \u2014 \u00e9chelle agence",
         "features": [
           "10 000 prospects par mois",
-          "Acces API",
-          "Support dedie",
-          "Integrations personnalisees"
+          "Tout de Pro",
+          "Acc\u00e8s API complet",
+          "Gestionnaire de compte d\u00e9di\u00e9",
+          "Int\u00e9grations personnalis\u00e9es"
         ]
       }
     },
