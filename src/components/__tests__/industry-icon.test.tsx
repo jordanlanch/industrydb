@@ -11,25 +11,31 @@ jest.mock('lucide-react', () => {
 
   return {
     UtensilsCrossed: MockIcon,
+    Utensils: MockIcon,
     Coffee: MockIcon,
     Beer: MockIcon,
+    Wine: MockIcon,
     Cake: MockIcon,
     Scissors: MockIcon,
     Sparkles: MockIcon,
+    PaintBucket: MockIcon,
     PaintbrushIcon: MockIcon,
     Waves: MockIcon,
     Hand: MockIcon,
     Dumbbell: MockIcon,
     Heart: MockIcon,
     Pill: MockIcon,
+    Stethoscope: MockIcon,
     Activity: MockIcon,
     Wrench: MockIcon,
     Droplet: MockIcon,
     Car: MockIcon,
+    CarFront: MockIcon,
     ShoppingBag: MockIcon,
     Store: MockIcon,
     Scale: MockIcon,
     Calculator: MockIcon,
+    Briefcase: MockIcon,
     Building2: MockIcon,
     MapPin: MockIcon,
     Search: MockIcon,
@@ -37,6 +43,53 @@ jest.mock('lucide-react', () => {
     List: MockIcon,
     Grid3x3: MockIcon,
     ChevronRight: MockIcon,
+  };
+});
+
+// Mock industry-icons helper functions
+jest.mock('@/lib/industry-icons', () => {
+  const MockIcon = ({ className, ...props }: any) => (
+    <svg className={className} data-testid="mock-icon" {...props} />
+  );
+
+  return {
+    getIndustryIcon: (id: string) => MockIcon,
+    getCategoryIcon: (id: string) => MockIcon,
+    getCategoryColors: (categoryId: string) => {
+      const colorMap: Record<string, any> = {
+        food_beverage: {
+          bg: 'bg-orange-50',
+          text: 'text-orange-700',
+          border: 'border-orange-200',
+        },
+        personal_care: {
+          bg: 'bg-pink-50',
+          text: 'text-pink-700',
+          border: 'border-pink-200',
+        },
+        health_wellness: {
+          bg: 'bg-green-50',
+          text: 'text-green-700',
+          border: 'border-green-200',
+        },
+        automotive: {
+          bg: 'bg-blue-50',
+          text: 'text-blue-700',
+          border: 'border-blue-200',
+        },
+        retail: {
+          bg: 'bg-purple-50',
+          text: 'text-purple-700',
+          border: 'border-purple-200',
+        },
+        professional: {
+          bg: 'bg-gray-50',
+          text: 'text-gray-700',
+          border: 'border-gray-200',
+        },
+      };
+      return colorMap[categoryId] || { bg: 'bg-gray-50', text: 'text-gray-600', border: 'border-gray-200' };
+    },
   };
 });
 

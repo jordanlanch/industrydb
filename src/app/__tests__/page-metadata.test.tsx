@@ -200,6 +200,11 @@ describe('Layout Components - Render children', () => {
   })
 
   it('auth layout passes children through', () => {
+    // Mock LanguageSwitcher to avoid useLocale issues
+    jest.mock('@/components/language-switcher', () => ({
+      LanguageSwitcher: () => <div>LanguageSwitcher</div>,
+    }))
+
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const { default: AuthLayout } = require('../[locale]/(auth)/layout')
 

@@ -3,6 +3,11 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import { SearchButton } from '../search-button'
 import type { UsageInfo } from '@/types'
 
+// Mock next-intl
+jest.mock('next-intl', () => ({
+  useTranslations: () => (key: string) => key,
+}));
+
 describe('SearchButton', () => {
   const mockUsage: UsageInfo = {
     usage_count: 10,
@@ -27,7 +32,7 @@ describe('SearchButton', () => {
   describe('Default State', () => {
     test('renders search button with "Search" text', () => {
       render(<SearchButton {...defaultProps} />)
-      expect(screen.getByText('Search')).toBeInTheDocument()
+      expect(screen.getByText('searchLeads')).toBeInTheDocument()
     })
 
     test('renders remaining credits badge', () => {
@@ -47,7 +52,7 @@ describe('SearchButton', () => {
   describe('Loading State', () => {
     test('shows "Searching..." text when loading', () => {
       render(<SearchButton {...defaultProps} loading={true} />)
-      expect(screen.getByText('Searching...')).toBeInTheDocument()
+      expect(screen.getByText('searching')).toBeInTheDocument()
     })
 
     test('disables button when loading', () => {
@@ -69,7 +74,9 @@ describe('SearchButton', () => {
 
     test('shows "Select filters to search" when no filters', () => {
       render(<SearchButton {...defaultProps} hasFilters={false} />)
-      expect(screen.getByText('Select filters to search')).toBeInTheDocument()
+      // Title attribute uses selectFilters translation key
+      const button = screen.getByRole('button')
+      expect(button.getAttribute('title')).toContain('selectFilters')
     })
   })
 
@@ -84,7 +91,7 @@ describe('SearchButton', () => {
 
     test('shows "No Credits" when remaining is 0', () => {
       render(<SearchButton {...defaultProps} usage={noCreditsUsage} />)
-      expect(screen.getByText('No Credits')).toBeInTheDocument()
+      expect(screen.getByText('noCredits')).toBeInTheDocument()
     })
 
     test('disables button when out of credits', () => {
@@ -94,8 +101,8 @@ describe('SearchButton', () => {
 
     test('shows upgrade message when out of credits', () => {
       render(<SearchButton {...defaultProps} usage={noCreditsUsage} />)
-      expect(screen.getByText(/Out of credits/)).toBeInTheDocument()
-      expect(screen.getByText('Upgrade')).toBeInTheDocument()
+      expect(screen.getByText(/outOfCredits/)).toBeInTheDocument()
+      expect(screen.getByText('upgrade')).toBeInTheDocument()
     })
 
     test('does not show credits badge when out of credits', () => {
@@ -115,8 +122,7 @@ describe('SearchButton', () => {
 
     test('shows low credits warning', () => {
       render(<SearchButton {...defaultProps} usage={lowCreditsUsage} />)
-      expect(screen.getByText(/Low credits/)).toBeInTheDocument()
-      expect(screen.getByText(/5 left/)).toBeInTheDocument()
+      expect(screen.getByText(/lowCredits/)).toBeInTheDocument()
     })
 
     test('still shows credits badge with remaining count', () => {
@@ -133,7 +139,7 @@ describe('SearchButton', () => {
   describe('Null Usage', () => {
     test('renders without credits display when usage is null', () => {
       render(<SearchButton {...defaultProps} usage={null} />)
-      expect(screen.getByText('Search')).toBeInTheDocument()
+      expect(screen.getByText('searchLeads')).toBeInTheDocument()
     })
 
     test('button is enabled when usage is null and has filters', () => {

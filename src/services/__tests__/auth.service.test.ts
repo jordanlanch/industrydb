@@ -93,7 +93,7 @@ describe('authService', () => {
 
       const result = await authService.getCurrentUser()
 
-      expect(mockedApiClient.get).toHaveBeenCalledWith('/auth/me')
+      expect(mockedApiClient.get).toHaveBeenCalledWith('/auth/me', undefined)
       expect(result).toEqual(mockUser)
     })
 

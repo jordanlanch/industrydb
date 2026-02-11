@@ -7,6 +7,24 @@ import axios from 'axios';
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
+// Mock next-intl
+jest.mock('next-intl', () => ({
+  useTranslations: () => (key: string, params?: any) => {
+    const translations: Record<string, any> = {
+      pleaseVerify: 'Please verify your email address',
+      sentLink: (p: { email: string }) =>
+        `We sent a verification link to ${p.email}. Check your inbox and click the link to verify your account.`,
+      resendEmail: 'Resend Email',
+      sending: 'Sending verification email',
+      sent: 'Verification email sent! Please check your inbox.',
+      failed: 'Failed to send email. Please try again.',
+      dismiss: 'Dismiss email verification banner',
+    };
+    const value = translations[key];
+    return typeof value === 'function' && params ? value(params) : value || key;
+  },
+}));
+
 // Mock lucide-react icons
 jest.mock('lucide-react', () => ({
   AlertCircle: ({ className, ...props }: any) => (
@@ -42,7 +60,9 @@ describe('EmailVerificationBanner', () => {
 
       expect(screen.getByText('Please verify your email address')).toBeInTheDocument();
       expect(screen.getByText(/We sent a verification link to/i)).toBeInTheDocument();
-      expect(screen.getByText(mockEmail)).toBeInTheDocument();
+      expect(screen.getByText((content, element) => {
+        return content.includes(mockEmail);
+      })).toBeInTheDocument();
     });
 
     test('displays verification instructions', () => {
@@ -98,7 +118,7 @@ describe('EmailVerificationBanner', () => {
     test('Resend button has aria-label', () => {
       render(<EmailVerificationBanner email={mockEmail} />);
 
-      const resendButton = screen.getByLabelText('Resend verification email');
+      const resendButton = screen.getByLabelText('Resend Email');
       expect(resendButton).toBeInTheDocument();
     });
 
@@ -152,8 +172,8 @@ describe('EmailVerificationBanner', () => {
       const resendButton = screen.getByText('Resend Email');
       fireEvent.click(resendButton);
 
-      // Should show "Sending..." immediately
-      expect(screen.getByText('Sending...')).toBeInTheDocument();
+      // Should show "Sending verification email" immediately
+      expect(screen.getByText('Sending verification email')).toBeInTheDocument();
 
       await waitFor(() => {
         expect(screen.getByText('Resend Email')).toBeInTheDocument();
@@ -229,13 +249,13 @@ describe('EmailVerificationBanner', () => {
 
       render(<EmailVerificationBanner email={mockEmail} />);
 
-      const resendButton = screen.getByLabelText('Resend verification email');
+      const resendButton = screen.getByLabelText('Resend Email');
       fireEvent.click(resendButton);
 
       expect(screen.getByLabelText('Sending verification email')).toBeInTheDocument();
 
       await waitFor(() => {
-        expect(screen.getByLabelText('Resend verification email')).toBeInTheDocument();
+        expect(screen.getByLabelText('Resend Email')).toBeInTheDocument();
       });
     });
   });
@@ -431,7 +451,9 @@ describe('EmailVerificationBanner', () => {
       const longEmail = 'very.long.email.address.that.might.break.layout@example.com';
       render(<EmailVerificationBanner email={longEmail} />);
 
-      expect(screen.getByText(longEmail)).toBeInTheDocument();
+      expect(screen.getByText((content, element) => {
+        return content.includes(longEmail);
+      })).toBeInTheDocument();
     });
 
     test('handles multiple rapid clicks on Resend button', async () => {

@@ -62,13 +62,16 @@ jest.mock('@/components/ui/select', () => ({
 
 // Mock Radix UI Checkbox
 jest.mock('@/components/ui/checkbox', () => ({
-  Checkbox: ({ id, checked, onCheckedChange }: any) => (
+  Checkbox: ({ id, checked, onChange, onCheckedChange }: any) => (
     <input
       type="checkbox"
       id={id}
       data-testid={`checkbox-${id}`}
       checked={checked || false}
-      onChange={(e) => onCheckedChange(e.target.checked)}
+      onChange={(e) => {
+        if (onChange) onChange(e);
+        if (onCheckedChange) onCheckedChange(e.target.checked);
+      }}
     />
   ),
 }))

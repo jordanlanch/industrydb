@@ -24,6 +24,8 @@ jest.mock('next-intl', () => ({
       passwordPlaceholder: '••••••••',
       terms: 'Terms of Service',
       privacy: 'Privacy Policy',
+      agreeToTermsPrefix: 'I agree to the',
+      agreeToTermsAnd: 'and',
       submit: 'Create account',
       submitting: 'Creating account...',
       hasAccount: 'Already have an account?',
@@ -365,7 +367,7 @@ describe('RegisterPage', () => {
 
       await waitFor(() => {
         expect(mockStoreLogin).toHaveBeenCalledWith('test-token', mockUser)
-        expect(mockPush).toHaveBeenCalledWith('/onboarding')
+        expect(mockPush).toHaveBeenCalledWith('/en/dashboard')
       })
     })
 

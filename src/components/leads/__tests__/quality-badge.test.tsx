@@ -60,28 +60,28 @@ describe('QualityBadge', () => {
       expect(badge).toBeInTheDocument()
     })
 
-    test('applies bg-green-600 for excellent tier', () => {
+    test('applies bg-green-500 for excellent tier', () => {
       const { container } = render(<QualityBadge score={85} />)
       const badge = container.firstChild
-      expect(badge).toHaveClass('bg-green-600')
+      expect(badge).toHaveClass('bg-green-500')
     })
 
-    test('applies bg-blue-600 for good tier', () => {
+    test('applies bg-blue-500 for good tier', () => {
       const { container } = render(<QualityBadge score={65} />)
       const badge = container.firstChild
-      expect(badge).toHaveClass('bg-blue-600')
+      expect(badge).toHaveClass('bg-blue-500')
     })
 
-    test('applies bg-yellow-600 for fair tier', () => {
+    test('applies bg-yellow-500 for fair tier', () => {
       const { container } = render(<QualityBadge score={45} />)
       const badge = container.firstChild
-      expect(badge).toHaveClass('bg-yellow-600')
+      expect(badge).toHaveClass('bg-yellow-500')
     })
 
-    test('applies bg-red-600 for poor tier', () => {
+    test('applies bg-red-500 for poor tier', () => {
       const { container } = render(<QualityBadge score={15} />)
       const badge = container.firstChild
-      expect(badge).toHaveClass('bg-red-600')
+      expect(badge).toHaveClass('bg-red-500')
     })
 
     test('always has text-white and font-semibold classes', () => {

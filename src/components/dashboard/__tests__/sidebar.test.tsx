@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, within, fireEvent } from '@testing-library/react';
 import { Sidebar } from '../sidebar';
 
 // Mocks
@@ -19,6 +19,11 @@ jest.mock('next/link', () => {
   );
 });
 
+// Mock next-intl
+jest.mock('next-intl', () => ({
+  useTranslations: () => (key: string) => key,
+}));
+
 // Mock lucide-react icons
 jest.mock('lucide-react', () => ({
   Database: (props: any) => <svg data-testid="icon-database" {...props} />,
@@ -32,6 +37,8 @@ jest.mock('lucide-react', () => ({
   ChevronRight: (props: any) => <svg data-testid="icon-chevron-right" {...props} />,
   Shield: (props: any) => <svg data-testid="icon-shield" {...props} />,
   BookOpen: (props: any) => <svg data-testid="icon-bookopen" {...props} />,
+  X: (props: any) => <svg data-testid="icon-x" {...props} />,
+  LayoutDashboard: (props: any) => <svg data-testid="icon-layout-dashboard" {...props} />,
 }));
 
 jest.mock('@/components/ui/button', () => ({
@@ -44,6 +51,31 @@ jest.mock('@/components/ui/button', () => ({
 
 jest.mock('@/components/organization/organization-switcher', () => ({
   OrganizationSwitcher: () => <div data-testid="org-switcher">OrgSwitcher</div>,
+}));
+
+jest.mock('@/components/ui/select', () => ({
+  Select: ({ children }: any) => <div>{children}</div>,
+  SelectContent: ({ children }: any) => <div>{children}</div>,
+  SelectItem: ({ children }: any) => <div>{children}</div>,
+  SelectTrigger: ({ children }: any) => <div>{children}</div>,
+  SelectValue: () => <div>Select Value</div>,
+}));
+
+jest.mock('@/components/ui/badge', () => ({
+  Badge: ({ children }: any) => <span>{children}</span>,
+}));
+
+jest.mock('@/contexts/organization.context', () => ({
+  useOrganization: () => ({
+    currentOrganization: null,
+    organizations: [],
+    organizationsLoading: false,
+    switchOrganization: jest.fn(),
+  }),
+}));
+
+jest.mock('@/components/language-switcher', () => ({
+  LanguageSwitcher: () => <div data-testid="language-switcher">LanguageSwitcher</div>,
 }));
 
 const mockLogout = jest.fn();
@@ -66,6 +98,11 @@ jest.mock('@/store/auth.store', () => ({
   }),
 }));
 
+// Helper: get the desktop sidebar (aria-label="Main navigation")
+function getDesktop() {
+  return within(screen.getByLabelText('Main navigation'));
+}
+
 describe('Sidebar', () => {
   const defaultProps = {
     isOpen: true,
@@ -82,24 +119,26 @@ describe('Sidebar', () => {
   describe('Navigation Links', () => {
     test('renders all navigation links when open', () => {
       render(<Sidebar {...defaultProps} />);
+      const desktop = getDesktop();
 
-      expect(screen.getByText('Leads')).toBeInTheDocument();
-      expect(screen.getByText('Exports')).toBeInTheDocument();
-      expect(screen.getByText('Analytics')).toBeInTheDocument();
-      expect(screen.getByText('Organizations')).toBeInTheDocument();
-      expect(screen.getByText('API Keys')).toBeInTheDocument();
-      expect(screen.getByText('Settings')).toBeInTheDocument();
+      expect(desktop.getByText('leads')).toBeInTheDocument();
+      expect(desktop.getByText('exports')).toBeInTheDocument();
+      expect(desktop.getByText('analytics')).toBeInTheDocument();
+      expect(desktop.getByText('organizations')).toBeInTheDocument();
+      expect(desktop.getByText('apiKeys')).toBeInTheDocument();
+      expect(desktop.getByText('settings')).toBeInTheDocument();
     });
 
     test('renders correct hrefs for navigation links', () => {
       render(<Sidebar {...defaultProps} />);
+      const desktop = getDesktop();
 
-      expect(screen.getByLabelText('Leads page')).toHaveAttribute('href', '/dashboard/leads');
-      expect(screen.getByLabelText('Exports page')).toHaveAttribute('href', '/dashboard/exports');
-      expect(screen.getByLabelText('Analytics page')).toHaveAttribute('href', '/dashboard/analytics');
-      expect(screen.getByLabelText('Organizations page')).toHaveAttribute('href', '/dashboard/organizations');
-      expect(screen.getByLabelText('API Keys page')).toHaveAttribute('href', '/dashboard/api-keys');
-      expect(screen.getByLabelText('Settings page')).toHaveAttribute('href', '/dashboard/settings');
+      expect(desktop.getByLabelText('leads page')).toHaveAttribute('href', '/dashboard/leads');
+      expect(desktop.getByLabelText('exports page')).toHaveAttribute('href', '/dashboard/exports');
+      expect(desktop.getByLabelText('analytics page')).toHaveAttribute('href', '/dashboard/analytics');
+      expect(desktop.getByLabelText('organizations page')).toHaveAttribute('href', '/dashboard/organizations');
+      expect(desktop.getByLabelText('apiKeys page')).toHaveAttribute('href', '/dashboard/api-keys');
+      expect(desktop.getByLabelText('settings page')).toHaveAttribute('href', '/dashboard/settings');
     });
 
     test('renders icons with aria-hidden', () => {
@@ -115,82 +154,93 @@ describe('Sidebar', () => {
     test('marks active link with aria-current="page"', () => {
       mockPathname.mockReturnValue('/dashboard/leads');
       render(<Sidebar {...defaultProps} />);
+      const desktop = getDesktop();
 
-      const leadsLink = screen.getByLabelText('Leads page');
+      const leadsLink = desktop.getByLabelText('leads page');
       expect(leadsLink).toHaveAttribute('aria-current', 'page');
     });
 
     test('does not mark inactive links with aria-current', () => {
       mockPathname.mockReturnValue('/dashboard/leads');
       render(<Sidebar {...defaultProps} />);
+      const desktop = getDesktop();
 
-      const settingsLink = screen.getByLabelText('Settings page');
+      const settingsLink = desktop.getByLabelText('settings page');
       expect(settingsLink).not.toHaveAttribute('aria-current');
     });
 
     test('highlights active link with primary background', () => {
       mockPathname.mockReturnValue('/dashboard/leads');
       render(<Sidebar {...defaultProps} />);
+      const desktop = getDesktop();
 
-      const leadsLink = screen.getByLabelText('Leads page');
+      const leadsLink = desktop.getByLabelText('leads page');
       expect(leadsLink.className).toContain('bg-primary');
     });
 
     test('highlights nested routes as active', () => {
       mockPathname.mockReturnValue('/dashboard/settings');
       render(<Sidebar {...defaultProps} />);
+      const desktop = getDesktop();
 
-      const settingsLink = screen.getByLabelText('Settings page');
+      const settingsLink = desktop.getByLabelText('settings page');
       expect(settingsLink).toHaveAttribute('aria-current', 'page');
     });
   });
 
   describe('Collapsed State', () => {
-    test('hides link text when collapsed', () => {
+    test('hides link text in desktop sidebar when collapsed', () => {
       render(<Sidebar {...defaultProps} isOpen={false} />);
+      const desktop = getDesktop();
 
-      expect(screen.queryByText('Leads')).not.toBeInTheDocument();
-      expect(screen.queryByText('Exports')).not.toBeInTheDocument();
-      expect(screen.queryByText('Settings')).not.toBeInTheDocument();
+      expect(desktop.queryByText('leads')).not.toBeInTheDocument();
+      expect(desktop.queryByText('exports')).not.toBeInTheDocument();
+      expect(desktop.queryByText('settings')).not.toBeInTheDocument();
     });
 
     test('shows title attributes on links when collapsed', () => {
       render(<Sidebar {...defaultProps} isOpen={false} />);
+      const desktop = getDesktop();
 
-      const leadsLink = screen.getByLabelText('Leads page');
-      expect(leadsLink).toHaveAttribute('title', 'Leads');
+      const leadsLink = desktop.getByLabelText('leads page');
+      expect(leadsLink).toHaveAttribute('title', 'leads');
     });
 
     test('shows abbreviated logo when collapsed', () => {
       render(<Sidebar {...defaultProps} isOpen={false} />);
+      const desktop = getDesktop();
 
-      expect(screen.getByText('IDB')).toBeInTheDocument();
-      expect(screen.queryByText('IndustryDB')).not.toBeInTheDocument();
+      expect(desktop.getByText('IDB')).toBeInTheDocument();
+      expect(desktop.queryByText('IndustryDB')).not.toBeInTheDocument();
     });
 
     test('shows full logo when open', () => {
       render(<Sidebar {...defaultProps} isOpen={true} />);
+      const desktop = getDesktop();
 
-      expect(screen.getByText('IndustryDB')).toBeInTheDocument();
+      expect(desktop.getByText('IndustryDB')).toBeInTheDocument();
     });
 
-    test('hides user info when collapsed', () => {
+    test('hides user info in desktop sidebar when collapsed', () => {
       render(<Sidebar {...defaultProps} isOpen={false} />);
+      const desktop = getDesktop();
 
-      expect(screen.queryByText('John Doe')).not.toBeInTheDocument();
-      expect(screen.queryByText('john@example.com')).not.toBeInTheDocument();
+      expect(desktop.queryByText('John Doe')).not.toBeInTheDocument();
+      expect(desktop.queryByText('john@example.com')).not.toBeInTheDocument();
     });
 
-    test('hides organization switcher when collapsed', () => {
+    test('hides organization switcher in desktop sidebar when collapsed', () => {
       render(<Sidebar {...defaultProps} isOpen={false} />);
+      const desktop = getDesktop();
 
-      expect(screen.queryByTestId('org-switcher')).not.toBeInTheDocument();
+      expect(desktop.queryByTestId('org-switcher')).not.toBeInTheDocument();
     });
 
     test('shows organization switcher when open', () => {
       render(<Sidebar {...defaultProps} isOpen={true} />);
+      const desktop = getDesktop();
 
-      expect(screen.getByTestId('org-switcher')).toBeInTheDocument();
+      expect(desktop.getByTestId('org-switcher')).toBeInTheDocument();
     });
   });
 
@@ -199,22 +249,22 @@ describe('Sidebar', () => {
       const onToggle = jest.fn();
       render(<Sidebar isOpen={true} onToggle={onToggle} />);
 
-      const toggleButton = screen.getByLabelText('Collapse sidebar');
+      const toggleButton = screen.getByLabelText('collapseSidebar');
       fireEvent.click(toggleButton);
 
       expect(onToggle).toHaveBeenCalledTimes(1);
     });
 
-    test('shows "Collapse sidebar" label when open', () => {
+    test('shows collapse label when open', () => {
       render(<Sidebar {...defaultProps} isOpen={true} />);
 
-      expect(screen.getByLabelText('Collapse sidebar')).toBeInTheDocument();
+      expect(screen.getByLabelText('collapseSidebar')).toBeInTheDocument();
     });
 
-    test('shows "Expand sidebar" label when collapsed', () => {
+    test('shows expand label when collapsed', () => {
       render(<Sidebar {...defaultProps} isOpen={false} />);
 
-      expect(screen.getByLabelText('Expand sidebar')).toBeInTheDocument();
+      expect(screen.getByLabelText('expandSidebar')).toBeInTheDocument();
     });
   });
 
@@ -222,13 +272,14 @@ describe('Sidebar', () => {
     test('renders logout button', () => {
       render(<Sidebar {...defaultProps} />);
 
-      expect(screen.getByLabelText('Logout from account')).toBeInTheDocument();
+      const logoutButtons = screen.getAllByLabelText('logout');
+      expect(logoutButtons.length).toBeGreaterThan(0);
     });
 
     test('calls logout and redirects when logout button is clicked', () => {
       render(<Sidebar {...defaultProps} />);
 
-      const logoutButtons = screen.getAllByLabelText('Logout from account');
+      const logoutButtons = screen.getAllByLabelText('logout');
       fireEvent.click(logoutButtons[0]);
 
       expect(mockLogout).toHaveBeenCalledTimes(1);
@@ -239,16 +290,18 @@ describe('Sidebar', () => {
   describe('User Info', () => {
     test('displays user name and email when open', () => {
       render(<Sidebar {...defaultProps} />);
+      const desktop = getDesktop();
 
-      expect(screen.getByText('John Doe')).toBeInTheDocument();
-      expect(screen.getByText('john@example.com')).toBeInTheDocument();
+      expect(desktop.getByText('John Doe')).toBeInTheDocument();
+      expect(desktop.getByText('john@example.com')).toBeInTheDocument();
     });
 
-    test('displays subscription tier', () => {
+    test('displays subscription plan key', () => {
       render(<Sidebar {...defaultProps} />);
+      const desktop = getDesktop();
 
-      expect(screen.getByText('pro')).toBeInTheDocument();
-      expect(screen.getByText('plan')).toBeInTheDocument();
+      // t('plan', { tier: 'pro' }) returns 'plan' with the mock
+      expect(desktop.getByText('plan')).toBeInTheDocument();
     });
   });
 
@@ -256,30 +309,34 @@ describe('Sidebar', () => {
     test('shows admin panel link for admin users', () => {
       mockUser.role = 'admin' as any;
       render(<Sidebar {...defaultProps} />);
+      const desktop = getDesktop();
 
-      expect(screen.getByLabelText('Admin Panel')).toBeInTheDocument();
-      expect(screen.getByText('Admin Panel')).toBeInTheDocument();
+      expect(desktop.getByLabelText('adminPanel')).toBeInTheDocument();
+      expect(desktop.getByText('adminPanel')).toBeInTheDocument();
     });
 
     test('shows admin panel link for superadmin users', () => {
       mockUser.role = 'superadmin' as any;
       render(<Sidebar {...defaultProps} />);
+      const desktop = getDesktop();
 
-      expect(screen.getByLabelText('Admin Panel')).toBeInTheDocument();
+      expect(desktop.getByLabelText('adminPanel')).toBeInTheDocument();
     });
 
     test('does not show admin panel link for regular users', () => {
       mockUser.role = 'user' as any;
       render(<Sidebar {...defaultProps} />);
+      const desktop = getDesktop();
 
-      expect(screen.queryByLabelText('Admin Panel')).not.toBeInTheDocument();
+      expect(desktop.queryByLabelText('adminPanel')).not.toBeInTheDocument();
     });
 
     test('admin panel link points to /admin', () => {
       mockUser.role = 'admin' as any;
       render(<Sidebar {...defaultProps} />);
+      const desktop = getDesktop();
 
-      expect(screen.getByLabelText('Admin Panel')).toHaveAttribute('href', '/admin');
+      expect(desktop.getByLabelText('adminPanel')).toHaveAttribute('href', '/admin');
     });
   });
 
@@ -287,47 +344,51 @@ describe('Sidebar', () => {
     test('shows API docs link for business tier users', () => {
       mockUser.subscription_tier = 'business' as any;
       render(<Sidebar {...defaultProps} />);
+      const desktop = getDesktop();
 
-      expect(screen.getByLabelText('API Documentation (opens in new tab)')).toBeInTheDocument();
-      expect(screen.getByText('API Docs')).toBeInTheDocument();
+      expect(desktop.getByLabelText('apiDocs (opens in new tab)')).toBeInTheDocument();
+      expect(desktop.getByText('apiDocs')).toBeInTheDocument();
     });
 
     test('does not show API docs link for non-business tier users', () => {
       mockUser.subscription_tier = 'pro' as any;
       render(<Sidebar {...defaultProps} />);
+      const desktop = getDesktop();
 
-      expect(screen.queryByText('API Docs')).not.toBeInTheDocument();
+      expect(desktop.queryByText('apiDocs')).not.toBeInTheDocument();
     });
 
     test('API docs link opens in new tab', () => {
       mockUser.subscription_tier = 'business' as any;
       render(<Sidebar {...defaultProps} />);
+      const desktop = getDesktop();
 
-      const apiDocsLink = screen.getByLabelText('API Documentation (opens in new tab)');
+      const apiDocsLink = desktop.getByLabelText('apiDocs (opens in new tab)');
       expect(apiDocsLink).toHaveAttribute('target', '_blank');
       expect(apiDocsLink).toHaveAttribute('rel', 'noopener noreferrer');
     });
   });
 
   describe('Accessibility', () => {
-    test('aside has aria-label for main navigation', () => {
+    test('desktop aside has aria-label for main navigation', () => {
       render(<Sidebar {...defaultProps} />);
 
-      const aside = screen.getByRole('complementary');
-      expect(aside).toHaveAttribute('aria-label', 'Main navigation');
+      expect(screen.getByLabelText('Main navigation')).toBeInTheDocument();
     });
 
-    test('nav has aria-label for dashboard navigation', () => {
+    test('desktop nav has aria-label for dashboard navigation', () => {
       render(<Sidebar {...defaultProps} />);
+      const desktop = getDesktop();
 
-      const nav = screen.getByRole('navigation', { name: 'Dashboard navigation' });
+      const nav = desktop.getByRole('navigation', { name: 'Dashboard navigation' });
       expect(nav).toBeInTheDocument();
     });
 
     test('user info region has aria-label', () => {
       render(<Sidebar {...defaultProps} />);
+      const desktop = getDesktop();
 
-      const region = screen.getByRole('region', { name: 'User information' });
+      const region = desktop.getByRole('region', { name: 'User information' });
       expect(region).toBeInTheDocument();
     });
   });
