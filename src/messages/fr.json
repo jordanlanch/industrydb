@@ -876,5 +876,23 @@
     "contact": "Contact",
     "blog": "Blog",
     "allRightsReserved": "Tous droits réservés."
+  },
+  "seo": {
+    "home": {
+      "title": "IndustryDB - Leads Commerciaux Vérifiés par Secteur",
+      "description": "Accédez à plus de 82 740 leads commerciaux locaux vérifiés dans 20 secteurs et 184 pays. Noms, téléphones, emails, adresses. À partir de 0,035 $ par lead."
+    },
+    "pricing": {
+      "title": "Tarifs et Plans - IndustryDB",
+      "description": "Plans de leads commerciaux abordables à partir de 0 $/mois. Obtenez des leads vérifiés pour studios de tatouage, salons de beauté, salles de sport, restaurants et plus."
+    },
+    "login": {
+      "title": "Connexion - IndustryDB",
+      "description": "Connectez-vous à votre compte IndustryDB pour accéder aux leads commerciaux vérifiés et aux exportations de données."
+    },
+    "register": {
+      "title": "Créer un Compte - IndustryDB",
+      "description": "Créez un compte IndustryDB gratuit et obtenez 50 leads commerciaux vérifiés par mois. Sans carte de crédit."
+    }
   }
 }

@@ -42,53 +42,39 @@ jest.mock('@/components/error-boundary', () => ({
 }))
 
 describe('Root Layout - Performance Optimizations', () => {
+  // After SEO restructuring, font config, preconnect hints, and GA scripts
+  // are in [locale]/layout.tsx (which provides the actual HTML shell).
+  // Root layout is now a pass-through that just renders children.
+  const localeLayoutPath = path.join(__dirname, '..', '[locale]', 'layout.tsx')
+
   describe('Font Configuration', () => {
     it('configures Inter font with display swap for faster rendering', () => {
-      // Force module evaluation which triggers the Inter() call
-      require('../layout')
-
-      expect(interCallArgs).toBeDefined()
-      expect(interCallArgs).toEqual(
-        expect.objectContaining({
-          display: 'swap',
-          subsets: ['latin'],
-          preload: true,
-        })
-      )
+      const layoutSource = fs.readFileSync(localeLayoutPath, 'utf-8')
+      expect(layoutSource).toContain('display: "swap"')
+      expect(layoutSource).toContain('subsets: ["latin"]')
+      expect(layoutSource).toContain('preload: true')
     })
   })
 
   describe('Preconnect Hints', () => {
-    it('layout source code includes preconnect for fonts.googleapis.com', () => {
-      const layoutSource = fs.readFileSync(
-        path.join(__dirname, '..', 'layout.tsx'),
-        'utf-8'
-      )
+    it('locale layout source code includes preconnect for fonts.googleapis.com', () => {
+      const layoutSource = fs.readFileSync(localeLayoutPath, 'utf-8')
       expect(layoutSource).toContain('rel="preconnect"')
       expect(layoutSource).toContain('fonts.googleapis.com')
     })
 
-    it('layout source code includes preconnect for fonts.gstatic.com', () => {
-      const layoutSource = fs.readFileSync(
-        path.join(__dirname, '..', 'layout.tsx'),
-        'utf-8'
-      )
+    it('locale layout source code includes preconnect for fonts.gstatic.com', () => {
+      const layoutSource = fs.readFileSync(localeLayoutPath, 'utf-8')
       expect(layoutSource).toContain('fonts.gstatic.com')
     })
 
-    it('layout source code includes preconnect for stripe.com', () => {
-      const layoutSource = fs.readFileSync(
-        path.join(__dirname, '..', 'layout.tsx'),
-        'utf-8'
-      )
+    it('locale layout source code includes preconnect for stripe.com', () => {
+      const layoutSource = fs.readFileSync(localeLayoutPath, 'utf-8')
       expect(layoutSource).toContain('js.stripe.com')
     })
 
-    it('layout source code includes preconnect for API URL', () => {
-      const layoutSource = fs.readFileSync(
-        path.join(__dirname, '..', 'layout.tsx'),
-        'utf-8'
-      )
+    it('locale layout source code includes preconnect for API URL', () => {
+      const layoutSource = fs.readFileSync(localeLayoutPath, 'utf-8')
       expect(layoutSource).toContain('NEXT_PUBLIC_API_URL')
       expect(layoutSource).toContain('preconnect')
     })
@@ -96,10 +82,7 @@ describe('Root Layout - Performance Optimizations', () => {
 
   describe('GA Script Strategy', () => {
     it('uses lazyOnload strategy for GA scripts instead of beforeInteractive', () => {
-      const layoutSource = fs.readFileSync(
-        path.join(__dirname, '..', 'layout.tsx'),
-        'utf-8'
-      )
+      const layoutSource = fs.readFileSync(localeLayoutPath, 'utf-8')
       // Should NOT use beforeInteractive (blocks rendering)
       expect(layoutSource).not.toContain('"beforeInteractive"')
       // Should use lazyOnload for non-essential analytics
@@ -107,35 +90,32 @@ describe('Root Layout - Performance Optimizations', () => {
     })
 
     it('uses afterInteractive for consent default script', () => {
-      const layoutSource = fs.readFileSync(
-        path.join(__dirname, '..', 'layout.tsx'),
-        'utf-8'
-      )
+      const layoutSource = fs.readFileSync(localeLayoutPath, 'utf-8')
       // Consent default should run after hydration but before analytics
       expect(layoutSource).toContain('"afterInteractive"')
     })
   })
 
   describe('Metadata', () => {
-    it('exports metadata with correct title template', async () => {
+    it('root layout exports fallback metadata with correct title template', async () => {
       const layoutModule = await import('../layout')
       const metadata = (layoutModule as any).metadata
 
       expect(metadata).toBeDefined()
       expect(metadata.title).toEqual({
-        default: 'IndustryDB - Industry-Specific Business Data',
+        default: 'IndustryDB - Verified Business Leads by Industry',
         template: '%s | IndustryDB',
       })
     })
 
-    it('exports metadata with description', async () => {
+    it('root layout exports fallback metadata with description', async () => {
       const layoutModule = await import('../layout')
       const metadata = (layoutModule as any).metadata
 
       expect(metadata.description).toContain('verified local business data')
     })
 
-    it('exports metadata with openGraph configuration', async () => {
+    it('root layout exports metadata with openGraph configuration', async () => {
       const layoutModule = await import('../layout')
       const metadata = (layoutModule as any).metadata
 
@@ -145,7 +125,7 @@ describe('Root Layout - Performance Optimizations', () => {
       expect(metadata.openGraph.images).toHaveLength(1)
     })
 
-    it('exports metadata with twitter card configuration', async () => {
+    it('root layout exports metadata with twitter card configuration', async () => {
       const layoutModule = await import('../layout')
       const metadata = (layoutModule as any).metadata
 
@@ -153,7 +133,7 @@ describe('Root Layout - Performance Optimizations', () => {
       expect(metadata.twitter.card).toBe('summary_large_image')
     })
 
-    it('exports metadata with SEO robots configuration', async () => {
+    it('root layout exports metadata with SEO robots configuration', async () => {
       const layoutModule = await import('../layout')
       const metadata = (layoutModule as any).metadata
 

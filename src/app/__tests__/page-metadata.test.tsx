@@ -142,30 +142,25 @@ describe('Page Metadata - Dashboard Pages', () => {
 })
 
 describe('Page Metadata - Locale Layout', () => {
-  it('locale layout exports metadata with title template', async () => {
-    // Mock the dependencies
-    jest.mock('next-intl', () => ({
-      NextIntlClientProvider: ({ children }: any) => children,
-    }))
-    jest.mock('next-intl/server', () => ({
-      getMessages: jest.fn().mockResolvedValue({}),
-    }))
-    jest.mock('next/navigation', () => ({
-      notFound: jest.fn(),
-    }))
-    jest.mock('@/i18n', () => ({
-      locales: ['en', 'es', 'fr'],
-    }))
-
+  it('locale layout exports generateMetadata function for locale-aware SEO', async () => {
     const module = await import('../[locale]/layout')
-    const metadata = (module as any).metadata
 
-    expect(metadata).toBeDefined()
-    expect(metadata.title).toEqual({
-      default: 'IndustryDB - Industry-Specific Business Data',
-      template: '%s | IndustryDB',
-    })
-    expect(metadata.description).toContain('verified local business data')
+    // After SEO restructuring, locale layout uses generateMetadata (dynamic)
+    // instead of a static metadata export for locale-specific titles/descriptions
+    expect(module.generateMetadata).toBeDefined()
+    expect(typeof module.generateMetadata).toBe('function')
+  })
+
+  it('locale layout exports generateStaticParams for all locales', async () => {
+    const module = await import('../[locale]/layout')
+
+    expect(module.generateStaticParams).toBeDefined()
+    const params = module.generateStaticParams()
+    expect(params).toEqual([
+      { locale: 'en' },
+      { locale: 'es' },
+      { locale: 'fr' },
+    ])
   })
 })
 

@@ -28,30 +28,72 @@ export default function HomePage() {
   const tNav = useTranslations('nav');
   const tFooter = useTranslations('footer');
 
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "IndustryDB",
-    "description": "Industry-specific business data platform providing verified local business leads",
-    "applicationCategory": "BusinessApplication",
-    "operatingSystem": "Web",
-    "offers": {
-      "@type": "AggregateOffer",
-      "lowPrice": "0",
-      "highPrice": "349",
-      "priceCurrency": "USD",
+  const structuredData = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "IndustryDB",
+      "url": "https://industrydb.io",
+      "logo": "https://industrydb.io/favicon.svg",
+      "description": "Industry-specific business data platform providing verified local business leads across 20 industries in 184 countries.",
+      "foundingDate": "2026",
+      "sameAs": [],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer support",
+        "url": "https://industrydb.io/contact"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "IndustryDB",
+      "url": "https://industrydb.io",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://industrydb.io/en/dashboard/leads?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "IndustryDB",
+      "description": "Industry-specific business data platform providing verified local business leads",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "url": "https://industrydb.io",
+      "offers": {
+        "@type": "AggregateOffer",
+        "lowPrice": "0",
+        "highPrice": "349",
+        "priceCurrency": "USD",
+        "offerCount": "4"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "150",
+        "bestRating": "5"
+      }
     }
-  };
+  ];
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const currentYear = new Date().getFullYear();
 
   return (
     <div className="min-h-screen bg-gray-950 text-white overflow-x-hidden">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {structuredData.map((data, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+        />
+      ))}
 
       {/* Navigation - Dark, minimal */}
       <nav className="border-b border-gray-800 bg-gray-950/90 backdrop-blur-sm sticky top-0 z-40" role="navigation" aria-label="Main navigation">

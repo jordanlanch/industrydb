@@ -1,0 +1,16 @@
+{
+  "name": "IndustryDB",
+  "short_name": "IndustryDB",
+  "description": "Verified business leads by industry. 82,740+ leads across 20 industries in 184 countries.",
+  "start_url": "/en",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#0a0a0a",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

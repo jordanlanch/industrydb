@@ -876,5 +876,23 @@
     "contact": "Contact",
     "blog": "Blog",
     "allRightsReserved": "All rights reserved."
+  },
+  "seo": {
+    "home": {
+      "title": "IndustryDB - Verified Business Leads by Industry",
+      "description": "Access 82,740+ verified local business leads across 20 industries in 184 countries. Names, phones, emails, addresses. Starting at $0.035 per lead."
+    },
+    "pricing": {
+      "title": "Pricing Plans - IndustryDB",
+      "description": "Affordable business lead plans starting at $0/month. Get verified leads for tattoo studios, beauty salons, gyms, restaurants, and 16 more industries."
+    },
+    "login": {
+      "title": "Sign In - IndustryDB",
+      "description": "Sign in to your IndustryDB account to access verified business leads and data exports."
+    },
+    "register": {
+      "title": "Create Account - IndustryDB",
+      "description": "Create a free IndustryDB account and get 50 verified business leads per month. No credit card required."
+    }
   }
 }

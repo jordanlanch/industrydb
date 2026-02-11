@@ -876,5 +876,23 @@
     "contact": "Contacto",
     "blog": "Blog",
     "allRightsReserved": "Todos los derechos reservados."
+  },
+  "seo": {
+    "home": {
+      "title": "IndustryDB - Leads de Negocios Verificados por Industria",
+      "description": "Accede a más de 82.740 leads de negocios locales verificados en 20 industrias y 184 países. Nombres, teléfonos, emails, direcciones. Desde $0.035 por lead."
+    },
+    "pricing": {
+      "title": "Planes y Precios - IndustryDB",
+      "description": "Planes asequibles de leads empresariales desde $0/mes. Obtén leads verificados de estudios de tatuaje, salones de belleza, gimnasios, restaurantes y más."
+    },
+    "login": {
+      "title": "Iniciar Sesión - IndustryDB",
+      "description": "Inicia sesión en tu cuenta de IndustryDB para acceder a leads empresariales verificados y exportaciones de datos."
+    },
+    "register": {
+      "title": "Crear Cuenta - IndustryDB",
+      "description": "Crea una cuenta gratuita en IndustryDB y obtén 50 leads empresariales verificados por mes. Sin tarjeta de crédito."
+    }
   }
 }
