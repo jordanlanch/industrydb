@@ -137,9 +137,9 @@ export default function SavedSearchesPage() {
   }
 
   return (
-    <div className="p-8">
+    <div className="p-4 sm:p-6 lg:p-8 pt-16 md:pt-4 sm:pt-6 lg:pt-8">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold mb-2">{t('title')}</h1>
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2">{t('title')}</h1>
         <p className="text-muted-foreground">
           {t('subtitle')}
         </p>
@@ -166,7 +166,7 @@ export default function SavedSearchesPage() {
           </CardContent>
         </Card>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {searches.map((search) => (
             <Card key={search.id} className="hover:shadow-md transition-shadow">
               <CardHeader>

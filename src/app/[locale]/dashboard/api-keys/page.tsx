@@ -173,10 +173,10 @@ export default function APIKeysPage() {
   // Check if user has Business tier
   if (user?.subscription_tier !== 'business') {
     return (
-      <div className="p-8">
+      <div className="p-4 sm:p-6 lg:p-8 pt-16 md:pt-4 sm:pt-6 lg:pt-8">
         <div className="max-w-2xl mx-auto text-center">
           <Key className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-          <h1 className="text-3xl font-bold mb-2">{t('upgrade.title')}</h1>
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2">{t('upgrade.title')}</h1>
           <p className="text-muted-foreground mb-6">
             {t('upgrade.description')}
           </p>
@@ -197,10 +197,10 @@ export default function APIKeysPage() {
 
   if (loading) {
     return (
-      <div className="p-8">
+      <div className="p-4 sm:p-6 lg:p-8 pt-16 md:pt-4 sm:pt-6 lg:pt-8">
         <div className="animate-pulse space-y-4">
           <div className="h-8 bg-gray-200 rounded w-1/4"></div>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <div className="h-32 bg-gray-200 rounded"></div>
             <div className="h-32 bg-gray-200 rounded"></div>
             <div className="h-32 bg-gray-200 rounded"></div>
@@ -212,11 +212,11 @@ export default function APIKeysPage() {
   }
 
   return (
-    <div className="p-8">
-      <div className="mb-8">
-        <div className="flex justify-between items-center mb-4">
+    <div className="p-4 sm:p-6 lg:p-8 pt-16 md:pt-4 sm:pt-6 lg:pt-8">
+      <div className="mb-6 sm:mb-8">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 sm:gap-0 mb-4">
           <div>
-            <h1 className="text-3xl font-bold mb-2">{t('title')}</h1>
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2">{t('title')}</h1>
             <p className="text-muted-foreground">
               {t('subtitle')}
             </p>
@@ -229,7 +229,7 @@ export default function APIKeysPage() {
 
         {/* Statistics */}
         {stats && (
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 sm:mb-8">
             <Card>
               <CardHeader className="pb-3">
                 <CardTitle className="text-sm font-medium text-muted-foreground">

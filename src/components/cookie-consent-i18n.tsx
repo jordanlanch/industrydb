@@ -80,17 +80,17 @@ export function CookieConsentBanner() {
             </div>
           </div>
           
-          <div className="flex items-center gap-3 flex-shrink-0">
-            <Button 
-              variant="outline" 
+          <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 flex-shrink-0">
+            <Button
+              variant="outline"
               onClick={handleDecline}
-              className="min-w-[100px]"
+              className="min-w-[100px] min-h-[44px]"
             >
               {t('decline')}
             </Button>
-            <Button 
+            <Button
               onClick={handleAccept}
-              className="min-w-[140px]"
+              className="min-w-[140px] min-h-[44px]"
             >
               {t('accept')}
             </Button>

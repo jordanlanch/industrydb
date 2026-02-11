@@ -49,7 +49,7 @@ export const LeadTableRow = React.memo(function LeadTableRow({ lead, onCopyEmail
                 variant="ghost"
                 size="sm"
                 onClick={() => onCopyEmail(lead.email!)}
-                className="h-6 w-6 p-0"
+                className="h-8 w-8 p-0 min-h-[44px] min-w-[44px]"
               >
                 <Copy className="h-3 w-3" />
               </Button>
@@ -71,7 +71,7 @@ export const LeadTableRow = React.memo(function LeadTableRow({ lead, onCopyEmail
                 variant="ghost"
                 size="sm"
                 onClick={() => onCopyPhone(lead.phone!)}
-                className="h-6 w-6 p-0"
+                className="h-8 w-8 p-0 min-h-[44px] min-w-[44px]"
               >
                 <Copy className="h-3 w-3" />
               </Button>

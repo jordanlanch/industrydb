@@ -232,9 +232,9 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="p-8" role="main">
+    <div className="p-4 sm:p-6 lg:p-8 pt-16 md:pt-4 sm:pt-6 lg:pt-8" role="main">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold mb-2">{t('title')}</h1>
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2">{t('title')}</h1>
         <p className="text-muted-foreground">
           {t('subtitle')}
         </p>
@@ -250,7 +250,7 @@ export default function SettingsPage() {
             <CardDescription>{t('profile.description')}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="profile-name">{t('profile.name')}</Label>
                 <Input id="profile-name" value={user?.name || ''} disabled aria-readonly="true" />
@@ -266,7 +266,7 @@ export default function SettingsPage() {
                 {user?.subscription_tier}
               </Badge>
             </div>
-            <div className="grid grid-cols-2 gap-4 text-sm">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
               <div>
                 <p className="text-muted-foreground">{t('profile.usageThisMonth')}</p>
                 <p className="text-lg font-bold">
@@ -293,8 +293,8 @@ export default function SettingsPage() {
           </CardHeader>
           <CardContent className="space-y-6">
             {/* Auto-refresh controls */}
-            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200">
-              <div className="flex items-center gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <span>Last updated:</span>
                   <span className="font-medium text-foreground">
@@ -505,7 +505,7 @@ export default function SettingsPage() {
 
         <div id="plans-section">
           <h2 className="text-2xl font-bold mb-4">{t('plans.title')}</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
             {pricingTiers.map((tier) => {
               const isCurrent = tier.name === user?.subscription_tier
               const isUpgrade = tier.name !== 'free' && !isCurrent

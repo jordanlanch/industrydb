@@ -269,7 +269,11 @@ export default function LeadsPage() {
       setPreview(previewData)
     } catch (error: any) {
       console.error('Failed to fetch preview:', error)
-      setPreviewError(error.message || 'Failed to load preview')
+      if (error.response?.data?.error === 'email_not_verified') {
+        setPreviewError(t('errors.emailNotVerifiedShort'))
+      } else {
+        setPreviewError(error.message || 'Failed to load preview')
+      }
     } finally {
       setPreviewLoading(false)
     }
@@ -336,6 +340,16 @@ export default function LeadsPage() {
         return
       }
 
+      // Handle email not verified (403 with email_not_verified error)
+      if (error.response?.status === 403 && error.response?.data?.error === 'email_not_verified') {
+        toast({
+          title: t('errors.emailNotVerified'),
+          description: t('errors.emailNotVerifiedDesc'),
+          variant: 'destructive',
+        })
+        return
+      }
+
       // Handle authentication errors
       if (error.response?.status === 403 || error.response?.status === 401) {
         toast({
@@ -365,6 +379,10 @@ export default function LeadsPage() {
       setUsage(data)
     } catch (error: any) {
       console.error('Failed to load usage:', error)
+      if (error.response?.data?.error === 'email_not_verified') {
+        // Don't show error - the banner already tells them to verify
+        return
+      }
       // Don't show toast for usage errors - it's not critical
       // Just log silently
     }
@@ -640,8 +658,8 @@ export default function LeadsPage() {
       {/* MAIN CONTENT - Results */}
       <main className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
-        <header className="p-6 border-b bg-white">
-          <div className="flex items-center justify-between mb-4">
+        <header className="p-3 sm:p-4 lg:p-6 border-b bg-white">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0 mb-4">
             <div className="flex items-center gap-3">
               {/* Filter Toggle Button */}
               <Button
@@ -728,7 +746,7 @@ export default function LeadsPage() {
                 ) : (
                   <FileSpreadsheet className="h-4 w-4" aria-hidden="true" />
                 )}
-                {t('export.csv')}
+                <span className="hidden sm:inline">{t('export.csv')}</span>
               </Button>
               <Button
                 onClick={() => handleExport('excel')}
@@ -742,14 +760,14 @@ export default function LeadsPage() {
                 ) : (
                   <Download className="h-4 w-4" aria-hidden="true" />
                 )}
-                {t('export.excel')}
+                <span className="hidden sm:inline">{t('export.excel')}</span>
               </Button>
             </div>
           </div>
 
           {/* Quick Stats */}
           {leads.length > 0 && !loading && (
-            <div className="flex items-center gap-4 text-sm">
+            <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-sm">
               <div className="flex items-center gap-1.5">
                 <Mail className="h-4 w-4 text-muted-foreground" />
                 <span className="text-muted-foreground">{t('stats.email')}:</span>
@@ -773,7 +791,7 @@ export default function LeadsPage() {
         </header>
 
         {/* Results Content */}
-        <div className="flex-1 overflow-y-auto p-6">
+        <div className="flex-1 overflow-y-auto p-3 sm:p-4 lg:p-6">
           {loading ? (
             <LeadCardSkeletonList count={5} />
           ) : !searchTriggered ? (

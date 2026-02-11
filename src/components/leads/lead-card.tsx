@@ -59,7 +59,7 @@ export const LeadCard = React.memo(function LeadCard({
     return (
       <div
         className={cn(
-          'border rounded-lg p-3 hover:bg-gray-50 transition-colors',
+          'border rounded-lg p-2.5 sm:p-3 hover:bg-gray-50 transition-colors',
           className
         )}
       >
@@ -110,7 +110,7 @@ export const LeadCard = React.memo(function LeadCard({
   return (
     <div
       className={cn(
-        'border rounded-lg p-4 hover:bg-gray-50 transition-colors',
+        'border rounded-lg p-3 sm:p-4 hover:bg-gray-50 transition-colors',
         className
       )}
     >
@@ -172,7 +172,7 @@ export const LeadCard = React.memo(function LeadCard({
                 <span>{lead.phone}</span>
                 <button
                   onClick={() => handleCopy(lead.phone!, 'Phone')}
-                  className="text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-muted-foreground hover:text-foreground transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
                   title="Copy phone number"
                 >
                   <Copy className="h-3 w-3" />
@@ -185,7 +185,7 @@ export const LeadCard = React.memo(function LeadCard({
                 <span className="truncate">{lead.email}</span>
                 <button
                   onClick={() => handleCopy(lead.email!, 'Email')}
-                  className="text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-muted-foreground hover:text-foreground transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
                   title="Copy email"
                 >
                   <Copy className="h-3 w-3" />

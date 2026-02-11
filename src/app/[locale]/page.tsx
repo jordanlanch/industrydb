@@ -72,13 +72,13 @@ export default function HomePage() {
                 <Button className="bg-yellow-400 text-gray-950 hover:bg-yellow-300 font-bold">{t('hero.cta')}</Button>
               </Link>
             </div>
-            <div className="md:hidden flex gap-2">
-              <LanguageSwitcher variant="dark" />
+            <div className="md:hidden flex items-center gap-1 sm:gap-2">
+              <LanguageSwitcher variant="dark" compact />
               <Link href="/login">
-                <Button variant="ghost" size="sm" className="text-gray-300">{tNav('login')}</Button>
+                <Button variant="ghost" size="sm" className="text-gray-300 px-2 sm:px-3">{tNav('login')}</Button>
               </Link>
               <Link href="/register">
-                <Button size="sm" className="bg-yellow-400 text-gray-950 hover:bg-yellow-300 font-bold">{t('hero.cta')}</Button>
+                <Button size="sm" className="bg-yellow-400 text-gray-950 hover:bg-yellow-300 font-bold px-2 sm:px-3 text-xs sm:text-sm">{t('hero.cta')}</Button>
               </Link>
             </div>
           </div>
@@ -348,7 +348,7 @@ export default function HomePage() {
             <p className="text-center text-gray-400 mb-12">
               {t('pricing.subtitle')}
             </p>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {pricingTiers.map((tier) => (
                 <div
                   key={tier.id}
@@ -442,8 +442,8 @@ export default function HomePage() {
       {/* Footer - Dark */}
       <footer className="bg-gray-950 text-gray-400 border-t border-gray-800" role="contentinfo">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="col-span-1 md:col-span-1">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="col-span-1 sm:col-span-2 lg:col-span-1">
               <div className="flex items-center mb-4">
                 <Database className="h-8 w-8 text-yellow-400" aria-hidden="true" />
                 <span className="ml-2 text-xl font-bold text-white">IndustryDB</span>

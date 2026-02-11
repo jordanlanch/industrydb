@@ -570,6 +570,11 @@
       "note": "La pagination et l'exportation ne consomment pas de crédits supplémentaires. Seules les nouvelles recherches le font.",
       "cancel": "Annuler",
       "searchAnyway": "Rechercher Quand Même"
+    },
+    "errors": {
+      "emailNotVerified": "Vérification d'Email Requise",
+      "emailNotVerifiedDesc": "Veuillez vérifier votre adresse email pour rechercher des leads. Consultez votre boîte de réception pour le lien de vérification.",
+      "emailNotVerifiedShort": "Vérifiez votre email pour voir l'aperçu"
     }
   },
   "exports": {

@@ -57,10 +57,10 @@ export default function ExportsPage() {
   }
 
   return (
-    <div className="p-8">
-      <div className="mb-6 flex items-center justify-between">
+    <div className="p-4 sm:p-6 lg:p-8 pt-16 md:pt-4 sm:pt-6 lg:pt-8">
+      <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
         <div>
-          <h1 className="text-3xl font-bold mb-2">{t('title')}</h1>
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2">{t('title')}</h1>
           <p className="text-muted-foreground">
             {t('subtitle')}
           </p>

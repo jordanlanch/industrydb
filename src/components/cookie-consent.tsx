@@ -20,16 +20,18 @@ export function CookieBanner() {
         color: "white",
         fontSize: "14px",
         borderRadius: "4px",
-        padding: "0.5rem 1rem",
-        cursor: "pointer"
+        padding: "0.75rem 1.25rem",
+        cursor: "pointer",
+        minHeight: "44px",
       }}
       declineButtonStyle={{
         background: "#f44336",
         color: "white",
         fontSize: "14px",
         borderRadius: "4px",
-        padding: "0.5rem 1rem",
-        cursor: "pointer"
+        padding: "0.75rem 1.25rem",
+        cursor: "pointer",
+        minHeight: "44px",
       }}
       expires={365}
       onAccept={() => {

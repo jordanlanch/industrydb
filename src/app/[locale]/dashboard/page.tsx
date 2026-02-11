@@ -96,12 +96,12 @@ export default function DashboardPage() {
 
   return (
     <TooltipProvider>
-    <div className="p-8">
+    <div className="p-4 sm:p-6 lg:p-8 pt-16 md:pt-4 sm:pt-6 lg:pt-8">
       {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between flex-wrap gap-4">
+      <div className="mb-6 lg:mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold mb-2">
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2">
               {getGreeting()}, {user?.name || 'there'}!
             </h1>
             <p className="text-muted-foreground">
@@ -348,7 +348,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Widgets Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
         {/* Left Column */}
         <div className="space-y-6">
           <PopularIndustriesWidget loading={loading} />

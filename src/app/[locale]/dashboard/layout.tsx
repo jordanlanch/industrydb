@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { Menu } from 'lucide-react'
 import { Sidebar } from '@/components/dashboard/sidebar'
 import { EmailVerificationBanner } from '@/components/email-verification-banner'
 import { DashboardErrorBoundary } from '@/components/error-boundary'
@@ -17,6 +18,7 @@ export default function DashboardLayout({
   const router = useRouter()
   const { isAuthenticated, isLoading, initialize, user } = useAuthStore()
   const { isMainSidebarOpen, toggleMainSidebar } = useSidebarState()
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   useEffect(() => {
     initialize()
@@ -66,8 +68,21 @@ export default function DashboardLayout({
         )}
 
         <div className="flex flex-1 overflow-hidden">
-          <Sidebar isOpen={isMainSidebarOpen} onToggle={toggleMainSidebar} />
-          <main className="flex-1 overflow-y-auto bg-white">
+          <Sidebar
+            isOpen={isMainSidebarOpen}
+            onToggle={toggleMainSidebar}
+            isMobileOpen={isMobileMenuOpen}
+            onMobileClose={() => setIsMobileMenuOpen(false)}
+          />
+          <main className="flex-1 overflow-y-auto bg-white relative">
+            {/* Mobile hamburger button */}
+            <button
+              onClick={() => setIsMobileMenuOpen(true)}
+              className="fixed top-4 left-4 z-40 md:hidden flex items-center justify-center h-11 w-11 rounded-lg bg-white border shadow-md hover:shadow-lg transition-shadow focus:outline-none focus:ring-2 focus:ring-primary"
+              aria-label="Open menu"
+            >
+              <Menu className="h-5 w-5" />
+            </button>
             <DashboardErrorBoundary>
               {children}
             </DashboardErrorBoundary>

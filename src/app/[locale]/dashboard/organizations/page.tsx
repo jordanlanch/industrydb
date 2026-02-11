@@ -129,11 +129,11 @@ export default function OrganizationsPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="p-4 sm:p-6 lg:p-8 pt-16 md:pt-4 sm:pt-6 lg:pt-8 space-y-4 sm:space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
         <div>
-          <h1 className="text-3xl font-bold">Organizations</h1>
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold">Organizations</h1>
           <p className="text-muted-foreground mt-1">
             Manage your team organizations and members
           </p>
@@ -217,7 +217,7 @@ export default function OrganizationsPage() {
           </CardContent>
         </Card>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
           {organizations.map((org) => {
             const usagePercentage = (org.usage_count / org.usage_limit) * 100;
 

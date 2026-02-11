@@ -206,7 +206,7 @@ export function CountrySelector({
           </div>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-80 p-0" align="start">
+      <PopoverContent className="w-[calc(100vw-2rem)] sm:w-80 p-0" align="start">
         {/* Search Input */}
         <div className="p-3 border-b sticky top-0 bg-white z-10">
           <div className="relative">
@@ -223,7 +223,7 @@ export function CountrySelector({
         </div>
 
         {/* Regions with controlled height - Using plain div for better scroll behavior */}
-        <div className="max-h-[400px] overflow-y-auto scroll-smooth"
+        <div className="max-h-[50vh] sm:max-h-[400px] overflow-y-auto scroll-smooth"
              style={{ scrollbarWidth: 'thin' }}>
           {filteredRegions.length === 0 ? (
             <div className="p-6 text-center text-sm text-muted-foreground">

@@ -60,8 +60,8 @@ export function EmailVerificationBanner({ email, onDismiss }: EmailVerificationB
       aria-atomic="true"
     >
       <div className="max-w-7xl mx-auto px-4 py-3">
-        <div className="flex items-center justify-between gap-4">
-          <div className="flex items-start gap-3 flex-1">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+          <div className="flex items-start gap-3 flex-1 min-w-0">
             <AlertCircle className="h-5 w-5 text-yellow-600 mt-0.5 flex-shrink-0" aria-hidden="true" />
             <div className="flex-1">
               <p className="text-sm font-medium text-yellow-800">
@@ -82,20 +82,20 @@ export function EmailVerificationBanner({ email, onDismiss }: EmailVerificationB
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 shrink-0 self-end sm:self-auto">
             <Button
               onClick={handleResend}
               disabled={sending}
               variant="outline"
               size="sm"
-              className="whitespace-nowrap"
+              className="whitespace-nowrap min-h-[44px]"
               aria-label={sending ? t('sending') : t('resendEmail')}
             >
               {sending ? t('sending') : t('resendEmail')}
             </Button>
             <button
               onClick={handleDismiss}
-              className="text-yellow-600 hover:text-yellow-800 focus:outline-none focus:ring-2 focus:ring-yellow-600 rounded p-1"
+              className="text-yellow-600 hover:text-yellow-800 focus:outline-none focus:ring-2 focus:ring-yellow-600 rounded p-1 min-w-[44px] min-h-[44px] flex items-center justify-center"
               aria-label={t('dismiss')}
             >
               <X className="h-5 w-5" aria-hidden="true" />

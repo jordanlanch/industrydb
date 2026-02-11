@@ -180,11 +180,11 @@ export default function AnalyticsPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="p-4 sm:p-6 lg:p-8 pt-16 md:pt-4 sm:pt-6 lg:pt-8 space-y-4 sm:space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
         <div>
-          <h1 className="text-3xl font-bold">{t('title')}</h1>
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold">{t('title')}</h1>
           <p className="text-muted-foreground mt-1">
             {t('subtitle')}
           </p>
@@ -210,7 +210,7 @@ export default function AnalyticsPage() {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">{t('stats.totalSearches')}</CardTitle>
@@ -265,7 +265,7 @@ export default function AnalyticsPage() {
       </div>
 
       {/* Charts Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
         {/* Daily Usage Line Chart */}
         <Card className="lg:col-span-2">
           <CardHeader>
@@ -275,7 +275,7 @@ export default function AnalyticsPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="h-[400px]">
+            <div className="h-[250px] sm:h-[350px] lg:h-[400px]">
               <Line data={lineChartData} options={lineChartOptions} />
             </div>
           </CardContent>
@@ -290,7 +290,7 @@ export default function AnalyticsPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="h-[400px]">
+            <div className="h-[250px] sm:h-[350px] lg:h-[400px]">
               <Doughnut data={doughnutChartData} options={doughnutChartOptions} />
             </div>
 

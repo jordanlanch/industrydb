@@ -570,6 +570,11 @@
       "note": "Pagination and export don't consume additional credits. Only new searches do.",
       "cancel": "Cancel",
       "searchAnyway": "Search Anyway"
+    },
+    "errors": {
+      "emailNotVerified": "Email Verification Required",
+      "emailNotVerifiedDesc": "Please verify your email address to search for leads. Check your inbox for the verification link.",
+      "emailNotVerifiedShort": "Verify your email to see preview"
     }
   },
   "exports": {

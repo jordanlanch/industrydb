@@ -271,7 +271,7 @@ export function IndustrySelector({
         )}
 
         {/* Scrollable Content Wrapper */}
-        <div className="max-h-[300px] overflow-y-auto">
+        <div className="max-h-[50vh] sm:max-h-[300px] overflow-y-auto">
           <div className="space-y-2">
             {filteredCategories.map((category) => {
             const isExpanded = expandedCategories.has(category.id)
