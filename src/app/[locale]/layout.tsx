@@ -40,8 +40,21 @@ export async function generateMetadata({ params: { locale } }: { params: { local
       languages,
     },
     openGraph: {
+      type: 'website',
+      url: `${baseUrl}/${locale}`,
+      title: t('home.title'),
+      description: t('home.description'),
+      siteName: 'IndustryDB',
       locale: localeToOgLocale[locale] || 'en_US',
       alternateLocale: Object.values(localeToOgLocale).filter(l => l !== (localeToOgLocale[locale] || 'en_US')),
+      images: [
+        {
+          url: '/api/og?title=IndustryDB&subtitle=Industry-specific%20business%20data.%20Verified.%20Affordable.',
+          width: 1200,
+          height: 630,
+          alt: 'IndustryDB - Industry-Specific Business Data',
+        },
+      ],
     },
   };
 }

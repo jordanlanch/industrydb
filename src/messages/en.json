@@ -20,7 +20,8 @@
     "learnMore": "Learn More",
     "viewAll": "View All",
     "seeMore": "See More",
-    "close": "Close"
+    "close": "Close",
+    "skipToContent": "Skip to main content"
   },
   "nav": {
     "home": "Home",
@@ -170,6 +171,7 @@
       "cta": "Get Your Leads Now",
       "secondary": "View Pricing"
     },
+    "platformStatistics": "Platform statistics",
     "stats": {
       "leads": "Verified Leads",
       "countries": "Countries Covered",
@@ -1186,6 +1188,7 @@
   "errors": {
     "generic": "Something went wrong",
     "notFound": "Page not found",
+    "notFoundDescription": "The page you're looking for doesn't exist or has been moved.",
     "unauthorized": "Unauthorized access",
     "network": "Network error",
     "tryAgain": "Please try again"

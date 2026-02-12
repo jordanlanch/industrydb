@@ -20,7 +20,8 @@
     "learnMore": "En savoir plus",
     "viewAll": "Voir tout",
     "seeMore": "Voir plus",
-    "close": "Fermer"
+    "close": "Fermer",
+    "skipToContent": "Aller au contenu principal"
   },
   "nav": {
     "home": "Accueil",
@@ -170,6 +171,7 @@
       "cta": "Obtenez Vos Prospects",
       "secondary": "Voir les Tarifs"
     },
+    "platformStatistics": "Statistiques de la plateforme",
     "stats": {
       "leads": "Prospects Verifies",
       "countries": "Pays Couverts",
@@ -1186,6 +1188,7 @@
   "errors": {
     "generic": "Quelque chose s'est mal passé",
     "notFound": "Page non trouvée",
+    "notFoundDescription": "La page que vous recherchez n'existe pas ou a été déplacée.",
     "unauthorized": "Accès non autorisé",
     "network": "Erreur réseau",
     "tryAgain": "Veuillez réessayer"

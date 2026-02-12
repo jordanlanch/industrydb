@@ -52,7 +52,7 @@ export default function NotFound() {
             {t('notFound')}
           </h1>
           <p className="text-lg text-muted-foreground mb-8">
-            The page you're looking for doesn't exist or has been moved.
+            {t('notFoundDescription')}
           </p>
 
           {/* Action Buttons */}

@@ -132,6 +132,7 @@ export default function RegisterPage() {
               <Input
                 id="name"
                 type="text"
+                autoComplete="name"
                 placeholder={t('namePlaceholder')}
                 disabled={loading}
                 {...register('name')}
@@ -153,6 +154,7 @@ export default function RegisterPage() {
               <Input
                 id="email"
                 type="email"
+                autoComplete="email"
                 placeholder={t('emailPlaceholder')}
                 disabled={loading}
                 {...register('email')}
@@ -174,6 +176,7 @@ export default function RegisterPage() {
               <Input
                 id="password"
                 type="password"
+                autoComplete="new-password"
                 placeholder={t('passwordPlaceholder')}
                 disabled={loading}
                 {...register('password')}

@@ -20,7 +20,8 @@
     "learnMore": "Más información",
     "viewAll": "Ver todo",
     "seeMore": "Ver más",
-    "close": "Cerrar"
+    "close": "Cerrar",
+    "skipToContent": "Saltar al contenido principal"
   },
   "nav": {
     "home": "Inicio",
@@ -170,6 +171,7 @@
       "cta": "Obtener Prospectos Ahora",
       "secondary": "Ver Precios"
     },
+    "platformStatistics": "Estadísticas de la plataforma",
     "stats": {
       "leads": "Prospectos Verificados",
       "countries": "Paises Cubiertos",
@@ -1186,6 +1188,7 @@
   "errors": {
     "generic": "Algo salió mal",
     "notFound": "Página no encontrada",
+    "notFoundDescription": "La página que buscas no existe o ha sido movida.",
     "unauthorized": "Acceso no autorizado",
     "network": "Error de red",
     "tryAgain": "Por favor, intenta de nuevo"

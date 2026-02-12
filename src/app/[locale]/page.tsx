@@ -182,7 +182,7 @@ export default function HomePage() {
         </section>
 
         {/* SOCIAL PROOF BAR - Big numbers */}
-        <section className="py-12 bg-gray-900 border-y border-gray-800" aria-label="Platform statistics">
+        <section className="py-12 bg-gray-900 border-y border-gray-800" aria-label={t('platformStatistics')}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               <div className="text-center">
