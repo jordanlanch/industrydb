@@ -1330,6 +1330,18 @@
     "register": {
       "title": "Create Account - IndustryDB",
       "description": "Create a free IndustryDB account and get 50 verified business leads per month. No credit card required."
+    },
+    "verifyEmail": {
+      "title": "Verify Email - IndustryDB",
+      "description": "Verify your email address to complete your IndustryDB account setup."
+    },
+    "resetPassword": {
+      "title": "Reset Password - IndustryDB",
+      "description": "Set a new password for your IndustryDB account."
+    },
+    "forgotPassword": {
+      "title": "Forgot Password - IndustryDB",
+      "description": "Reset your IndustryDB account password. Enter your email to receive a password reset link."
     }
   }
 }

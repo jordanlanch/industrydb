@@ -1330,6 +1330,18 @@
     "register": {
       "title": "Créer un Compte - IndustryDB",
       "description": "Créez un compte IndustryDB gratuit et obtenez 50 leads commerciaux vérifiés par mois. Sans carte de crédit."
+    },
+    "verifyEmail": {
+      "title": "Vérifier l'Email - IndustryDB",
+      "description": "Vérifiez votre adresse e-mail pour finaliser la configuration de votre compte IndustryDB."
+    },
+    "resetPassword": {
+      "title": "Réinitialiser le Mot de Passe - IndustryDB",
+      "description": "Définissez un nouveau mot de passe pour votre compte IndustryDB."
+    },
+    "forgotPassword": {
+      "title": "Mot de Passe Oublié - IndustryDB",
+      "description": "Réinitialisez le mot de passe de votre compte IndustryDB. Entrez votre email pour recevoir un lien de réinitialisation."
     }
   }
 }

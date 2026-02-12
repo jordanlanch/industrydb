@@ -1330,6 +1330,18 @@
     "register": {
       "title": "Crear Cuenta - IndustryDB",
       "description": "Crea una cuenta gratuita en IndustryDB y obtén 50 leads empresariales verificados por mes. Sin tarjeta de crédito."
+    },
+    "verifyEmail": {
+      "title": "Verificar Email - IndustryDB",
+      "description": "Verifica tu dirección de correo electrónico para completar la configuración de tu cuenta IndustryDB."
+    },
+    "resetPassword": {
+      "title": "Restablecer Contraseña - IndustryDB",
+      "description": "Establece una nueva contraseña para tu cuenta de IndustryDB."
+    },
+    "forgotPassword": {
+      "title": "Olvidé mi Contraseña - IndustryDB",
+      "description": "Restablece la contraseña de tu cuenta IndustryDB. Ingresa tu correo para recibir un enlace de restablecimiento."
     }
   }
 }

@@ -1,12 +1,17 @@
 import type { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 
-export const metadata: Metadata = {
-  title: 'Create Account',
-  description: 'Sign up for IndustryDB and get 50 free business leads per month. Access verified data for tattoo studios, beauty salons, gyms, and more.',
-  openGraph: {
-    title: 'Create Account | IndustryDB',
-    description: 'Sign up for IndustryDB and get 50 free business leads per month. Access verified data for tattoo studios, beauty salons, gyms, and more.',
-  },
+export async function generateMetadata({ params: { locale } }: { params: { locale: string } }): Promise<Metadata> {
+  const t = await getTranslations({ locale, namespace: 'seo' })
+
+  return {
+    title: t('register.title'),
+    description: t('register.description'),
+    openGraph: {
+      title: t('register.title'),
+      description: t('register.description'),
+    },
+  }
 }
 
 export default function RegisterLayout({

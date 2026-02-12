@@ -1,12 +1,17 @@
 import type { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 
-export const metadata: Metadata = {
-  title: 'Login',
-  description: 'Sign in to your IndustryDB account to access verified business leads and industry data.',
-  openGraph: {
-    title: 'Login | IndustryDB',
-    description: 'Sign in to your IndustryDB account to access verified business leads and industry data.',
-  },
+export async function generateMetadata({ params: { locale } }: { params: { locale: string } }): Promise<Metadata> {
+  const t = await getTranslations({ locale, namespace: 'seo' })
+
+  return {
+    title: t('login.title'),
+    description: t('login.description'),
+    openGraph: {
+      title: t('login.title'),
+      description: t('login.description'),
+    },
+  }
 }
 
 export default function LoginLayout({
