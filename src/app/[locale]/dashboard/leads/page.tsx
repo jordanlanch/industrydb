@@ -694,6 +694,8 @@ export default function LeadsPage() {
                 <p className="text-sm text-muted-foreground mt-1">
                   {loading ? (
                     t('searching')
+                  ) : !searchTriggered ? (
+                    t('selectFilters')
                   ) : pagination.total > 0 ? (
                     t('found', { count: pagination.total })
                   ) : (
@@ -703,66 +705,68 @@ export default function LeadsPage() {
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
-              {/* View Toggle */}
-              <div className="flex items-center border rounded-lg p-1" role="group" aria-label={t('viewMode.card')}>
+            {searchTriggered && (
+              <div className="flex items-center gap-2">
+                {/* View Toggle */}
+                <div className="flex items-center border rounded-lg p-1" role="group" aria-label={t('viewMode.card')}>
+                  <Button
+                    variant={viewMode === 'card' ? 'default' : 'ghost'}
+                    size="sm"
+                    onClick={() => setViewMode('card')}
+                    className="px-3"
+                    aria-label={t('viewMode.card')}
+                    aria-pressed={viewMode === 'card'}
+                    title={t('viewMode.card')}
+                  >
+                    <LayoutGrid className="h-4 w-4" aria-hidden="true" />
+                    <span className="sr-only">{t('viewMode.card')}</span>
+                  </Button>
+                  <Button
+                    variant={viewMode === 'table' ? 'default' : 'ghost'}
+                    size="sm"
+                    onClick={() => setViewMode('table')}
+                    className="px-3"
+                    aria-label={t('viewMode.table')}
+                    aria-pressed={viewMode === 'table'}
+                    title={t('viewMode.table')}
+                  >
+                    <List className="h-4 w-4" aria-hidden="true" />
+                    <span className="sr-only">{t('viewMode.table')}</span>
+                  </Button>
+                </div>
+
+                {/* Export Buttons */}
                 <Button
-                  variant={viewMode === 'card' ? 'default' : 'ghost'}
-                  size="sm"
-                  onClick={() => setViewMode('card')}
-                  className="px-3"
-                  aria-label={t('viewMode.card')}
-                  aria-pressed={viewMode === 'card'}
-                  title={t('viewMode.card')}
+                  variant="outline"
+                  onClick={() => handleExport('csv')}
+                  disabled={exportLoading || leads.length === 0 || loading}
+                  className="gap-2"
+                  aria-label={exportLoading ? t('export.csv') : leads.length === 0 ? t('export.noResults', { format: 'CSV' }) : t('export.exportLeads', { count: leads.length, format: 'CSV' })}
+                  title={leads.length === 0 ? t('export.searchFirst') : t('export.exportLeads', { count: leads.length, format: 'CSV' })}
                 >
-                  <LayoutGrid className="h-4 w-4" aria-hidden="true" />
-                  <span className="sr-only">{t('viewMode.card')}</span>
+                  {exportLoading ? (
+                    <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                  ) : (
+                    <FileSpreadsheet className="h-4 w-4" aria-hidden="true" />
+                  )}
+                  <span className="hidden sm:inline">{t('export.csv')}</span>
                 </Button>
                 <Button
-                  variant={viewMode === 'table' ? 'default' : 'ghost'}
-                  size="sm"
-                  onClick={() => setViewMode('table')}
-                  className="px-3"
-                  aria-label={t('viewMode.table')}
-                  aria-pressed={viewMode === 'table'}
-                  title={t('viewMode.table')}
+                  onClick={() => handleExport('excel')}
+                  disabled={exportLoading || leads.length === 0 || loading}
+                  className="gap-2"
+                  aria-label={exportLoading ? t('export.excel') : leads.length === 0 ? t('export.noResults', { format: 'Excel' }) : t('export.exportLeads', { count: leads.length, format: 'Excel' })}
+                  title={leads.length === 0 ? t('export.searchFirst') : t('export.exportLeads', { count: leads.length, format: 'Excel' })}
                 >
-                  <List className="h-4 w-4" aria-hidden="true" />
-                  <span className="sr-only">{t('viewMode.table')}</span>
+                  {exportLoading ? (
+                    <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                  ) : (
+                    <Download className="h-4 w-4" aria-hidden="true" />
+                  )}
+                  <span className="hidden sm:inline">{t('export.excel')}</span>
                 </Button>
               </div>
-
-              {/* Export Buttons */}
-              <Button
-                variant="outline"
-                onClick={() => handleExport('csv')}
-                disabled={exportLoading || leads.length === 0 || loading}
-                className="gap-2"
-                aria-label={exportLoading ? t('export.csv') : leads.length === 0 ? t('export.noResults', { format: 'CSV' }) : t('export.exportLeads', { count: leads.length, format: 'CSV' })}
-                title={leads.length === 0 ? t('export.searchFirst') : t('export.exportLeads', { count: leads.length, format: 'CSV' })}
-              >
-                {exportLoading ? (
-                  <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
-                ) : (
-                  <FileSpreadsheet className="h-4 w-4" aria-hidden="true" />
-                )}
-                <span className="hidden sm:inline">{t('export.csv')}</span>
-              </Button>
-              <Button
-                onClick={() => handleExport('excel')}
-                disabled={exportLoading || leads.length === 0 || loading}
-                className="gap-2"
-                aria-label={exportLoading ? t('export.excel') : leads.length === 0 ? t('export.noResults', { format: 'Excel' }) : t('export.exportLeads', { count: leads.length, format: 'Excel' })}
-                title={leads.length === 0 ? t('export.searchFirst') : t('export.exportLeads', { count: leads.length, format: 'Excel' })}
-              >
-                {exportLoading ? (
-                  <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
-                ) : (
-                  <Download className="h-4 w-4" aria-hidden="true" />
-                )}
-                <span className="hidden sm:inline">{t('export.excel')}</span>
-              </Button>
-            </div>
+            )}
           </div>
 
           {/* Quick Stats */}

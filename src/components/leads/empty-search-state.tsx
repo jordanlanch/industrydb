@@ -3,7 +3,7 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Search, Building2, Shield, TrendingUp, Sparkles } from 'lucide-react'
+import { Search, Sparkles } from 'lucide-react'
 import { useTranslations, useLocale } from 'next-intl'
 import type { UsageInfo } from '@/types'
 
@@ -24,10 +24,10 @@ export function EmptySearchState({ usage, onQuickSearch }: EmptySearchStateProps
   ]
 
   return (
-    <div className="flex flex-col items-center justify-center h-full p-8 max-w-3xl mx-auto">
+    <div className="flex flex-col items-center justify-center h-full p-4 sm:p-8 max-w-3xl mx-auto">
       {/* Hero Icon */}
-      <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center mb-6">
-        <Search className="h-10 w-10 text-primary" />
+      <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center mb-6">
+        <Search className="h-8 w-8 sm:h-10 sm:w-10 text-primary" />
       </div>
 
       {/* Title */}
@@ -74,39 +74,6 @@ export function EmptySearchState({ usage, onQuickSearch }: EmptySearchStateProps
           </div>
         </CardContent>
       </Card>
-
-      {/* Key Points */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full mb-8">
-        <Card className="border-2">
-          <CardContent className="p-4 text-center">
-            <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-2">
-              <TrendingUp className="h-5 w-5 text-green-600" />
-            </div>
-            <p className="text-sm font-medium mb-1">{t('oneCredit')}</p>
-            <p className="text-xs text-muted-foreground">{t('oneCreditDesc')}</p>
-          </CardContent>
-        </Card>
-
-        <Card className="border-2">
-          <CardContent className="p-4 text-center">
-            <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-2">
-              <Shield className="h-5 w-5 text-blue-600" />
-            </div>
-            <p className="text-sm font-medium mb-1">{t('paginationFree')}</p>
-            <p className="text-xs text-muted-foreground">{t('paginationFreeDesc')}</p>
-          </CardContent>
-        </Card>
-
-        <Card className="border-2">
-          <CardContent className="p-4 text-center">
-            <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-2">
-              <Building2 className="h-5 w-5 text-purple-600" />
-            </div>
-            <p className="text-sm font-medium mb-1">{t('verifiedData')}</p>
-            <p className="text-xs text-muted-foreground">{t('verifiedDataDesc')}</p>
-          </CardContent>
-        </Card>
-      </div>
 
       {/* Usage Info */}
       {usage && (

@@ -425,6 +425,7 @@
     "title": "Search Results",
     "searching": "Searching...",
     "found": "Found {count} {count, plural, one {lead} other {leads}}",
+    "selectFilters": "Select filters and search to find leads",
     "noLeadsFound": "No leads found. Try adjusting your filters.",
     "showFilters": "Show Filters",
     "hideFilters": "Hide Filters",

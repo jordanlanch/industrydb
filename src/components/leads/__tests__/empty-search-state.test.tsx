@@ -41,11 +41,11 @@ describe('EmptySearchState', () => {
       expect(screen.getByText('step3Title')).toBeInTheDocument()
     })
 
-    test('renders key points cards', () => {
+    test('does not render key points cards (removed for mobile)', () => {
       render(<EmptySearchState usage={null} />)
-      expect(screen.getByText('oneCredit')).toBeInTheDocument()
-      expect(screen.getByText('paginationFree')).toBeInTheDocument()
-      expect(screen.getByText('verifiedData')).toBeInTheDocument()
+      expect(screen.queryByText('oneCredit')).not.toBeInTheDocument()
+      expect(screen.queryByText('paginationFree')).not.toBeInTheDocument()
+      expect(screen.queryByText('verifiedData')).not.toBeInTheDocument()
     })
   })
 

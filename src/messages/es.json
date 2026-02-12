@@ -425,6 +425,7 @@
     "title": "Resultados de búsqueda",
     "searching": "Buscando...",
     "found": "Encontrados {count} {count, plural, one {prospecto} other {prospectos}}",
+    "selectFilters": "Selecciona filtros y busca para encontrar prospectos",
     "noLeadsFound": "No se encontraron prospectos. Intenta ajustar tus filtros.",
     "showFilters": "Mostrar filtros",
     "hideFilters": "Ocultar filtros",
