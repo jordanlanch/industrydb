@@ -127,9 +127,9 @@ export default async function LocaleLayout({
       </head>
       <body className={`${inter.className} flex flex-col min-h-screen overflow-x-hidden`}>
         <WebVitals />
-        <SkipLink />
         <ErrorBoundary>
           <NextIntlClientProvider locale={locale} messages={messages}>
+            <SkipLink />
             <ToastProvider>
               <main id="main-content" className="flex-1" tabIndex={-1}>
                 {children}
