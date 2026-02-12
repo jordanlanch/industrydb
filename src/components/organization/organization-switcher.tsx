@@ -10,6 +10,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Building2, Loader2, Plus } from 'lucide-react';
 import { useRouter } from '@/i18n/routing';
+import { useTranslations } from 'next-intl';
 import { useOrganization } from '@/contexts/organization.context';
 
 interface OrganizationSwitcherProps {
@@ -20,6 +21,7 @@ export function OrganizationSwitcher({
   showCreateButton = false,
 }: OrganizationSwitcherProps) {
   const router = useRouter();
+  const t = useTranslations('components.organizationSwitcher');
   const {
     currentOrganization,
     organizations,
@@ -68,7 +70,7 @@ export function OrganizationSwitcher({
     return (
       <div className="flex items-center gap-2 px-3 py-2 text-sm text-muted-foreground">
         <Loader2 className="h-4 w-4 animate-spin" />
-        <span>Loading...</span>
+        <span>{t('loading')}</span>
       </div>
     );
   }
@@ -83,7 +85,7 @@ export function OrganizationSwitcher({
                 <Building2 className="h-3.5 w-3.5 text-primary" />
               </div>
               <SelectValue>
-                <span className="truncate">Personal Account</span>
+                <span className="truncate">{t('personalAccount')}</span>
               </SelectValue>
             </>
           ) : (
@@ -108,8 +110,8 @@ export function OrganizationSwitcher({
               <Building2 className="h-4 w-4 text-primary" />
             </div>
             <div className="flex flex-col">
-              <span className="font-medium">Personal Account</span>
-              <span className="text-xs text-muted-foreground">Individual workspace</span>
+              <span className="font-medium">{t('personalAccount')}</span>
+              <span className="text-xs text-muted-foreground">{t('individualWorkspace')}</span>
             </div>
           </div>
         </SelectItem>
@@ -119,7 +121,7 @@ export function OrganizationSwitcher({
           <>
             <div className="px-2 py-1.5">
               <span className="text-xs font-semibold text-muted-foreground uppercase">
-                Organizations
+                {t('organizations')}
               </span>
             </div>
             {organizations.map((org) => (
@@ -141,7 +143,7 @@ export function OrganizationSwitcher({
                           org.subscription_tier.slice(1)}
                       </Badge>
                       <span className="text-xs text-muted-foreground">
-                        {org.usage_count.toLocaleString()}/{org.usage_limit.toLocaleString()} leads
+                        {t('leads', { used: org.usage_count.toLocaleString(), limit: org.usage_limit.toLocaleString() })}
                       </span>
                     </div>
                   </div>
@@ -160,7 +162,7 @@ export function OrganizationSwitcher({
                 <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
                   <Plus className="h-4 w-4 text-primary" />
                 </div>
-                <span className="font-medium text-primary">Create Organization</span>
+                <span className="font-medium text-primary">{t('createOrganization')}</span>
               </div>
             </SelectItem>
           </>

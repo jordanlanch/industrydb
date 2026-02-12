@@ -190,8 +190,8 @@ export default function SettingsPage() {
     try {
       await userService.resetOnboarding()
       toast({
-        title: 'Tutorial Reset',
-        description: 'Redirecting to onboarding wizard...',
+        title: t('tutorial.toast.reset'),
+        description: t('tutorial.toast.resetDesc'),
         variant: 'default',
       })
       // Redirect to onboarding after short delay
@@ -200,7 +200,7 @@ export default function SettingsPage() {
       }, 1500)
     } catch (error: any) {
       toast({
-        title: 'Failed to restart tutorial',
+        title: t('tutorial.toast.failed'),
         description: error.response?.data?.message || error.message,
         variant: 'destructive',
       })
@@ -297,16 +297,16 @@ export default function SettingsPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <BarChart3 className="h-5 w-5" aria-hidden="true" />
-              Usage & Analytics
+              {t('usage.title')}
             </CardTitle>
-            <CardDescription>View your usage patterns and activity over the last 30 days</CardDescription>
+            <CardDescription>{t('usage.description')}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             {/* Auto-refresh controls */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
               <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <span>Last updated:</span>
+                  <span>{t('usage.lastUpdated')}</span>
                   <span className="font-medium text-foreground">
                     {lastRefresh.toLocaleTimeString()}
                   </span>
@@ -318,12 +318,12 @@ export default function SettingsPage() {
                   disabled={analyticsLoading}
                 >
                   <RefreshCw className={`h-4 w-4 mr-2 ${analyticsLoading ? 'animate-spin' : ''}`} />
-                  {analyticsLoading ? 'Refreshing...' : 'Refresh'}
+                  {analyticsLoading ? t('usage.refreshing') : t('usage.refresh')}
                 </Button>
               </div>
               <div className="flex items-center gap-2">
                 <Label htmlFor="auto-refresh" className="text-sm font-medium">
-                  Auto-refresh (30s)
+                  {t('usage.autoRefresh')}
                 </Label>
                 <Switch
                   id="auto-refresh"
@@ -338,30 +338,30 @@ export default function SettingsPage() {
               <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
                 <div className="flex items-center gap-2 mb-2">
                   <Activity className="h-4 w-4 text-blue-600" aria-hidden="true" />
-                  <p className="text-sm font-semibold text-blue-900">Current Usage</p>
+                  <p className="text-sm font-semibold text-blue-900">{t('usage.currentUsage')}</p>
                 </div>
                 <p className="text-3xl font-bold text-blue-600">{user?.usage_count || 0}</p>
-                <p className="text-xs text-blue-700 mt-1">leads this month</p>
+                <p className="text-xs text-blue-700 mt-1">{t('usage.leadsThisMonth')}</p>
               </div>
 
               <div className="p-4 bg-purple-50 rounded-lg border border-purple-200">
                 <div className="flex items-center gap-2 mb-2">
                   <TrendingUp className="h-4 w-4 text-purple-600" aria-hidden="true" />
-                  <p className="text-sm font-semibold text-purple-900">Usage Limit</p>
+                  <p className="text-sm font-semibold text-purple-900">{t('usage.usageLimit')}</p>
                 </div>
                 <p className="text-3xl font-bold text-purple-600">{user?.usage_limit || 0}</p>
-                <p className="text-xs text-purple-700 mt-1">leads per month</p>
+                <p className="text-xs text-purple-700 mt-1">{t('usage.leadsPerMonth')}</p>
               </div>
 
               <div className="p-4 bg-green-50 rounded-lg border border-green-200">
                 <div className="flex items-center gap-2 mb-2">
                   <Check className="h-4 w-4 text-green-600" aria-hidden="true" />
-                  <p className="text-sm font-semibold text-green-900">Remaining</p>
+                  <p className="text-sm font-semibold text-green-900">{t('usage.remaining')}</p>
                 </div>
                 <p className="text-3xl font-bold text-green-600">
                   {(user?.usage_limit || 0) - (user?.usage_count || 0)}
                 </p>
-                <p className="text-xs text-green-700 mt-1">leads available</p>
+                <p className="text-xs text-green-700 mt-1">{t('usage.leadsAvailable')}</p>
               </div>
             </div>
 
@@ -372,11 +372,10 @@ export default function SettingsPage() {
                   <AlertTriangle className="h-5 w-5 text-amber-600 mt-0.5 flex-shrink-0" aria-hidden="true" />
                   <div className="flex-1">
                     <h4 className="font-semibold text-amber-900 mb-1">
-                      Approaching Usage Limit
+                      {t('usage.approachingLimit')}
                     </h4>
                     <p className="text-sm text-amber-800 mb-3">
-                      You've used {Math.round((user.usage_count / user.usage_limit) * 100)}% of your monthly limit.
-                      Consider upgrading to continue accessing more leads.
+                      {t('usage.approachingLimitDesc', { percent: Math.round((user.usage_count / user.usage_limit) * 100) })}
                     </p>
                     <Button
                       size="sm"
@@ -387,7 +386,7 @@ export default function SettingsPage() {
                         plansSection?.scrollIntoView({ behavior: 'smooth' })
                       }}
                     >
-                      View Plans
+                      {t('usage.viewPlans')}
                     </Button>
                   </div>
                 </div>
@@ -399,22 +398,22 @@ export default function SettingsPage() {
               {analyticsLoading ? (
                 <>
                   <div className="h-[300px] bg-gray-50 rounded-lg border border-gray-200 flex items-center justify-center">
-                    <p className="text-gray-500 text-sm">Loading usage data...</p>
+                    <p className="text-gray-500 text-sm">{t('usage.loadingUsage')}</p>
                   </div>
                   <div className="h-[300px] bg-gray-50 rounded-lg border border-gray-200 flex items-center justify-center">
-                    <p className="text-gray-500 text-sm">Loading breakdown...</p>
+                    <p className="text-gray-500 text-sm">{t('usage.loadingBreakdown')}</p>
                   </div>
                 </>
               ) : (
                 <>
                   <UsageChart
                     data={usageData}
-                    title="Daily Usage Trend"
+                    title={t('usage.dailyUsageTrend')}
                     height={300}
                   />
                   <UsageBreakdownChart
                     data={breakdownData}
-                    title="Usage by Action Type"
+                    title={t('usage.usageByActionType')}
                     height={300}
                   />
                 </>
@@ -479,18 +478,18 @@ export default function SettingsPage() {
             </div>
 
             <div className="pt-4 border-t">
-              <h4 className="font-semibold mb-2">Restart Tutorial</h4>
+              <h4 className="font-semibold mb-2">{t('tutorial.title')}</h4>
               <p className="text-sm text-muted-foreground mb-3">
-                Go through the onboarding wizard again to learn about all features.
+                {t('tutorial.description')}
               </p>
               <Button
                 variant="outline"
                 onClick={handleRestartTutorial}
                 disabled={restartingTutorial}
-                aria-label={restartingTutorial ? 'Restarting tutorial...' : 'Restart Tutorial'}
+                aria-label={restartingTutorial ? t('tutorial.restarting') : t('tutorial.restart')}
               >
                 <User className="h-4 w-4 mr-2" aria-hidden="true" />
-                {restartingTutorial ? 'Restarting...' : 'Restart Tutorial'}
+                {restartingTutorial ? t('tutorial.restarting') : t('tutorial.restart')}
               </Button>
             </div>
 

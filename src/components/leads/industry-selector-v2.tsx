@@ -6,6 +6,7 @@
 'use client'
 
 import { useState, useEffect, useMemo } from 'react'
+import { useTranslations } from 'next-intl'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -48,6 +49,9 @@ export function IndustrySelectorV2({
   showCounts = true,
   compact = false,
 }: IndustrySelectorV2Props) {
+  const t = useTranslations('leads.industrySelector')
+  const tIndustryNames = useTranslations('landing.industries.list')
+
   // State
   const [categories, setCategories] = useState<IndustryCategory[]>([])
   const [loading, setLoading] = useState(true)
@@ -56,6 +60,14 @@ export function IndustrySelectorV2({
   const [subNiches, setSubNiches] = useState<SubNiche[]>([])
   const [loadingSubNiches, setLoadingSubNiches] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
+
+  const getLocalizedName = (industry: { id: string; name: string }) => {
+    try { return tIndustryNames(industry.id as any) } catch { return industry.name }
+  }
+
+  const getLocalizedDescription = (industry: { id: string; description?: string | any }) => {
+    try { return t(`descriptions.${industry.id}` as any) } catch { return industry.description || '' }
+  }
 
   // Load categories and industries
   useEffect(() => {
@@ -151,10 +163,6 @@ export function IndustrySelectorV2({
     subNicheId?: string,
     subNicheName?: string
   ) => {
-    const selectionKey = subNicheId
-      ? `${industryId}:${subNicheId}`
-      : industryId
-
     const existingIndex = selections.findIndex(
       (sel) =>
         sel.industryId === industryId && sel.subNicheId === subNicheId
@@ -197,7 +205,7 @@ export function IndustrySelectorV2({
           <div className="flex items-center justify-center">
             <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
             <span className="ml-2 text-sm text-muted-foreground">
-              Loading industries...
+              {t('loading')}
             </span>
           </div>
         </CardContent>
@@ -211,17 +219,17 @@ export function IndustrySelectorV2({
         <div className="flex items-center justify-between">
           <div>
             <CardTitle className={compact ? 'text-lg' : ''}>
-              Industry & Sub-Niche
+              {t('titleV2')}
             </CardTitle>
             <CardDescription className={compact ? 'text-xs' : ''}>
               {multiSelect
-                ? `Select up to ${maxSelections || '∞'} industries`
-                : 'Select an industry and sub-niche'}
+                ? t('selectUpTo', { max: maxSelections || '\u221E' })
+                : t('selectIndustryAndSubNiche')}
             </CardDescription>
           </div>
           {selections.length > 0 && (
             <Button variant="ghost" size="sm" onClick={clearAll}>
-              Clear All
+              {t('clearAll')}
             </Button>
           )}
         </div>
@@ -238,7 +246,7 @@ export function IndustrySelectorV2({
                 <IndustryIcon industryId={sel.industryId} size="xs" className="mr-1" />
                 <span className="text-xs">
                   {sel.subNicheName
-                    ? `${sel.industryName} · ${sel.subNicheName}`
+                    ? `${sel.industryName} \u00B7 ${sel.subNicheName}`
                     : sel.industryName}
                 </span>
                 <button
@@ -256,7 +264,7 @@ export function IndustrySelectorV2({
         <div className="mt-3 relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search industries and sub-niches..."
+            placeholder={t('searchPlaceholderV2')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-9"
@@ -269,18 +277,18 @@ export function IndustrySelectorV2({
         <div className="block lg:hidden">
           <Tabs value={selectedIndustry || selectedCategory || 'categories'}>
             <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="categories">Categories</TabsTrigger>
+              <TabsTrigger value="categories">{t('categoriesTab')}</TabsTrigger>
               <TabsTrigger
                 value={selectedIndustry || 'industries'}
                 disabled={!selectedCategory}
               >
-                Industries
+                {t('industriesTab')}
               </TabsTrigger>
               <TabsTrigger
                 value={selectedIndustry || 'sub-niches'}
                 disabled={!selectedIndustry}
               >
-                Sub-Niches
+                {t('subNichesTab')}
               </TabsTrigger>
             </TabsList>
 
@@ -290,6 +298,7 @@ export function IndustrySelectorV2({
                 selectedCategory={selectedCategory}
                 onSelectCategory={setSelectedCategory}
                 compact={compact}
+                t={t}
               />
             </TabsContent>
 
@@ -305,6 +314,9 @@ export function IndustrySelectorV2({
                 multiSelect={multiSelect}
                 isAtMax={isAtMaxSelections}
                 compact={compact}
+                t={t}
+                getLocalizedName={getLocalizedName}
+                getLocalizedDescription={getLocalizedDescription}
               />
             </TabsContent>
 
@@ -335,6 +347,7 @@ export function IndustrySelectorV2({
                 isAtMax={isAtMaxSelections}
                 showCounts={showCounts}
                 compact={compact}
+                t={t}
               />
             </TabsContent>
           </Tabs>
@@ -347,6 +360,7 @@ export function IndustrySelectorV2({
             selectedCategory={selectedCategory}
             onSelectCategory={setSelectedCategory}
             compact={compact}
+            t={t}
           />
 
           <IndustryPanel
@@ -360,6 +374,9 @@ export function IndustrySelectorV2({
             multiSelect={multiSelect}
             isAtMax={isAtMaxSelections}
             compact={compact}
+            t={t}
+            getLocalizedName={getLocalizedName}
+            getLocalizedDescription={getLocalizedDescription}
           />
 
           <SubNichePanel
@@ -388,15 +405,15 @@ export function IndustrySelectorV2({
             isAtMax={isAtMaxSelections}
             showCounts={showCounts}
             compact={compact}
+            t={t}
           />
         </div>
 
         {/* Tier limit warning */}
         {isAtMaxSelections && multiSelect && (
           <div className="mt-3 text-xs text-amber-600 bg-amber-50 border border-amber-200 rounded-lg p-2">
-            ⚠️ You've reached the maximum of {maxSelections} selections.{' '}
-            <button className="underline font-medium">Upgrade</button> for unlimited
-            selections.
+            {'\u26A0\uFE0F'} {t('maxSelectionsWarning', { max: maxSelections })}{' '}
+            <button className="underline font-medium">{t('upgrade')}</button> {t('unlimitedSelections')}
           </div>
         )}
       </CardContent>
@@ -410,11 +427,13 @@ function CategoryPanel({
   selectedCategory,
   onSelectCategory,
   compact,
+  t,
 }: {
   categories: IndustryCategory[]
   selectedCategory: string | null
   onSelectCategory: (id: string) => void
   compact?: boolean
+  t: (key: string, values?: Record<string, any>) => string
 }) {
   return (
     <div className="border rounded-lg overflow-hidden">
@@ -422,7 +441,7 @@ function CategoryPanel({
         'bg-gray-50 border-b px-3 font-medium text-gray-700',
         compact ? 'py-2 text-xs' : 'py-2.5 text-sm'
       )}>
-        Categories
+        {t('categoriesTab')}
       </div>
       <div className={cn('overflow-y-auto', compact ? 'max-h-64' : 'max-h-96')}>
         {categories.map((category) => (
@@ -447,7 +466,7 @@ function CategoryPanel({
                     {category.name}
                   </div>
                   <div className="text-xs text-muted-foreground">
-                    {category.industries.length} industries
+                    {t('industriesCount', { count: category.industries.length })}
                   </div>
                 </div>
               </div>
@@ -472,6 +491,9 @@ function IndustryPanel({
   multiSelect,
   isAtMax,
   compact,
+  t,
+  getLocalizedName,
+  getLocalizedDescription,
 }: {
   industries: any[]
   selectedIndustry: string | null
@@ -481,6 +503,9 @@ function IndustryPanel({
   multiSelect: boolean
   isAtMax?: boolean
   compact?: boolean
+  t: (key: string, values?: Record<string, any>) => string
+  getLocalizedName: (industry: { id: string; name: string }) => string
+  getLocalizedDescription: (industry: { id: string; description?: string }) => string
 }) {
   return (
     <div className="border rounded-lg overflow-hidden">
@@ -488,7 +513,7 @@ function IndustryPanel({
         'bg-gray-50 border-b px-3 font-medium text-gray-700',
         compact ? 'py-2 text-xs' : 'py-2.5 text-sm'
       )}>
-        Industries
+        {t('industriesTab')}
         {industries.length > 0 && (
           <span className="ml-1 text-muted-foreground">
             ({industries.length})
@@ -498,7 +523,7 @@ function IndustryPanel({
       <div className={cn('overflow-y-auto', compact ? 'max-h-64' : 'max-h-96')}>
         {industries.length === 0 ? (
           <div className="px-3 py-8 text-center text-sm text-muted-foreground">
-            Select a category to view industries
+            {t('selectCategoryPrompt')}
           </div>
         ) : (
           industries.map((industry) => {
@@ -542,11 +567,11 @@ function IndustryPanel({
                         'font-medium',
                         compact ? 'text-xs' : 'text-sm'
                       )}>
-                        {industry.name}
+                        {getLocalizedName(industry)}
                       </div>
                       {!compact && (
                         <div className="text-xs text-muted-foreground line-clamp-1">
-                          {industry.description}
+                          {getLocalizedDescription(industry)}
                         </div>
                       )}
                     </div>
@@ -575,6 +600,7 @@ function SubNichePanel({
   isAtMax,
   showCounts,
   compact,
+  t,
 }: {
   subNiches: SubNiche[]
   loading: boolean
@@ -585,6 +611,7 @@ function SubNichePanel({
   isAtMax?: boolean
   showCounts?: boolean
   compact?: boolean
+  t: (key: string, values?: Record<string, any>) => string
 }) {
   return (
     <div className="border rounded-lg overflow-hidden">
@@ -592,7 +619,7 @@ function SubNichePanel({
         'bg-gray-50 border-b px-3 font-medium text-gray-700',
         compact ? 'py-2 text-xs' : 'py-2.5 text-sm'
       )}>
-        Sub-Niches
+        {t('subNichesTab')}
         {subNiches.length > 0 && (
           <span className="ml-1 text-muted-foreground">
             ({subNiches.length})
@@ -606,11 +633,11 @@ function SubNichePanel({
           </div>
         ) : !selectedIndustry ? (
           <div className="px-3 py-8 text-center text-sm text-muted-foreground">
-            Select an industry to view sub-niches
+            {t('selectIndustryPrompt')}
           </div>
         ) : subNiches.length === 0 ? (
           <div className="px-3 py-8 text-center text-sm text-muted-foreground">
-            No sub-niches available for this industry
+            {t('noSubNiches')}
           </div>
         ) : (
           subNiches.map((subNiche) => {
@@ -643,7 +670,7 @@ function SubNichePanel({
                         <span>{subNiche.name}</span>
                         {subNiche.popular && (
                           <Badge variant="secondary" className="text-[10px] px-1 py-0">
-                            Popular
+                            {t('popular')}
                           </Badge>
                         )}
                       </div>

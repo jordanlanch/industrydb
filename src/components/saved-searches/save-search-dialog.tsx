@@ -5,6 +5,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 import {
   Dialog,
   DialogContent,
@@ -33,6 +34,7 @@ export function SaveSearchDialog({
   filters,
   onSave,
 }: SaveSearchDialogProps) {
+  const t = useTranslations('components.saveSearch')
   const { toast } = useToast()
   const [name, setName] = useState('')
   const [saving, setSaving] = useState(false)
@@ -40,8 +42,8 @@ export function SaveSearchDialog({
   const handleSave = async () => {
     if (!name.trim()) {
       toast({
-        title: 'Name Required',
-        description: 'Please enter a name for your saved search',
+        title: t('nameRequired'),
+        description: t('nameRequiredDesc'),
         variant: 'destructive',
       })
       return
@@ -64,12 +66,12 @@ export function SaveSearchDialog({
 
       if (!response.ok) {
         const error = await response.json()
-        throw new Error(error.message || 'Failed to save search')
+        throw new Error(error.message || t('saveFailedDesc'))
       }
 
       toast({
-        title: 'Search Saved!',
-        description: `"${name}" has been saved to your searches`,
+        title: t('saved'),
+        description: t('savedDesc', { name }),
         variant: 'default',
       })
 
@@ -78,8 +80,8 @@ export function SaveSearchDialog({
       onSave?.()
     } catch (error: any) {
       toast({
-        title: 'Save Failed',
-        description: error.message || 'Failed to save search',
+        title: t('saveFailed'),
+        description: error.message || t('saveFailedDesc'),
         variant: 'destructive',
       })
     } finally {
@@ -104,21 +106,21 @@ export function SaveSearchDialog({
       parts.push(filters.country)
     }
 
-    if (filters.hasEmail) parts.push('Has Email')
-    if (filters.hasPhone) parts.push('Has Phone')
-    if (filters.verified) parts.push('Verified')
+    if (filters.hasEmail) parts.push(t('hasEmail'))
+    if (filters.hasPhone) parts.push(t('hasPhone'))
+    if (filters.verified) parts.push(t('verified'))
 
     if (filters.qualityScoreMin || filters.qualityScoreMax) {
       const min = filters.qualityScoreMin || 0
       const max = filters.qualityScoreMax || 100
-      parts.push(`Quality: ${min}-${max}`)
+      parts.push(t('quality', { min, max }))
     }
 
     if (filters.specialties && filters.specialties.length > 0) {
-      parts.push(`${filters.specialties.length} specialties`)
+      parts.push(t('specialties', { count: filters.specialties.length }))
     }
 
-    return parts.length > 0 ? parts.join(' • ') : 'No filters applied'
+    return parts.length > 0 ? parts.join(' • ') : t('noFilters')
   }
 
   return (
@@ -127,33 +129,33 @@ export function SaveSearchDialog({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Save className="h-5 w-5" />
-            Save Search
+            {t('title')}
           </DialogTitle>
           <DialogDescription>
-            Save your current search filters for quick access later.
+            {t('description')}
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-4">
           {/* Name Input */}
           <div className="space-y-2">
-            <Label htmlFor="search-name">Search Name</Label>
+            <Label htmlFor="search-name">{t('nameLabel')}</Label>
             <Input
               id="search-name"
-              placeholder="e.g. Italian Restaurants in NYC"
+              placeholder={t('namePlaceholder')}
               value={name}
               onChange={(e) => setName(e.target.value)}
               maxLength={100}
               autoFocus
             />
             <p className="text-xs text-muted-foreground">
-              Give your search a descriptive name
+              {t('nameHint')}
             </p>
           </div>
 
           {/* Filter Summary */}
           <div className="space-y-2">
-            <Label>Current Filters</Label>
+            <Label>{t('currentFilters')}</Label>
             <div className="p-3 bg-gray-50 rounded-lg border">
               <p className="text-sm text-muted-foreground">
                 {getFilterSummary()}
@@ -168,10 +170,10 @@ export function SaveSearchDialog({
             onClick={() => onOpenChange(false)}
             disabled={saving}
           >
-            Cancel
+            {t('cancel')}
           </Button>
           <Button onClick={handleSave} disabled={saving || !name.trim()}>
-            {saving ? 'Saving...' : 'Save Search'}
+            {saving ? t('saving') : t('saveButton')}
           </Button>
         </DialogFooter>
       </DialogContent>

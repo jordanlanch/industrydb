@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { SearchX, Database, Filter } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 interface EmptyStateProps {
   type?: 'no-results' | 'no-data' | 'no-filters'
@@ -7,23 +8,25 @@ interface EmptyStateProps {
 }
 
 export function EmptyState({ type = 'no-results', onReset }: EmptyStateProps) {
+  const t = useTranslations('leads.emptyState')
+
   const configs = {
     'no-results': {
       icon: SearchX,
-      title: 'No leads found',
-      description: 'Try adjusting your filters or search criteria',
-      action: 'Clear Filters',
+      title: t('title'),
+      description: t('description'),
+      action: t('clearButton'),
     },
     'no-data': {
       icon: Database,
-      title: 'No data available',
-      description: 'There is no data for the selected industry yet',
-      action: 'Select Different Industry',
+      title: t('noData.title'),
+      description: t('noData.description'),
+      action: t('noData.action'),
     },
     'no-filters': {
       icon: Filter,
-      title: 'Select filters to start',
-      description: 'Choose an industry and location to find leads',
+      title: t('noFilters.title'),
+      description: t('noFilters.description'),
       action: null,
     },
   }

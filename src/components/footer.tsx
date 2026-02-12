@@ -1,9 +1,11 @@
 'use client';
 
 import Link from "next/link";
+import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from './language-switcher';
 
 export function Footer() {
+  const t = useTranslations('footer');
   const currentYear = new Date().getFullYear();
 
   return (
@@ -15,27 +17,27 @@ export function Footer() {
           <div>
             <h3 className="font-bold text-lg mb-4">IndustryDB</h3>
             <p className="text-sm text-muted-foreground">
-              Industry-specific business data. Verified. Affordable.
+              {t('description')}
             </p>
           </div>
 
           {/* Product */}
           <nav aria-label="Product links">
-            <h4 className="font-semibold mb-4">Product</h4>
+            <h4 className="font-semibold mb-4">{t('product')}</h4>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link href="/pricing" className="text-muted-foreground hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary rounded">
-                  Pricing
+                  {t('pricing')}
                 </Link>
               </li>
               <li>
                 <Link href="/dashboard" className="text-muted-foreground hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary rounded">
-                  Dashboard
+                  {t('dashboard')}
                 </Link>
               </li>
               <li>
                 <Link href="/api-docs" className="text-muted-foreground hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary rounded">
-                  API Docs
+                  {t('apiDocs')}
                 </Link>
               </li>
             </ul>
@@ -43,11 +45,11 @@ export function Footer() {
 
           {/* Company */}
           <nav aria-label="Company links">
-            <h4 className="font-semibold mb-4">Company</h4>
+            <h4 className="font-semibold mb-4">{t('company')}</h4>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link href="/about" className="text-muted-foreground hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary rounded">
-                  About Us
+                  {t('aboutUs')}
                 </Link>
               </li>
               <li>
@@ -56,7 +58,7 @@ export function Footer() {
                   className="text-muted-foreground hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary rounded"
                   aria-label="Email support at support@industrydb.io"
                 >
-                  Contact
+                  {t('contact')}
                 </a>
               </li>
             </ul>
@@ -64,16 +66,16 @@ export function Footer() {
 
           {/* Legal */}
           <nav aria-label="Legal links">
-            <h4 className="font-semibold mb-4">Legal</h4>
+            <h4 className="font-semibold mb-4">{t('legal')}</h4>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link href="/privacy" className="text-muted-foreground hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary rounded">
-                  Privacy Policy
+                  {t('privacyPolicy')}
                 </Link>
               </li>
               <li>
                 <Link href="/terms" className="text-muted-foreground hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary rounded">
-                  Terms of Service
+                  {t('termsOfService')}
                 </Link>
               </li>
               <li>
@@ -88,7 +90,7 @@ export function Footer() {
                   className="text-muted-foreground hover:text-primary text-left focus:outline-none focus:ring-2 focus:ring-primary rounded"
                   aria-label="Open cookie consent settings"
                 >
-                  Cookie Settings
+                  {t('cookieSettings')}
                 </button>
               </li>
             </ul>
@@ -100,7 +102,7 @@ export function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="flex items-center gap-4">
               <p className="text-sm text-muted-foreground">
-                © {currentYear} IndustryDB. All rights reserved.
+                © {currentYear} IndustryDB. {t('allRightsReserved')}
               </p>
               <LanguageSwitcher />
             </div>
@@ -109,20 +111,20 @@ export function Footer() {
                 href="/privacy"
                 className="text-muted-foreground hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary rounded"
               >
-                Privacy
+                {t('privacy')}
               </Link>
               <Link
                 href="/terms"
                 className="text-muted-foreground hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary rounded"
               >
-                Terms
+                {t('terms')}
               </Link>
               <a
                 href="mailto:legal@industrydb.io"
                 className="text-muted-foreground hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary rounded"
                 aria-label="Email legal at legal@industrydb.io"
               >
-                Legal
+                {t('legal')}
               </a>
             </nav>
           </div>

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useMemo } from 'react'
+import { useTranslations } from 'next-intl'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -35,11 +36,22 @@ export function IndustrySelector({
   country,
   city,
 }: IndustrySelectorProps) {
+  const t = useTranslations('leads.industrySelector')
+  const tIndustryNames = useTranslations('landing.industries.list')
+
   const [categories, setCategories] = useState<IndustryCategory[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set())
   const [searchQuery, setSearchQuery] = useState('')
+
+  const getLocalizedName = (industry: { id: string; name: string }) => {
+    try { return tIndustryNames(industry.id as any) } catch { return industry.name }
+  }
+
+  const getLocalizedDescription = (industry: { id: string; description?: string }) => {
+    try { return t(`descriptions.${industry.id}` as any) } catch { return industry.description || '' }
+  }
 
   // Reload industries when filters change
   useEffect(() => {
@@ -66,9 +78,9 @@ export function IndustrySelector({
         if (!categoryMap.has(industry.category)) {
           categoryMap.set(industry.category, {
             id: industry.category,
-            name: industry.category.charAt(0).toUpperCase() + industry.category.slice(1),
-            icon: '📂',
-            description: `${industry.category} industries`,
+            name: industry.category,
+            icon: '\uD83D\uDCC2',
+            description: industry.category,
             industries: []
           })
         }
@@ -97,6 +109,10 @@ export function IndustrySelector({
     }
   }
 
+  const getLocalizedCategoryName = (categoryId: string) => {
+    try { return t(`categories.${categoryId}` as any) } catch { return categoryId.charAt(0).toUpperCase() + categoryId.slice(1) }
+  }
+
   const toggleCategory = (categoryId: string) => {
     const newExpanded = new Set(expandedCategories)
     if (newExpanded.has(categoryId)) {
@@ -120,7 +136,7 @@ export function IndustrySelector({
     }
   }
 
-  const selectAll = (categoryId: string) => {
+  const selectAllInCategory = (categoryId: string) => {
     const category = categories.find((cat) => cat.id === categoryId)
     if (!category) return
 
@@ -176,7 +192,7 @@ export function IndustrySelector({
         <CardContent className="py-8">
           <div className="flex items-center justify-center">
             <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-            <span className="ml-2 text-sm text-muted-foreground">Loading industries...</span>
+            <span className="ml-2 text-sm text-muted-foreground">{t('loading')}</span>
           </div>
         </CardContent>
       </Card>
@@ -190,11 +206,11 @@ export function IndustrySelector({
           <div className="text-center space-y-4">
             <div className="flex items-center justify-center text-destructive">
               <AlertCircle className="h-6 w-6 mr-2" />
-              <p className="font-semibold">Failed to load industries</p>
+              <p className="font-semibold">{t('loadFailed')}</p>
             </div>
             <p className="text-sm text-muted-foreground">{error}</p>
             <Button onClick={loadIndustries} variant="outline" size="sm">
-              Try Again
+              {t('tryAgain')}
             </Button>
           </div>
         </CardContent>
@@ -207,8 +223,8 @@ export function IndustrySelector({
       <Card>
         <CardContent className="py-8">
           <div className="text-center space-y-2">
-            <p className="text-muted-foreground">No industries available</p>
-            <p className="text-sm text-muted-foreground">Please contact support if this issue persists</p>
+            <p className="text-muted-foreground">{t('noIndustries')}</p>
+            <p className="text-sm text-muted-foreground">{t('contactSupport')}</p>
           </div>
         </CardContent>
       </Card>
@@ -220,14 +236,14 @@ export function IndustrySelector({
       <CardHeader className="px-0 pb-4">
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle>Industry</CardTitle>
+            <CardTitle>{t('title')}</CardTitle>
             <CardDescription>
-              {multiSelect ? 'Select one or more industries' : 'Select an industry'}
+              {multiSelect ? t('selectMultiple') : t('selectOne')}
             </CardDescription>
           </div>
           {selectedIndustries.length > 0 && (
             <Button variant="ghost" size="sm" onClick={clearAll}>
-              Clear Selection
+              {t('clearSelection')}
             </Button>
           )}
         </div>
@@ -239,7 +255,7 @@ export function IndustrySelector({
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               type="text"
-              placeholder="Search industries..."
+              placeholder={t('searchPlaceholder')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-9"
@@ -258,12 +274,12 @@ export function IndustrySelector({
         </div>
         {selectedIndustries.length > 0 && (
           <div className="mb-4 flex flex-wrap gap-2">
-            <span className="text-sm text-muted-foreground">Selected:</span>
+            <span className="text-sm text-muted-foreground">{t('selected')}</span>
             {categories.flatMap((cat) => cat.industries).map((industry) => {
               if (!selectedIndustries.includes(industry.id)) return null
               return (
                 <Badge key={industry.id} variant="secondary">
-                  {industry.icon} {industry.name}
+                  {industry.icon} {getLocalizedName(industry)}
                 </Badge>
               )
             })}
@@ -279,6 +295,7 @@ export function IndustrySelector({
             const selectedCount = selectedIndustries.filter((id) =>
               categoryIndustryIds.includes(id)
             ).length
+            const localizedCategoryName = getLocalizedCategoryName(category.id)
 
             return (
               <div key={category.id} className="border rounded-lg">
@@ -288,21 +305,21 @@ export function IndustrySelector({
                   className="w-full flex items-center justify-between p-3 hover:bg-gray-50 transition-colors"
                   aria-expanded={isExpanded}
                   aria-controls={`category-content-${category.id}`}
-                  aria-label={`${category.name} category with ${category.industries.length} industries`}
+                  aria-label={t('categoryIndustries', { category: localizedCategoryName })}
                 >
                   <div className="flex items-center gap-2">
                     <span className="text-lg">{category.icon}</span>
                     <div className="text-left">
-                      <div className="font-semibold text-sm">{category.name}</div>
+                      <div className="font-semibold text-sm">{localizedCategoryName}</div>
                       <div className="text-xs text-muted-foreground">
-                        {category.industries.length} industries
+                        {t('industriesCount', { count: category.industries.length })}
                       </div>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
                     {selectedCount > 0 && (
                       <Badge variant="default" className="text-xs">
-                        {selectedCount} selected
+                        {t('selectedCount', { count: selectedCount })}
                       </Badge>
                     )}
                     {isExpanded ? (
@@ -319,17 +336,17 @@ export function IndustrySelector({
                     id={`category-content-${category.id}`}
                     className="border-t p-3 bg-gray-50"
                     role="region"
-                    aria-label={`${category.name} industries`}
+                    aria-label={t('categoryIndustries', { category: localizedCategoryName })}
                   >
                     {multiSelect && (
                       <div className="mb-2">
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => selectAll(category.id)}
+                          onClick={() => selectAllInCategory(category.id)}
                           className="h-auto py-1 px-2 text-xs"
                         >
-                          Select All
+                          {t('selectAll')}
                         </Button>
                       </div>
                     )}
@@ -359,19 +376,19 @@ export function IndustrySelector({
                                 <div className="flex items-center gap-2">
                                   <span>{industry.icon}</span>
                                   <div>
-                                    <div className="font-medium text-sm">{industry.name}</div>
+                                    <div className="font-medium text-sm">{getLocalizedName(industry)}</div>
                                     <div className="text-xs text-muted-foreground">
-                                      {industry.description}
+                                      {getLocalizedDescription(industry)}
                                     </div>
                                     {countries.length > 0 && (
                                       <div className="text-xs text-muted-foreground mt-0.5">
-                                        📍 {countries.join(', ')}
+                                        {'\uD83D\uDCCD'} {countries.join(', ')}
                                       </div>
                                     )}
                                   </div>
                                 </div>
                                 <Badge variant="secondary" className="text-xs">
-                                  {leadCount} leads
+                                  {t('leadsCount', { count: leadCount })}
                                 </Badge>
                               </div>
                             </Label>

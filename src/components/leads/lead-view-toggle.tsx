@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { LayoutGrid, LayoutList } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useTranslations } from 'next-intl'
 
 export type ViewMode = 'card' | 'table'
 
@@ -11,6 +12,8 @@ interface LeadViewToggleProps {
 }
 
 export function LeadViewToggle({ mode, onChange, className }: LeadViewToggleProps) {
+  const t = useTranslations('leads.viewMode')
+
   return (
     <div className={cn('inline-flex rounded-lg border bg-background p-1', className)}>
       <Button
@@ -23,7 +26,7 @@ export function LeadViewToggle({ mode, onChange, className }: LeadViewToggleProp
         )}
       >
         <LayoutGrid className="h-4 w-4 mr-1.5" />
-        Cards
+        {t('card')}
       </Button>
       <Button
         variant="ghost"
@@ -35,7 +38,7 @@ export function LeadViewToggle({ mode, onChange, className }: LeadViewToggleProp
         )}
       >
         <LayoutList className="h-4 w-4 mr-1.5" />
-        Table
+        {t('table')}
       </Button>
     </div>
   )

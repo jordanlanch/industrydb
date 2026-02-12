@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from '@/i18n/routing'
+import { useTranslations } from 'next-intl'
 import { Menu } from 'lucide-react'
 import { Sidebar } from '@/components/dashboard/sidebar'
 import { EmailVerificationBanner } from '@/components/email-verification-banner'
-import { DashboardErrorBoundary } from '@/components/error-boundary'
+import { LocalizedDashboardErrorBoundary } from '@/components/error-boundary'
 import { useAuthStore } from '@/store/auth.store'
 import { useSidebarState } from '@/hooks/useSidebarState'
 import { OrganizationProvider } from '@/contexts/organization.context'
@@ -16,6 +17,7 @@ export default function DashboardLayout({
   children: React.ReactNode
 }) {
   const router = useRouter()
+  const t = useTranslations('dashboard.layout')
   const { isAuthenticated, isLoading, initialize, user } = useAuthStore()
   const { isMainSidebarOpen, toggleMainSidebar } = useSidebarState()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -49,7 +51,7 @@ export default function DashboardLayout({
       <div className="flex h-screen items-center justify-center">
         <div className="text-center">
           <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent"></div>
-          <p className="mt-2 text-sm text-muted-foreground">Loading...</p>
+          <p className="mt-2 text-sm text-muted-foreground">{t('loading')}</p>
         </div>
       </div>
     )
@@ -79,13 +81,13 @@ export default function DashboardLayout({
             <button
               onClick={() => setIsMobileMenuOpen(true)}
               className="fixed top-4 left-4 z-40 md:hidden flex items-center justify-center h-11 w-11 rounded-lg bg-white border shadow-md hover:shadow-lg transition-shadow focus:outline-none focus:ring-2 focus:ring-primary"
-              aria-label="Open menu"
+              aria-label={t('openMenu')}
             >
               <Menu className="h-5 w-5" />
             </button>
-            <DashboardErrorBoundary>
+            <LocalizedDashboardErrorBoundary>
               {children}
-            </DashboardErrorBoundary>
+            </LocalizedDashboardErrorBoundary>
           </main>
         </div>
       </div>

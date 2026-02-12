@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import {
   Dialog,
   DialogContent,
@@ -38,6 +39,7 @@ export function InviteMemberModal({
   onOpenChange,
   onSuccess,
 }: InviteMemberModalProps) {
+  const t = useTranslations('components.inviteMember');
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<InviteMemberRequest>({
@@ -51,14 +53,14 @@ export function InviteMemberModal({
 
     // Email validation
     if (!formData.email) {
-      newErrors.email = 'Email is required';
+      newErrors.email = t('emailRequired');
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
+      newErrors.email = t('invalidEmail');
     }
 
     // Role validation
     if (!formData.role) {
-      newErrors.role = 'Role is required';
+      newErrors.role = t('roleRequired');
     }
 
     setErrors(newErrors);
@@ -77,8 +79,8 @@ export function InviteMemberModal({
       const response = await organizationService.inviteMember(organizationId, formData);
 
       toast({
-        title: 'Member invited successfully',
-        description: response.message || `Invitation sent to ${formData.email}`,
+        title: t('toast.success'),
+        description: response.message || t('toast.successDesc', { email: formData.email }),
         variant: 'success',
       });
 
@@ -93,8 +95,8 @@ export function InviteMemberModal({
       }
     } catch (error: any) {
       toast({
-        title: 'Failed to invite member',
-        description: error.response?.data?.error || error.message || 'Please try again',
+        title: t('toast.error'),
+        description: error.response?.data?.error || error.message || t('toast.errorDesc'),
         variant: 'destructive',
       });
     } finally {
@@ -121,11 +123,11 @@ export function InviteMemberModal({
   const getRoleDescription = (role: string): string => {
     switch (role) {
       case 'admin':
-        return 'Can manage members and organization settings';
+        return t('adminDesc');
       case 'member':
-        return 'Can access and use organization resources';
+        return t('memberDesc');
       case 'viewer':
-        return 'Can only view organization data (read-only)';
+        return t('viewerDesc');
       default:
         return '';
     }
@@ -139,10 +141,10 @@ export function InviteMemberModal({
             <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
               <UserPlus className="h-5 w-5 text-primary" />
             </div>
-            Invite Member
+            {t('title')}
           </DialogTitle>
           <DialogDescription>
-            Invite a new member to <span className="font-semibold">{organizationName}</span>
+            {t('description', { orgName: organizationName })}
           </DialogDescription>
         </DialogHeader>
 
@@ -152,12 +154,12 @@ export function InviteMemberModal({
             <div className="grid gap-2">
               <Label htmlFor="email" className="flex items-center gap-2">
                 <Mail className="h-4 w-4" />
-                Email Address
+                {t('emailLabel')}
               </Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="colleague@example.com"
+                placeholder={t('emailPlaceholder')}
                 value={formData.email}
                 onChange={handleEmailChange}
                 disabled={loading}
@@ -167,7 +169,7 @@ export function InviteMemberModal({
                 <p className="text-sm text-red-600">{errors.email}</p>
               )}
               <p className="text-xs text-muted-foreground">
-                We'll send an invitation email to this address
+                {t('emailHint')}
               </p>
             </div>
 
@@ -175,7 +177,7 @@ export function InviteMemberModal({
             <div className="grid gap-2">
               <Label htmlFor="role" className="flex items-center gap-2">
                 <Shield className="h-4 w-4" />
-                Role
+                {t('roleLabel')}
               </Label>
               <Select
                 value={formData.role}
@@ -183,30 +185,30 @@ export function InviteMemberModal({
                 disabled={loading}
               >
                 <SelectTrigger className={errors.role ? 'border-red-500' : ''}>
-                  <SelectValue placeholder="Select a role" />
+                  <SelectValue placeholder={t('selectRole')} />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="viewer">
                     <div className="flex flex-col">
-                      <span className="font-medium">Viewer</span>
+                      <span className="font-medium">{t('viewer')}</span>
                       <span className="text-xs text-muted-foreground">
-                        Read-only access
+                        {t('viewerShort')}
                       </span>
                     </div>
                   </SelectItem>
                   <SelectItem value="member">
                     <div className="flex flex-col">
-                      <span className="font-medium">Member</span>
+                      <span className="font-medium">{t('member')}</span>
                       <span className="text-xs text-muted-foreground">
-                        Full resource access
+                        {t('memberShort')}
                       </span>
                     </div>
                   </SelectItem>
                   <SelectItem value="admin">
                     <div className="flex flex-col">
-                      <span className="font-medium">Admin</span>
+                      <span className="font-medium">{t('admin')}</span>
                       <span className="text-xs text-muted-foreground">
-                        Manage members and settings
+                        {t('adminShort')}
                       </span>
                     </div>
                   </SelectItem>
@@ -230,18 +232,18 @@ export function InviteMemberModal({
               onClick={() => onOpenChange(false)}
               disabled={loading}
             >
-              Cancel
+              {t('cancel')}
             </Button>
             <Button type="submit" disabled={loading}>
               {loading ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                  Inviting...
+                  {t('inviting')}
                 </>
               ) : (
                 <>
                   <UserPlus className="h-4 w-4 mr-2" />
-                  Send Invitation
+                  {t('sendInvitation')}
                 </>
               )}
             </Button>

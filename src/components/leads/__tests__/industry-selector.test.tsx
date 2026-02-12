@@ -2,6 +2,20 @@ import React from 'react'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { IndustrySelector } from '../industry-selector'
 
+// Mock next-intl
+jest.mock('next-intl', () => ({
+  useTranslations: () => (key: string, values?: Record<string, any>) => {
+    if (values) {
+      let result = key
+      Object.entries(values).forEach(([k, v]) => {
+        result = result.replace(`{${k}}`, String(v))
+      })
+      return result
+    }
+    return key
+  },
+}))
+
 // Mock industries service
 const mockGetIndustriesWithLeads = jest.fn()
 jest.mock('@/services/industries.service', () => ({
@@ -16,7 +30,7 @@ const mockIndustriesResponse = {
       id: 'tattoo',
       name: 'Tattoo Studios',
       category: 'personal_care',
-      icon: '🎨',
+      icon: '\uD83C\uDFA8',
       description: 'Tattoo and body art studios',
       lead_count: 500,
       countries: ['US', 'GB'],
@@ -25,7 +39,7 @@ const mockIndustriesResponse = {
       id: 'beauty',
       name: 'Beauty Salons',
       category: 'personal_care',
-      icon: '💅',
+      icon: '\uD83D\uDC85',
       description: 'Beauty and hair salons',
       lead_count: 800,
       countries: ['US', 'FR'],
@@ -34,7 +48,7 @@ const mockIndustriesResponse = {
       id: 'gym',
       name: 'Gyms',
       category: 'health_fitness',
-      icon: '💪',
+      icon: '\uD83D\uDCAA',
       description: 'Fitness centers and gyms',
       lead_count: 1200,
       countries: ['US', 'GB', 'DE'],
@@ -58,7 +72,7 @@ describe('IndustrySelector', () => {
     test('shows loading spinner while fetching industries', () => {
       mockGetIndustriesWithLeads.mockReturnValue(new Promise(() => {})) // never resolves
       render(<IndustrySelector {...defaultProps} />)
-      expect(screen.getByText('Loading industries...')).toBeInTheDocument()
+      expect(screen.getByText('loading')).toBeInTheDocument()
     })
   })
 
@@ -68,7 +82,7 @@ describe('IndustrySelector', () => {
       render(<IndustrySelector {...defaultProps} />)
 
       await waitFor(() => {
-        expect(screen.getByText('Failed to load industries')).toBeInTheDocument()
+        expect(screen.getByText('loadFailed')).toBeInTheDocument()
       })
     })
 
@@ -77,7 +91,7 @@ describe('IndustrySelector', () => {
       render(<IndustrySelector {...defaultProps} />)
 
       await waitFor(() => {
-        expect(screen.getByText('Try Again')).toBeInTheDocument()
+        expect(screen.getByText('tryAgain')).toBeInTheDocument()
       })
     })
 
@@ -86,11 +100,11 @@ describe('IndustrySelector', () => {
       render(<IndustrySelector {...defaultProps} />)
 
       await waitFor(() => {
-        expect(screen.getByText('Try Again')).toBeInTheDocument()
+        expect(screen.getByText('tryAgain')).toBeInTheDocument()
       })
 
       mockGetIndustriesWithLeads.mockResolvedValue(mockIndustriesResponse)
-      fireEvent.click(screen.getByText('Try Again'))
+      fireEvent.click(screen.getByText('tryAgain'))
 
       expect(mockGetIndustriesWithLeads).toHaveBeenCalledTimes(2)
     })
@@ -102,7 +116,7 @@ describe('IndustrySelector', () => {
       render(<IndustrySelector {...defaultProps} />)
 
       await waitFor(() => {
-        expect(screen.getByText('No industries available')).toBeInTheDocument()
+        expect(screen.getByText('noIndustries')).toBeInTheDocument()
       })
     })
   })
@@ -112,15 +126,16 @@ describe('IndustrySelector', () => {
       render(<IndustrySelector {...defaultProps} />)
 
       await waitFor(() => {
-        expect(screen.getByText('Industry')).toBeInTheDocument()
+        expect(screen.getByText('title')).toBeInTheDocument()
       })
     })
 
-    test('renders categories as expandable sections', async () => {
+    test('renders categories with localized names', async () => {
       render(<IndustrySelector {...defaultProps} />)
 
       await waitFor(() => {
-        expect(screen.getByText('Personal_care')).toBeInTheDocument()
+        // The mock returns the key name: categories.personal_care
+        expect(screen.getByText('categories.personal_care')).toBeInTheDocument()
       })
     })
 
@@ -128,7 +143,7 @@ describe('IndustrySelector', () => {
       render(<IndustrySelector {...defaultProps} />)
 
       await waitFor(() => {
-        expect(screen.getByPlaceholderText('Search industries...')).toBeInTheDocument()
+        expect(screen.getByPlaceholderText('searchPlaceholder')).toBeInTheDocument()
       })
     })
 
@@ -136,7 +151,7 @@ describe('IndustrySelector', () => {
       render(<IndustrySelector {...defaultProps} />)
 
       await waitFor(() => {
-        expect(screen.getByText('Select an industry')).toBeInTheDocument()
+        expect(screen.getByText('selectOne')).toBeInTheDocument()
       })
     })
 
@@ -144,7 +159,7 @@ describe('IndustrySelector', () => {
       render(<IndustrySelector {...defaultProps} multiSelect={true} />)
 
       await waitFor(() => {
-        expect(screen.getByText('Select one or more industries')).toBeInTheDocument()
+        expect(screen.getByText('selectMultiple')).toBeInTheDocument()
       })
     })
   })
@@ -154,15 +169,15 @@ describe('IndustrySelector', () => {
       render(<IndustrySelector {...defaultProps} />)
 
       await waitFor(() => {
-        expect(screen.getByText('Industry')).toBeInTheDocument()
+        expect(screen.getByText('title')).toBeInTheDocument()
       })
 
-      const searchInput = screen.getByPlaceholderText('Search industries...')
+      const searchInput = screen.getByPlaceholderText('searchPlaceholder')
       fireEvent.change(searchInput, { target: { value: 'tattoo' } })
 
-      // tattoo should still be visible
+      // tattoo should still be visible (industry name from API used as fallback)
       await waitFor(() => {
-        expect(screen.getByText('Tattoo Studios')).toBeInTheDocument()
+        expect(screen.getByText('tattoo')).toBeInTheDocument()
       })
     })
 
@@ -170,10 +185,10 @@ describe('IndustrySelector', () => {
       render(<IndustrySelector {...defaultProps} />)
 
       await waitFor(() => {
-        expect(screen.getByPlaceholderText('Search industries...')).toBeInTheDocument()
+        expect(screen.getByPlaceholderText('searchPlaceholder')).toBeInTheDocument()
       })
 
-      const searchInput = screen.getByPlaceholderText('Search industries...')
+      const searchInput = screen.getByPlaceholderText('searchPlaceholder')
       fireEvent.change(searchInput, { target: { value: 'tattoo' } })
 
       // The X button to clear search
@@ -196,12 +211,13 @@ describe('IndustrySelector', () => {
 
       // Wait for industries to load and first category to auto-expand
       await waitFor(() => {
-        expect(screen.getByText('Tattoo Studios')).toBeInTheDocument()
+        // The mock returns the translation key 'tattoo' for tIndustryNames('tattoo')
+        expect(screen.getByText('tattoo')).toBeInTheDocument()
       })
 
       // The first category (personal_care) should be auto-expanded
       // Find the radio input for the first industry and click it
-      const tattooInput = screen.getByLabelText(/Tattoo Studios/)
+      const tattooInput = screen.getByLabelText(/tattoo/)
       fireEvent.click(tattooInput)
       expect(onChange).toHaveBeenCalledWith(['tattoo'])
     })
@@ -215,7 +231,7 @@ describe('IndustrySelector', () => {
       )
 
       await waitFor(() => {
-        expect(screen.getByText('Clear Selection')).toBeInTheDocument()
+        expect(screen.getByText('clearSelection')).toBeInTheDocument()
       })
     })
 
@@ -229,10 +245,10 @@ describe('IndustrySelector', () => {
       )
 
       await waitFor(() => {
-        expect(screen.getByText('Clear Selection')).toBeInTheDocument()
+        expect(screen.getByText('clearSelection')).toBeInTheDocument()
       })
 
-      fireEvent.click(screen.getByText('Clear Selection'))
+      fireEvent.click(screen.getByText('clearSelection'))
       expect(onChange).toHaveBeenCalledWith([])
     })
   })

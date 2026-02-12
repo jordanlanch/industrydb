@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from '@/i18n/routing';
 import { useParams } from 'next/navigation';
+import { useTranslations, useLocale } from 'next-intl';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -49,6 +50,8 @@ export default function OrganizationMembersPage() {
   const params = useParams();
   const router = useRouter();
   const { toast } = useToast();
+  const t = useTranslations('dashboard.organizations.members');
+  const locale = useLocale();
   const organizationId = parseInt(params.id as string);
 
   const [members, setMembers] = useState<OrganizationMember[]>([]);
@@ -73,8 +76,8 @@ export default function OrganizationMembersPage() {
       setMembers(data.members || []);
     } catch (error: any) {
       toast({
-        title: 'Error',
-        description: error.response?.data?.message || 'Failed to load members',
+        title: t('toast.error'),
+        description: error.response?.data?.message || t('toast.loadFailed'),
         variant: 'destructive',
       });
     } finally {
@@ -87,8 +90,8 @@ export default function OrganizationMembersPage() {
 
     if (!inviteData.email) {
       toast({
-        title: 'Validation Error',
-        description: 'Email is required',
+        title: t('toast.validationError'),
+        description: t('toast.emailRequired'),
         variant: 'destructive',
       });
       return;
@@ -99,8 +102,8 @@ export default function OrganizationMembersPage() {
       await organizationService.inviteMember(organizationId, inviteData);
 
       toast({
-        title: 'Success',
-        description: 'Invitation sent successfully',
+        title: t('toast.success'),
+        description: t('toast.inviteSent'),
       });
 
       setInviteDialogOpen(false);
@@ -108,8 +111,8 @@ export default function OrganizationMembersPage() {
       loadMembers();
     } catch (error: any) {
       toast({
-        title: 'Error',
-        description: error.response?.data?.message || 'Failed to invite member',
+        title: t('toast.error'),
+        description: error.response?.data?.message || t('toast.inviteFailed'),
         variant: 'destructive',
       });
     } finally {
@@ -125,16 +128,16 @@ export default function OrganizationMembersPage() {
       await organizationService.removeMember(organizationId, memberToRemove.user_id);
 
       toast({
-        title: 'Success',
-        description: 'Member removed successfully',
+        title: t('toast.success'),
+        description: t('toast.memberRemoved'),
       });
 
       setMemberToRemove(null);
       loadMembers();
     } catch (error: any) {
       toast({
-        title: 'Error',
-        description: error.response?.data?.message || 'Failed to remove member',
+        title: t('toast.error'),
+        description: error.response?.data?.message || t('toast.removeFailed'),
         variant: 'destructive',
       });
     } finally {
@@ -149,15 +152,15 @@ export default function OrganizationMembersPage() {
       });
 
       toast({
-        title: 'Success',
-        description: 'Member role updated successfully',
+        title: t('toast.success'),
+        description: t('toast.roleUpdated'),
       });
 
       loadMembers();
     } catch (error: any) {
       toast({
-        title: 'Error',
-        description: error.response?.data?.message || 'Failed to update role',
+        title: t('toast.error'),
+        description: error.response?.data?.message || t('toast.roleUpdateFailed'),
         variant: 'destructive',
       });
     }
@@ -208,7 +211,7 @@ export default function OrganizationMembersPage() {
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center">
           <UserPlus className="h-12 w-12 animate-pulse text-primary mx-auto mb-4" />
-          <p className="text-muted-foreground">Loading members...</p>
+          <p className="text-muted-foreground">{t('loading')}</p>
         </div>
       </div>
     );
@@ -226,9 +229,9 @@ export default function OrganizationMembersPage() {
           <ArrowLeft className="h-4 w-4" />
         </Button>
         <div className="flex-1">
-          <h1 className="text-3xl font-bold">Organization Members</h1>
+          <h1 className="text-3xl font-bold">{t('title')}</h1>
           <p className="text-muted-foreground mt-1">
-            Manage members and their permissions
+            {t('subtitle')}
           </p>
         </div>
 
@@ -236,25 +239,25 @@ export default function OrganizationMembersPage() {
           <DialogTrigger asChild>
             <Button>
               <UserPlus className="h-4 w-4 mr-2" />
-              Invite Member
+              {t('inviteButton')}
             </Button>
           </DialogTrigger>
           <DialogContent>
             <form onSubmit={handleInviteMember}>
               <DialogHeader>
-                <DialogTitle>Invite New Member</DialogTitle>
+                <DialogTitle>{t('inviteTitle')}</DialogTitle>
                 <DialogDescription>
-                  Send an invitation to join this organization
+                  {t('inviteDescription')}
                 </DialogDescription>
               </DialogHeader>
 
               <div className="space-y-4 py-4">
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email Address</Label>
+                  <Label htmlFor="email">{t('emailLabel')}</Label>
                   <Input
                     id="email"
                     type="email"
-                    placeholder="member@example.com"
+                    placeholder={t('emailPlaceholder')}
                     value={inviteData.email}
                     onChange={(e) =>
                       setInviteData({ ...inviteData, email: e.target.value })
@@ -264,7 +267,7 @@ export default function OrganizationMembersPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="role">Role</Label>
+                  <Label htmlFor="role">{t('roleLabel')}</Label>
                   <Select
                     value={inviteData.role}
                     onValueChange={(value: any) =>
@@ -272,20 +275,20 @@ export default function OrganizationMembersPage() {
                     }
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Select role" />
+                      <SelectValue placeholder={t('selectRole')} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="admin">Admin</SelectItem>
-                      <SelectItem value="member">Member</SelectItem>
-                      <SelectItem value="viewer">Viewer</SelectItem>
+                      <SelectItem value="admin">{t('roleAdmin')}</SelectItem>
+                      <SelectItem value="member">{t('roleMember')}</SelectItem>
+                      <SelectItem value="viewer">{t('roleViewer')}</SelectItem>
                     </SelectContent>
                   </Select>
                   <p className="text-xs text-muted-foreground">
-                    Admin: Can manage members and settings
+                    {t('roleAdmin')}: {t('roleDescAdmin')}
                     <br />
-                    Member: Can use organization resources
+                    {t('roleMember')}: {t('roleDescMember')}
                     <br />
-                    Viewer: Read-only access
+                    {t('roleViewer')}: {t('roleDescViewer')}
                   </p>
                 </div>
               </div>
@@ -296,10 +299,10 @@ export default function OrganizationMembersPage() {
                   variant="outline"
                   onClick={() => setInviteDialogOpen(false)}
                 >
-                  Cancel
+                  {t('cancel')}
                 </Button>
                 <Button type="submit" disabled={inviting}>
-                  {inviting ? 'Sending...' : 'Send Invitation'}
+                  {inviting ? t('sending') : t('sendInvitation')}
                 </Button>
               </DialogFooter>
             </form>
@@ -310,27 +313,27 @@ export default function OrganizationMembersPage() {
       {/* Members Table */}
       <Card>
         <CardHeader>
-          <CardTitle>Members ({members.length})</CardTitle>
+          <CardTitle>{t('cardTitle', { count: members.length })}</CardTitle>
           <CardDescription>
-            All members of this organization and their roles
+            {t('cardDescription')}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Member</TableHead>
-                <TableHead>Role</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Joined</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead>{t('tableHeaders.member')}</TableHead>
+                <TableHead>{t('tableHeaders.role')}</TableHead>
+                <TableHead>{t('tableHeaders.status')}</TableHead>
+                <TableHead>{t('tableHeaders.joined')}</TableHead>
+                <TableHead className="text-right">{t('tableHeaders.actions')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {members.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={5} className="text-center text-muted-foreground py-8">
-                    No members yet. Invite your first member to get started.
+                    {t('emptyState')}
                   </TableCell>
                 </TableRow>
               ) : (
@@ -339,7 +342,7 @@ export default function OrganizationMembersPage() {
                     <TableCell>
                       <div>
                         <div className="font-medium">
-                          {member.edges?.user?.name || 'Unknown'}
+                          {member.edges?.user?.name || t('unknown')}
                         </div>
                         <div className="text-sm text-muted-foreground flex items-center gap-2">
                           <Mail className="h-3 w-3" />
@@ -355,7 +358,7 @@ export default function OrganizationMembersPage() {
                           )}`}
                         >
                           {getRoleIcon(member.role)}
-                          Owner
+                          {t('roleOwner')}
                         </span>
                       ) : (
                         <Select
@@ -366,9 +369,9 @@ export default function OrganizationMembersPage() {
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="admin">Admin</SelectItem>
-                            <SelectItem value="member">Member</SelectItem>
-                            <SelectItem value="viewer">Viewer</SelectItem>
+                            <SelectItem value="admin">{t('roleAdmin')}</SelectItem>
+                            <SelectItem value="member">{t('roleMember')}</SelectItem>
+                            <SelectItem value="viewer">{t('roleViewer')}</SelectItem>
                           </SelectContent>
                         </Select>
                       )}
@@ -383,7 +386,7 @@ export default function OrganizationMembersPage() {
                       </span>
                     </TableCell>
                     <TableCell className="text-sm text-muted-foreground">
-                      {new Date(member.joined_at).toLocaleDateString('en-US', {
+                      {new Date(member.joined_at).toLocaleDateString(locale, {
                         month: 'short',
                         day: 'numeric',
                         year: 'numeric',
@@ -415,21 +418,19 @@ export default function OrganizationMembersPage() {
       >
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Remove Member</AlertDialogTitle>
+            <AlertDialogTitle>{t('removeTitle')}</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to remove{' '}
-              <strong>{memberToRemove?.edges?.user?.name}</strong> from this organization?
-              They will lose access to all organization resources.
+              {t('removeDescription', { name: memberToRemove?.edges?.user?.name || t('unknown') })}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={removing}>Cancel</AlertDialogCancel>
+            <AlertDialogCancel disabled={removing}>{t('cancel')}</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleRemoveMember}
               disabled={removing}
               className="bg-red-600 hover:bg-red-700"
             >
-              {removing ? 'Removing...' : 'Remove Member'}
+              {removing ? t('removing') : t('removeMember')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

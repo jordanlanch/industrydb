@@ -9,11 +9,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import organizationService, { Organization } from '@/services/organization.service';
 import { ArrowLeft, Building2, Users, Settings, TrendingUp, Calendar, CreditCard } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useTranslations, useLocale } from 'next-intl';
 
 export default function OrganizationDetailPage() {
   const params = useParams();
   const router = useRouter();
   const { toast } = useToast();
+  const t = useTranslations('dashboard.organizations.detail');
+  const locale = useLocale();
   const organizationId = parseInt(params.id as string);
 
   const [organization, setOrganization] = useState<Organization | null>(null);
@@ -68,7 +71,7 @@ export default function OrganizationDetailPage() {
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center">
           <Building2 className="h-12 w-12 animate-pulse text-primary mx-auto mb-4" />
-          <p className="text-muted-foreground">Loading organization...</p>
+          <p className="text-muted-foreground">{t('loading')}</p>
         </div>
       </div>
     );
@@ -107,7 +110,7 @@ export default function OrganizationDetailPage() {
 
         <Button onClick={() => router.push(`/dashboard/organizations/${organization.id}/settings`)}>
           <Settings className="h-4 w-4 mr-2" />
-          Settings
+          {t('settingsLink')}
         </Button>
       </div>
 
@@ -115,13 +118,13 @@ export default function OrganizationDetailPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Usage This Month</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('usageThisMonth')}</CardTitle>
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{organization.usage_count}</div>
             <p className="text-xs text-muted-foreground">
-              of {organization.usage_limit} limit
+              {t('ofLimit', { limit: organization.usage_limit })}
             </p>
             <div className="mt-2 w-full bg-gray-200 rounded-full h-2">
               <div
@@ -140,7 +143,7 @@ export default function OrganizationDetailPage() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Subscription</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('subscription')}</CardTitle>
             <CreditCard className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -148,43 +151,43 @@ export default function OrganizationDetailPage() {
               {organization.subscription_tier}
             </div>
             <p className="text-xs text-muted-foreground">
-              {organization.usage_limit.toLocaleString()} leads/month
+              {t('leadsPerMonth', { count: organization.usage_limit })}
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Members</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('members')}</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">-</div>
-            <p className="text-xs text-muted-foreground">Active members</p>
+            <p className="text-xs text-muted-foreground">{t('activeMembers')}</p>
             <Button
               variant="link"
               className="px-0 h-auto mt-2"
               onClick={() => router.push(`/dashboard/organizations/${organization.id}/members`)}
             >
-              View all →
+              {t('viewAll')} →
             </Button>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Created</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('created')}</CardTitle>
             <Calendar className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {new Date(organization.created_at).toLocaleDateString('en-US', {
+              {new Date(organization.created_at).toLocaleDateString(locale, {
                 month: 'short',
                 year: 'numeric',
               })}
             </div>
             <p className="text-xs text-muted-foreground">
-              {new Date(organization.created_at).toLocaleDateString('en-US', {
+              {new Date(organization.created_at).toLocaleDateString(locale, {
                 month: 'long',
                 day: 'numeric',
                 year: 'numeric',
@@ -197,39 +200,39 @@ export default function OrganizationDetailPage() {
       {/* Tabs */}
       <Tabs defaultValue="overview" className="space-y-6">
         <TabsList>
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="activity">Activity</TabsTrigger>
-          <TabsTrigger value="billing">Billing</TabsTrigger>
+          <TabsTrigger value="overview">{t('tabs.overview')}</TabsTrigger>
+          <TabsTrigger value="activity">{t('tabs.activity')}</TabsTrigger>
+          <TabsTrigger value="billing">{t('tabs.billing')}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Organization Details</CardTitle>
-              <CardDescription>Basic information about your organization</CardDescription>
+              <CardTitle>{t('details.title')}</CardTitle>
+              <CardDescription>{t('details.description')}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <label className="text-sm font-medium">Organization Name</label>
+                <label className="text-sm font-medium">{t('details.name')}</label>
                 <p className="text-muted-foreground">{organization.name}</p>
               </div>
               <div>
-                <label className="text-sm font-medium">Slug</label>
+                <label className="text-sm font-medium">{t('details.slug')}</label>
                 <p className="text-muted-foreground">/{organization.slug}</p>
               </div>
               <div>
-                <label className="text-sm font-medium">Billing Email</label>
+                <label className="text-sm font-medium">{t('details.billingEmail')}</label>
                 <p className="text-muted-foreground">
-                  {organization.billing_email || 'Not set'}
+                  {organization.billing_email || t('details.notSet')}
                 </p>
               </div>
               <div>
-                <label className="text-sm font-medium">Status</label>
+                <label className="text-sm font-medium">{t('details.status')}</label>
                 <p className="text-muted-foreground">
                   {organization.active ? (
-                    <span className="text-green-600">Active</span>
+                    <span className="text-green-600">{t('details.active')}</span>
                   ) : (
-                    <span className="text-red-600">Inactive</span>
+                    <span className="text-red-600">{t('details.inactive')}</span>
                   )}
                 </p>
               </div>
@@ -238,8 +241,8 @@ export default function OrganizationDetailPage() {
 
           <Card>
             <CardHeader>
-              <CardTitle>Quick Actions</CardTitle>
-              <CardDescription>Common tasks for managing your organization</CardDescription>
+              <CardTitle>{t('quickActions.title')}</CardTitle>
+              <CardDescription>{t('quickActions.description')}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-2">
               <Button
@@ -250,7 +253,7 @@ export default function OrganizationDetailPage() {
                 }
               >
                 <Users className="h-4 w-4 mr-2" />
-                Manage Members
+                {t('quickActions.manageMembers')}
               </Button>
               <Button
                 variant="outline"
@@ -260,7 +263,7 @@ export default function OrganizationDetailPage() {
                 }
               >
                 <Settings className="h-4 w-4 mr-2" />
-                Organization Settings
+                {t('quickActions.orgSettings')}
               </Button>
             </CardContent>
           </Card>
@@ -269,12 +272,12 @@ export default function OrganizationDetailPage() {
         <TabsContent value="activity">
           <Card>
             <CardHeader>
-              <CardTitle>Recent Activity</CardTitle>
-              <CardDescription>Activity log for this organization</CardDescription>
+              <CardTitle>{t('activity.title')}</CardTitle>
+              <CardDescription>{t('activity.description')}</CardDescription>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground text-center py-8">
-                Activity tracking coming soon
+                {t('activity.comingSoon')}
               </p>
             </CardContent>
           </Card>
@@ -283,26 +286,26 @@ export default function OrganizationDetailPage() {
         <TabsContent value="billing">
           <Card>
             <CardHeader>
-              <CardTitle>Billing & Subscription</CardTitle>
-              <CardDescription>Manage your organization's subscription</CardDescription>
+              <CardTitle>{t('billing.title')}</CardTitle>
+              <CardDescription>{t('billing.description')}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 <div>
-                  <label className="text-sm font-medium">Current Plan</label>
+                  <label className="text-sm font-medium">{t('billing.currentPlan')}</label>
                   <p className="text-2xl font-bold capitalize mt-1">
                     {organization.subscription_tier}
                   </p>
                 </div>
                 <div>
-                  <label className="text-sm font-medium">Monthly Limit</label>
+                  <label className="text-sm font-medium">{t('billing.monthlyLimit')}</label>
                   <p className="text-muted-foreground">
-                    {organization.usage_limit.toLocaleString()} leads
+                    {t('billing.leads', { count: organization.usage_limit })}
                   </p>
                 </div>
                 {organization.stripe_customer_id && (
                   <div>
-                    <label className="text-sm font-medium">Stripe Customer ID</label>
+                    <label className="text-sm font-medium">{t('billing.stripeCustomerId')}</label>
                     <p className="text-muted-foreground font-mono text-sm">
                       {organization.stripe_customer_id}
                     </p>

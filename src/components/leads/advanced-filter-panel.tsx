@@ -5,6 +5,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { IndustrySelectorV2, type IndustrySelection } from './industry-selector-v2'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -60,17 +61,6 @@ interface AdvancedFilterPanelProps {
   showSaveButton?: boolean
 }
 
-// Country list
-const COUNTRIES = [
-  { code: 'US', name: 'United States' },
-  { code: 'GB', name: 'United Kingdom' },
-  { code: 'DE', name: 'Germany' },
-  { code: 'ES', name: 'Spain' },
-  { code: 'FR', name: 'France' },
-  { code: 'CA', name: 'Canada' },
-  { code: 'AU', name: 'Australia' },
-]
-
 // Common specialty tags by industry
 const SPECIALTY_TAGS: Record<string, string[]> = {
   restaurant: [
@@ -125,6 +115,19 @@ export function AdvancedFilterPanel({
   maxSelections,
   showSaveButton = false,
 }: AdvancedFilterPanelProps) {
+  const t = useTranslations('leads.advancedFilters')
+
+  // Country list (moved inside component for translations)
+  const COUNTRIES = [
+    { code: 'US', name: t('countries.US') },
+    { code: 'GB', name: t('countries.GB') },
+    { code: 'DE', name: t('countries.DE') },
+    { code: 'ES', name: t('countries.ES') },
+    { code: 'FR', name: t('countries.FR') },
+    { code: 'CA', name: t('countries.CA') },
+    { code: 'AU', name: t('countries.AU') },
+  ]
+
   // Collapsible section states
   const [industryOpen, setIndustryOpen] = useState(true)
   const [locationOpen, setLocationOpen] = useState(true)
@@ -157,13 +160,13 @@ export function AdvancedFilterPanel({
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle className="text-xl">Advanced Filters</CardTitle>
+        <CardTitle className="text-xl">{t('title')}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         {/* Industry & Sub-niche Section */}
         <Collapsible open={industryOpen} onOpenChange={setIndustryOpen}>
           <CollapsibleTrigger className="flex items-center justify-between w-full p-3 hover:bg-gray-50 rounded-lg">
-            <h3 className="text-sm font-semibold">Industry & Sub-niche</h3>
+            <h3 className="text-sm font-semibold">{t('industrySubNiche')}</h3>
             <ChevronDown
               className={`h-4 w-4 transition-transform ${
                 industryOpen ? 'transform rotate-180' : ''
@@ -185,7 +188,7 @@ export function AdvancedFilterPanel({
         {/* Location Section */}
         <Collapsible open={locationOpen} onOpenChange={setLocationOpen}>
           <CollapsibleTrigger className="flex items-center justify-between w-full p-3 hover:bg-gray-50 rounded-lg">
-            <h3 className="text-sm font-semibold">Location</h3>
+            <h3 className="text-sm font-semibold">{t('location')}</h3>
             <ChevronDown
               className={`h-4 w-4 transition-transform ${
                 locationOpen ? 'transform rotate-180' : ''
@@ -195,13 +198,13 @@ export function AdvancedFilterPanel({
           <CollapsibleContent className="pt-4 space-y-4">
             {/* Country */}
             <div>
-              <Label htmlFor="country" className="text-sm">Country</Label>
+              <Label htmlFor="country" className="text-sm">{t('country')}</Label>
               <Select
                 value={filters.country || ''}
                 onValueChange={(value) => updateFilters({ country: value })}
               >
                 <SelectTrigger id="country">
-                  <SelectValue placeholder="Select country" />
+                  <SelectValue placeholder={t('selectCountry')} />
                 </SelectTrigger>
                 <SelectContent>
                   {COUNTRIES.map((country) => (
@@ -215,11 +218,11 @@ export function AdvancedFilterPanel({
 
             {/* City */}
             <div>
-              <Label htmlFor="city" className="text-sm">City</Label>
+              <Label htmlFor="city" className="text-sm">{t('city')}</Label>
               <Input
                 id="city"
                 type="text"
-                placeholder="e.g. New York"
+                placeholder={t('cityPlaceholder')}
                 value={filters.city || ''}
                 onChange={(e) => updateFilters({ city: e.target.value })}
               />
@@ -228,7 +231,7 @@ export function AdvancedFilterPanel({
             {/* Radius */}
             <div>
               <Label htmlFor="radius" className="text-sm">
-                Radius: {filters.radius || 25} miles
+                {t('radiusMiles', { miles: filters.radius || 25 })}
               </Label>
               <Slider
                 id="radius"
@@ -246,7 +249,7 @@ export function AdvancedFilterPanel({
         {/* Data Quality Section */}
         <Collapsible open={qualityOpen} onOpenChange={setQualityOpen}>
           <CollapsibleTrigger className="flex items-center justify-between w-full p-3 hover:bg-gray-50 rounded-lg">
-            <h3 className="text-sm font-semibold">Data Quality</h3>
+            <h3 className="text-sm font-semibold">{t('dataQuality')}</h3>
             <ChevronDown
               className={`h-4 w-4 transition-transform ${
                 qualityOpen ? 'transform rotate-180' : ''
@@ -256,7 +259,7 @@ export function AdvancedFilterPanel({
           <CollapsibleContent className="pt-4 space-y-4">
             {/* Required Fields */}
             <div className="space-y-2">
-              <Label className="text-sm font-medium">Required Fields</Label>
+              <Label className="text-sm font-medium">{t('requiredFields')}</Label>
               <div className="flex flex-col gap-2">
                 <div className="flex items-center space-x-2">
                   <Checkbox
@@ -270,7 +273,7 @@ export function AdvancedFilterPanel({
                     htmlFor="has-email"
                     className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
-                    Has Email
+                    {t('hasEmail')}
                   </label>
                 </div>
 
@@ -286,7 +289,7 @@ export function AdvancedFilterPanel({
                     htmlFor="has-phone"
                     className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
-                    Has Phone
+                    {t('hasPhone')}
                   </label>
                 </div>
 
@@ -302,7 +305,7 @@ export function AdvancedFilterPanel({
                     htmlFor="has-website"
                     className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
-                    Has Website
+                    {t('hasWebsite')}
                   </label>
                 </div>
 
@@ -318,7 +321,7 @@ export function AdvancedFilterPanel({
                     htmlFor="verified"
                     className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
-                    Verified Only
+                    {t('verifiedOnly')}
                   </label>
                 </div>
               </div>
@@ -327,12 +330,12 @@ export function AdvancedFilterPanel({
             {/* Quality Score Range */}
             <div className="space-y-3">
               <Label className="text-sm font-medium">
-                Quality Score Range: {filters.qualityScoreMin || 0} - {filters.qualityScoreMax || 100}
+                {t('qualityScoreRange')}: {filters.qualityScoreMin || 0} - {filters.qualityScoreMax || 100}
               </Label>
 
               <div>
                 <Label htmlFor="quality-score-min" className="text-xs text-muted-foreground">
-                  Minimum: {filters.qualityScoreMin || 0}
+                  {t('minimum')}: {filters.qualityScoreMin || 0}
                 </Label>
                 <Slider
                   id="quality-score-min"
@@ -349,7 +352,7 @@ export function AdvancedFilterPanel({
 
               <div>
                 <Label htmlFor="quality-score-max" className="text-xs text-muted-foreground">
-                  Maximum: {filters.qualityScoreMax || 100}
+                  {t('maximum')}: {filters.qualityScoreMax || 100}
                 </Label>
                 <Slider
                   id="quality-score-max"
@@ -372,10 +375,10 @@ export function AdvancedFilterPanel({
           <Collapsible open={specialtyOpen} onOpenChange={setSpecialtyOpen}>
             <CollapsibleTrigger className="flex items-center justify-between w-full p-3 hover:bg-gray-50 rounded-lg">
               <h3 className="text-sm font-semibold">
-                Specialties
+                {t('specialties')}
                 {filters.specialties && filters.specialties.length > 0 && (
                   <span className="ml-2 text-xs text-muted-foreground">
-                    ({filters.specialties.length} selected)
+                    ({filters.specialties.length} {t('selected')})
                   </span>
                 )}
               </h3>
@@ -416,7 +419,7 @@ export function AdvancedFilterPanel({
             size="lg"
           >
             <Search className="mr-2 h-4 w-4" />
-            Search Leads
+            {t('searchLeads')}
           </Button>
 
           <Button
@@ -425,7 +428,7 @@ export function AdvancedFilterPanel({
             className="flex-1 sm:flex-none"
           >
             <X className="mr-2 h-4 w-4" />
-            Clear All
+            {t('clearAll')}
           </Button>
 
           {showSaveButton && onSave && (
@@ -435,7 +438,7 @@ export function AdvancedFilterPanel({
               className="flex-1 sm:flex-none"
             >
               <Save className="mr-2 h-4 w-4" />
-              Save Search
+              {t('saveSearch')}
             </Button>
           )}
         </div>

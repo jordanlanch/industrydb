@@ -4,11 +4,26 @@ import React, { Component, ReactNode, ErrorInfo } from 'react';
 import { Button } from '@/components/ui/button';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
 import { captureError } from '@/lib/sentry';
+import { useTranslations } from 'next-intl';
+
+interface ErrorBoundaryTranslations {
+  title?: string;
+  description?: string;
+  componentStack?: string;
+  reloadPage?: string;
+  goHome?: string;
+  tryAgain?: string;
+  dashboardError?: string;
+  dashboardErrorDescription?: string;
+  reload?: string;
+  dashboard?: string;
+}
 
 interface Props {
   children: ReactNode;
   fallback?: ReactNode;
   onReset?: () => void;
+  translations?: ErrorBoundaryTranslations;
 }
 
 interface State {
@@ -85,12 +100,11 @@ export class ErrorBoundary extends Component<Props, State> {
             </div>
 
             <h1 className="text-2xl font-bold text-gray-900 mb-2">
-              Something went wrong
+              {this.props.translations?.title || 'Something went wrong'}
             </h1>
 
             <p className="text-gray-600 mb-6">
-              We encountered an unexpected error. Our team has been notified and
-              we're working to fix it.
+              {this.props.translations?.description || 'We encountered an unexpected error. Our team has been notified and we\'re working to fix it.'}
             </p>
 
             {/* Show error details in development */}
@@ -102,7 +116,7 @@ export class ErrorBoundary extends Component<Props, State> {
                 {this.state.errorInfo && (
                   <details className="text-xs font-mono text-red-700">
                     <summary className="cursor-pointer hover:text-red-900">
-                      Component Stack
+                      {this.props.translations?.componentStack || 'Component Stack'}
                     </summary>
                     <pre className="mt-2 whitespace-pre-wrap">
                       {this.state.errorInfo.componentStack}
@@ -119,7 +133,7 @@ export class ErrorBoundary extends Component<Props, State> {
                 variant="default"
               >
                 <RefreshCw className="h-4 w-4 mr-2" />
-                Reload Page
+                {this.props.translations?.reloadPage || 'Reload Page'}
               </Button>
 
               <Button
@@ -128,7 +142,7 @@ export class ErrorBoundary extends Component<Props, State> {
                 variant="outline"
               >
                 <Home className="h-4 w-4 mr-2" />
-                Go Home
+                {this.props.translations?.goHome || 'Go Home'}
               </Button>
             </div>
 
@@ -138,7 +152,7 @@ export class ErrorBoundary extends Component<Props, State> {
                 variant="ghost"
                 className="mt-3 w-full"
               >
-                Try Again
+                {this.props.translations?.tryAgain || 'Try Again'}
               </Button>
             )}
           </div>
@@ -185,11 +199,11 @@ export class DashboardErrorBoundary extends Component<Props, State> {
             </div>
 
             <h2 className="text-xl font-semibold text-gray-900 mb-2">
-              Unable to load this section
+              {this.props.translations?.dashboardError || 'Unable to load this section'}
             </h2>
 
             <p className="text-sm text-gray-600 mb-4">
-              An error occurred while loading this part of the dashboard.
+              {this.props.translations?.dashboardErrorDescription || 'An error occurred while loading this part of the dashboard.'}
             </p>
 
             {process.env.NODE_ENV === 'development' && this.state.error && (
@@ -207,7 +221,7 @@ export class DashboardErrorBoundary extends Component<Props, State> {
                 variant="outline"
               >
                 <RefreshCw className="h-4 w-4 mr-2" />
-                Reload
+                {this.props.translations?.reload || 'Reload'}
               </Button>
 
               <Button
@@ -216,7 +230,7 @@ export class DashboardErrorBoundary extends Component<Props, State> {
                 variant="outline"
               >
                 <Home className="h-4 w-4 mr-2" />
-                Dashboard
+                {this.props.translations?.dashboard || 'Dashboard'}
               </Button>
             </div>
           </div>
@@ -226,6 +240,44 @@ export class DashboardErrorBoundary extends Component<Props, State> {
 
     return this.props.children;
   }
+}
+
+/**
+ * Localized ErrorBoundary using useTranslations hook
+ */
+export function LocalizedErrorBoundary(props: Omit<Props, 'translations'>) {
+  const t = useTranslations('components.errorBoundary');
+  return (
+    <ErrorBoundary
+      {...props}
+      translations={{
+        title: t('title'),
+        description: t('description'),
+        componentStack: t('componentStack'),
+        reloadPage: t('reloadPage'),
+        goHome: t('goHome'),
+        tryAgain: t('tryAgain'),
+      }}
+    />
+  );
+}
+
+/**
+ * Localized DashboardErrorBoundary using useTranslations hook
+ */
+export function LocalizedDashboardErrorBoundary(props: Omit<Props, 'translations'>) {
+  const t = useTranslations('components.errorBoundary');
+  return (
+    <DashboardErrorBoundary
+      {...props}
+      translations={{
+        dashboardError: t('dashboardError'),
+        dashboardErrorDescription: t('dashboardErrorDescription'),
+        reload: t('reload'),
+        dashboard: t('dashboard'),
+      }}
+    />
+  );
 }
 
 export default ErrorBoundary;

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from '@/i18n/routing';
+import { useTranslations, useLocale } from 'next-intl';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -22,6 +23,8 @@ import { useToast } from '@/hooks/use-toast';
 export default function OrganizationsPage() {
   const router = useRouter();
   const { toast } = useToast();
+  const t = useTranslations('dashboard.organizations');
+  const locale = useLocale();
   const [organizations, setOrganizations] = useState<Organization[]>([]);
   const [loading, setLoading] = useState(true);
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
@@ -42,8 +45,8 @@ export default function OrganizationsPage() {
       setOrganizations(data.organizations || []);
     } catch (error: any) {
       toast({
-        title: 'Error',
-        description: error.response?.data?.message || 'Failed to load organizations',
+        title: t('toast.error'),
+        description: error.response?.data?.message || t('toast.loadFailed'),
         variant: 'destructive',
       });
     } finally {
@@ -63,8 +66,8 @@ export default function OrganizationsPage() {
 
     if (!formData.name || !formData.slug) {
       toast({
-        title: 'Validation Error',
-        description: 'Name and slug are required',
+        title: t('toast.validationError'),
+        description: t('toast.nameRequired'),
         variant: 'destructive',
       });
       return;
@@ -78,8 +81,8 @@ export default function OrganizationsPage() {
       });
 
       toast({
-        title: 'Success',
-        description: 'Organization created successfully',
+        title: t('toast.success'),
+        description: t('toast.created'),
       });
 
       setCreateDialogOpen(false);
@@ -89,8 +92,8 @@ export default function OrganizationsPage() {
       router.push(`/dashboard/organizations/${org.id}`);
     } catch (error: any) {
       toast({
-        title: 'Error',
-        description: error.response?.data?.message || 'Failed to create organization',
+        title: t('toast.error'),
+        description: error.response?.data?.message || t('toast.createFailed'),
         variant: 'destructive',
       });
     } finally {
@@ -122,7 +125,7 @@ export default function OrganizationsPage() {
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center">
           <Building2 className="h-12 w-12 animate-pulse text-primary mx-auto mb-4" />
-          <p className="text-muted-foreground">Loading organizations...</p>
+          <p className="text-muted-foreground">{t('loading')}</p>
         </div>
       </div>
     );
@@ -133,9 +136,9 @@ export default function OrganizationsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
         <div>
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold">Organizations</h1>
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold">{t('title')}</h1>
           <p className="text-muted-foreground mt-1">
-            Manage your team organizations and members
+            {t('subtitle')}
           </p>
         </div>
 
@@ -143,24 +146,24 @@ export default function OrganizationsPage() {
           <DialogTrigger asChild>
             <Button>
               <Plus className="h-4 w-4 mr-2" />
-              Create Organization
+              {t('createButton')}
             </Button>
           </DialogTrigger>
           <DialogContent>
             <form onSubmit={handleCreateOrganization}>
               <DialogHeader>
-                <DialogTitle>Create New Organization</DialogTitle>
+                <DialogTitle>{t('createTitle')}</DialogTitle>
                 <DialogDescription>
-                  Create a new organization to collaborate with your team
+                  {t('createDescription')}
                 </DialogDescription>
               </DialogHeader>
 
               <div className="space-y-4 py-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Organization Name</Label>
+                  <Label htmlFor="name">{t('nameLabel')}</Label>
                   <Input
                     id="name"
-                    placeholder="Acme Inc"
+                    placeholder={t('namePlaceholder')}
                     value={formData.name}
                     onChange={(e) => handleNameChange(e.target.value)}
                     required
@@ -168,16 +171,16 @@ export default function OrganizationsPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="slug">URL Slug</Label>
+                  <Label htmlFor="slug">{t('slugLabel')}</Label>
                   <Input
                     id="slug"
-                    placeholder="acme-inc"
+                    placeholder={t('slugPlaceholder')}
                     value={formData.slug}
                     onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
                     required
                   />
                   <p className="text-xs text-muted-foreground">
-                    Used in URLs: /organizations/{formData.slug || 'your-slug'}
+                    {t('slugUsedIn')}: /organizations/{formData.slug || 'your-slug'}
                   </p>
                 </div>
               </div>
@@ -188,10 +191,10 @@ export default function OrganizationsPage() {
                   variant="outline"
                   onClick={() => setCreateDialogOpen(false)}
                 >
-                  Cancel
+                  {t('cancel')}
                 </Button>
                 <Button type="submit" disabled={creating}>
-                  {creating ? 'Creating...' : 'Create Organization'}
+                  {creating ? t('creating') : t('createButton')}
                 </Button>
               </DialogFooter>
             </form>
@@ -205,13 +208,13 @@ export default function OrganizationsPage() {
           <CardContent className="py-12">
             <div className="text-center text-muted-foreground">
               <Building2 className="h-16 w-16 mx-auto mb-4 opacity-50" />
-              <h3 className="text-lg font-medium mb-2">No Organizations Yet</h3>
+              <h3 className="text-lg font-medium mb-2">{t('emptyTitle')}</h3>
               <p className="text-sm mb-4">
-                Create your first organization to start collaborating with your team
+                {t('emptyDescription')}
               </p>
               <Button onClick={() => setCreateDialogOpen(true)}>
                 <Plus className="h-4 w-4 mr-2" />
-                Create Organization
+                {t('createButton')}
               </Button>
             </div>
           </CardContent>
@@ -252,7 +255,7 @@ export default function OrganizationsPage() {
                   {/* Usage Progress */}
                   <div>
                     <div className="flex items-center justify-between text-sm mb-2">
-                      <span className="text-muted-foreground">Usage This Month</span>
+                      <span className="text-muted-foreground">{t('usageThisMonth')}</span>
                       <span className="font-medium">
                         {org.usage_count} / {org.usage_limit}
                       </span>
@@ -275,11 +278,11 @@ export default function OrganizationsPage() {
                   <div className="grid grid-cols-2 gap-4 pt-2 border-t">
                     <div className="flex items-center gap-2 text-sm">
                       <Users className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-muted-foreground">Members</span>
+                      <span className="text-muted-foreground">{t('members')}</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm">
                       <TrendingUp className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-muted-foreground">Active</span>
+                      <span className="text-muted-foreground">{t('active')}</span>
                     </div>
                   </div>
 
@@ -295,7 +298,7 @@ export default function OrganizationsPage() {
                       }}
                     >
                       <Users className="h-4 w-4 mr-2" />
-                      Members
+                      {t('members')}
                     </Button>
                     <Button
                       size="sm"
@@ -307,7 +310,7 @@ export default function OrganizationsPage() {
                       }}
                     >
                       <Settings className="h-4 w-4 mr-2" />
-                      Settings
+                      {t('settingsLink')}
                     </Button>
                   </div>
                 </CardContent>
