@@ -99,7 +99,7 @@ class FiltersService {
       return response.data.countries
     } catch (error) {
       // Fallback to hardcoded list if endpoint doesn't exist yet
-      console.log('Using fallback popular countries (backend endpoint not available)')
+      // Backend endpoint not available, use fallback
       return FALLBACK_POPULAR_COUNTRIES
     }
   }

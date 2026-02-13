@@ -97,7 +97,7 @@ export const adminService = {
    * Suspend user account (soft delete)
    */
   async suspendUser(userId: number): Promise<{ message: string }> {
-    const response = await apiClient.delete(`/admin/users/${userId}`);
+    const response = await apiClient.delete<{ message: string }>(`/admin/users/${userId}`);
     return response.data;
   },
 };

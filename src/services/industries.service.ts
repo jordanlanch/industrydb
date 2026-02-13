@@ -14,11 +14,9 @@ class IndustriesService {
     // Check cache
     const cached = industriesCache.get(cacheKey)
     if (cached) {
-      console.log('✅ Cache hit for industries')
       return cached
     }
 
-    console.log('❌ Cache miss for industries')
     const response = await axios.get<IndustriesResponse>(`${API_URL}/api/v1/industries`)
 
     // Cache for 1 hour
@@ -65,11 +63,9 @@ class IndustriesService {
     // Check cache
     const cached = industriesCache.get(cacheKey)
     if (cached) {
-      console.log('✅ Cache hit for industries with leads', { country, city })
       return cached
     }
 
-    console.log('❌ Cache miss for industries with leads', { country, city })
 
     // Build query params
     const params = new URLSearchParams()

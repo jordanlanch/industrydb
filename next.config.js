@@ -14,12 +14,11 @@ const nextConfig = {
   swcMinify: true,
   output: 'standalone',
 
-  // Skip type checking during build (types checked in CI separately)
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
 
-  // Skip ESLint during build (linting done in CI separately)
+  // ESLint checked separately in CI; build-time errors are cosmetic (unescaped entities, hook deps)
   eslint: {
     ignoreDuringBuilds: true,
   },

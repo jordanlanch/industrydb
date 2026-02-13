@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 export interface SelectProps {
   value?: string;
   onValueChange?: (value: string) => void;
+  disabled?: boolean;
   children: React.ReactNode;
 }
 
@@ -16,6 +17,7 @@ export interface SelectTriggerProps extends React.ButtonHTMLAttributes<HTMLButto
 
 export interface SelectValueProps {
   placeholder?: string;
+  children?: React.ReactNode;
 }
 
 export interface SelectContentProps {
@@ -33,9 +35,10 @@ const SelectContext = React.createContext<{
   onValueChange: (value: string) => void;
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
+  disabled: boolean;
 } | null>(null);
 
-export function Select({ value = '', onValueChange, children }: SelectProps) {
+export function Select({ value = '', onValueChange, disabled = false, children }: SelectProps) {
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
@@ -45,6 +48,7 @@ export function Select({ value = '', onValueChange, children }: SelectProps) {
         onValueChange: onValueChange || (() => {}),
         isOpen,
         setIsOpen,
+        disabled,
       }}
     >
       <div className="relative">{children}</div>
@@ -61,7 +65,8 @@ export const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerPr
       <button
         ref={ref}
         type="button"
-        onClick={() => context.setIsOpen(!context.isOpen)}
+        disabled={context.disabled}
+        onClick={() => !context.disabled && context.setIsOpen(!context.isOpen)}
         className={cn(
           'flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
           className
@@ -76,10 +81,11 @@ export const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerPr
 );
 SelectTrigger.displayName = 'SelectTrigger';
 
-export function SelectValue({ placeholder }: SelectValueProps) {
+export function SelectValue({ placeholder, children }: SelectValueProps) {
   const context = React.useContext(SelectContext);
   if (!context) throw new Error('SelectValue must be used within Select');
 
+  if (children) return <>{children}</>;
   return <span>{context.value || placeholder}</span>;
 }
 

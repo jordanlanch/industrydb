@@ -10,12 +10,10 @@ export const leadsService = {
     // Check cache first
     const cached = leadsCache.get(cacheKey)
     if (cached) {
-      console.log('✅ Cache hit for leads search:', params)
       return cached
     }
 
     // Cache miss - fetch from API
-    console.log('❌ Cache miss for leads search:', params)
     const response = await apiClient.get<LeadListResponse>('/leads', { params })
 
     // Store in cache
@@ -56,12 +54,10 @@ export const leadsService = {
     // Check cache first (preview is heavily cached - 15 minutes)
     const cached = leadsCache.get(cacheKey)
     if (cached) {
-      console.log('✅ Cache hit for leads preview:', previewParams)
       return cached
     }
 
     // Cache miss - fetch from API
-    console.log('❌ Cache miss for leads preview:', previewParams)
     const response = await apiClient.get<LeadPreviewResponse>('/leads/preview', {
       params: previewParams
     })
@@ -77,6 +73,5 @@ export const leadsService = {
    */
   clearCache(): void {
     leadsCache.clear()
-    console.log('🗑️  Leads cache cleared')
   }
 }

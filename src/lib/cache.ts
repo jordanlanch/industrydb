@@ -12,7 +12,7 @@ class ClientCache {
     this.cache.set(key, { data, expiry })
   }
 
-  get<T>(key: string): T | null {
+  get<T = any>(key: string): T | null {
     const item = this.cache.get(key) as CacheItem<T> | undefined
 
     if (!item) {
@@ -42,11 +42,11 @@ class ClientCache {
   // Clean up expired entries
   cleanup(): void {
     const now = Date.now()
-    for (const [key, item] of this.cache.entries()) {
+    this.cache.forEach((item, key) => {
       if (now > item.expiry) {
         this.cache.delete(key)
       }
-    }
+    })
   }
 
   // Get or set pattern
@@ -76,7 +76,7 @@ export const leadsCache = new ClientCache()
 export const industriesCache = new ClientCache()
 
 // Generate a cache key from an object
-export function generateCacheKey(prefix: string, params: Record<string, unknown>): string {
+export function generateCacheKey(prefix: string, params: Record<string, any>): string {
   const sorted = Object.keys(params).sort().reduce((acc, key) => {
     if (params[key] !== undefined && params[key] !== null && params[key] !== '') {
       acc[key] = params[key]
